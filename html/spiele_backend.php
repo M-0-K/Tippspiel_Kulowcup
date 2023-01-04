@@ -31,6 +31,15 @@ class Spiel
 
 }
 
+class Tipp
+{
+    public $tippid
+    public $uid;
+    public $sid;
+    public $tippA;
+    public $tippB;
+}
+
 function getMannschaft($db, $id){
     $sqlmannschaft = $db->query("SELECT `Mid`, `Name`, `Abkuerzung`, `Bild` FROM Mannschaft WHERE Mid=".$id);
     $mannschaft = new Mannschaft();
@@ -43,6 +52,47 @@ function getMannschaft($db, $id){
     return $mannschaft;
 }
 
+function getSpiel($db, $id){
+    $leereMannschaft = new Mannschaft();
+    $leereMannschaft-> mid = 0;
+    $leereMannschaft-> name = '-';
+    $leereMannschaft-> abkuerzung = '-';
+    $leereMannschaft-> bild = 'non.png';
+
+    $sqlspiel = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` FROM `spiel` WHERE Spielid=".$id);
+    $jspiel = new Spiel();
+    foreach($sqlspiel as $row){
+        $jspiel ->sid = $row->Spielid;
+        $jspiel->phase = $row->Phase;
+
+        if($row->MA == NULL){
+            $jspiel->mA = $leereMannschaft;
+            //echo $row->Spielid;
+        } else {
+            $jspiel ->mA = getMannschaft($db, $row->MA);
+        }
+
+        if($row->ToreA == NULL){
+            $jspiel ->toreA = 0;
+        } else {
+            $jspiel ->toreA = $row->ToreA;
+        }
+
+        if($row->MB == NULL){
+            $jspiel->mB = $leereMannschaft;
+        } else {
+            $jspiel ->mB = getMannschaft($db, $row->MB);
+        }
+
+        if($row->ToreB == NULL){
+            $jspiel ->toreB = 0;
+        } else {
+            $jspiel->toreB = $row->ToreB;
+        }
+    }
+    return $jspiel;
+}
+
 
 $getaction = htmlspecialchars($_GET["action"]);
 $postaction = htmlspecialchars($_POST["action"]);
@@ -52,14 +102,45 @@ if($getaction = "getSpiele"){
     $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` FROM `spiel`");
     $jspiele = array();
     $i = 0;
+    $leereMannschaft = new Mannschaft();
+    $leereMannschaft-> mid = 0;
+    $leereMannschaft-> name = '-';
+    $leereMannschaft-> abkuerzung = '-';
+    $leereMannschaft-> bild = 'non.png';
+
     foreach($spiele as $row){
         $jspiele[$i] = new Spiel();
         $jspiele[$i] ->sid = $row->Spielid;
         $jspiele[$i] ->phase = $row->Phase;
-        $jspiele[$i] ->mA = getMannschaft($db, $row->MA);
-        $jspiele[$i] ->toreA = $row->ToreA;
-        $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
-        $jspiele[$i] ->toreB = $row->ToreB;
+
+        if($row->MA == NULL){
+            $jspiele[$i] ->mA = $leereMannschaft;
+            //echo $row->Spielid;
+        } else {
+            $jspiele[$i] ->mA = getMannschaft($db, $row->MA);
+        }
+
+        if($row->ToreA == NULL){
+            $jspiele[$i] ->toreA = 0;
+        } else {
+            $jspiele[$i] ->toreA = $row->ToreA;
+        }
+
+        if($row->MB == NULL){
+            $jspiele[$i] ->mB = $leereMannschaft;
+        } else {
+            $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
+        }
+
+        if($row->ToreB == NULL){
+            $jspiele[$i] ->toreB = 0;
+        } else {
+            $jspiele[$i] ->toreB = $row->ToreB;
+        }
+        
+        
+       // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
+        //$jspiele[$i] ->toreB = $row->ToreB;
         $i++;
     }
 
@@ -70,6 +151,38 @@ if($getaction = "getSpiele"){
         $jsonArray = substr($jsonArray, 0, -1)."]}";
 
         echo $jsonArray;
+
+}
+
+if ($getaction = "getTipps"){
+
+    $tipps = $db->query("SELECT `Tippid`, `Spielid`, `ToreA`, `ToreB` FROM `tipp` WHERE `Userid` =".$_SESSION['KC']['Userid']);
+    $jtipps = array();
+    $i = 0;
+
+
+    foreach($tipps as $row){
+        $jtipps[$i] = new Tipp();
+        $jspiele[$i] ->tippid = $row->Tippid;
+        $jspiele[$i] ->sid =  getSpiel($db, $row->Spielid);
+        $jspiele[$i] ->tippA =  $row->ToreA;
+        $jspiele[$i] ->tippB =  $row->ToreB;
+
+        
+       // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
+        //$jspiele[$i] ->toreB = $row->ToreB;
+        $i++;
+    }
+
+    $jsonArray = ' { "Tipps" : [';
+        foreach($jspiele as $s){
+            $jsonArray = $jsonArray.json_encode($s).",";
+        }
+        $jsonArray = substr($jsonArray, 0, -1)."]}";
+
+        echo $jsonArray;
+
+
 }
 
 

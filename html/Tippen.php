@@ -1,7 +1,11 @@
 <?php
 
+error_reporting(0);
 if (!isset($_SESSION)) {
-  session_start();
+    session_start();
+}
+if($_SESSION['KC']['login'] !== 'ok'){
+  exit(header("Location:login.php"));
 }
 include '../script/db_connection.php'; // DB-Verbindung herstellen
 
@@ -33,10 +37,17 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         bracket.className = 'bracket-game';
 
         let playertop = document.createElement("div");
+
+        let tippA = document.createElement("div");
+        tippA.className = 'score';
         
         let scoreA = document.createElement("div");
         scoreA.className = 'score';
+
         let playerbot = document.createElement("div");
+
+        let tippB = document.createElement("div");
+        tippB.className = 'score';
         
         let scoreB = document.createElement("div");
         scoreB.className = 'score';
@@ -56,11 +67,26 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
         playertop.appendChild(document.createTextNode(spiel.mA.abkuerzung));
         playerbot.appendChild(document.createTextNode(spiel.mB.abkuerzung));
+
+
         scoreA.appendChild(document.createTextNode(spiel.toreA));
         scoreB.appendChild(document.createTextNode(spiel.toreB));
 
-        playertop.appendChild(scoreA);
-        playerbot.appendChild(scoreB);
+        let numberA = document.createElement('div');
+        //numberA.type = 'number';
+        numberA.className = 'player tipp';
+        let numberB = document.createElement('div');
+        //numberB.type = 'number';
+        numberA.className = 'player tipp';
+
+        tippA.appendChild(numberA);
+        tippB.appendChild(numberB);
+
+        playertop.appendChild(tippA);
+        playerbot.appendChild(tippB);
+
+        //playertop.appendChild(scoreA);
+        //playerbot.appendChild(scoreB);
 
         bracket.appendChild(playertop);
         bracket.appendChild(playerbot);
@@ -97,13 +123,10 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             <div class="flex-item" id="B">
             <h3>Gruppe B</h3>
             </div>
-            <div class="flex-item" id="VF">
-            <h3>Viertel Finale</h3>
+            <div class="flex-item" id="U3">
+            <h3>Um den Dritten</h3>
             </div>
-            <div class="flex-item" id="HF">
-            <h3>Halb Finale</h3>
-            </div>
-            <div class="flex-item" id="F">
+            <div class="flex-item" id="U1">
             <h3>Finale</h3>
             </div>
     </div>

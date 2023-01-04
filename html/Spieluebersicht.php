@@ -1,7 +1,11 @@
 <?php
 
+error_reporting(0);
 if (!isset($_SESSION)) {
-  session_start();
+    session_start();
+}
+if($_SESSION['KC']['login'] !== 'ok'){
+  exit(header("Location:login.php"));
 }
 include '../script/db_connection.php'; // DB-Verbindung herstellen
 
@@ -75,7 +79,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             //console.log(data.canApprove);
             console.log(data);
             slist = JSON.parse(data);
-            console.log(data);
+            //console.log(data);
             //alert(data);
             //slist = JSON.parse('{ "Spiele" : [{"sid":1,"phase":"A","mA":{"id":null,"name":"Flames of Pils","abkuerzung":"FoP","bild":"fop.png","mid":1},"toreA":3,"mB":{"id":null,"name":"WD-40","abkuerzung":"WD4","bild":"wd.png","mid":2},"toreB":2}]}');
 
@@ -97,19 +101,14 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             <div class="flex-item" id="B">
             <h3>Gruppe B</h3>
             </div>
-            <div class="flex-item" id="VF">
-            <h3>Viertel Finale</h3>
+            <div class="flex-item" id="U3">
+            <h3>Um den Dritten</h3>
             </div>
-            <div class="flex-item" id="HF">
-            <h3>Halb Finale</h3>
-            </div>
-            <div class="flex-item" id="F">
+            <div class="flex-item" id="U1">
             <h3>Finale</h3>
             </div>
-
-            
-
-</div>
+    </div>
+<div> 
 
 
   
