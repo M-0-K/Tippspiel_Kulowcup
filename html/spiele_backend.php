@@ -17,7 +17,6 @@ class Mannschaft{
     public $name;
     public $abkuerzung;
     public $bild;
-
 }
 
 class Spiel
@@ -33,11 +32,19 @@ class Spiel
 
 class Tipp
 {
-    public $tippid
+    public $tippid;
     public $uid;
     public $sid;
     public $tippA;
     public $tippB;
+}
+
+class User
+{
+    public $userid;
+    public $username;
+    //public $tipps;
+    public $punkte;
 }
 
 function getMannschaft($db, $id){
@@ -93,12 +100,30 @@ function getSpiel($db, $id){
     return $jspiel;
 }
 
+function getPunkte($db, $id){
+    $punkte = 0;
+    
+    $sqltipps = $db->query("SELECT `Tippid`, tipp.Spielid, tipp.ToreA, tipp.ToreB, spiel.ToreA, spiel.ToreB FROM tipp INNER JOIN spiel ON tipp.Spielid = spiel.Spielid WHERE Userid =".$id);
+    
+    foreach($sqltipps as $row){
+        if (($row->tipp->ToreA > $row->tipp->ToreB and $row->spiel->ToreA > $row->spiel->ToreB ) or ($row->tipp->ToreA < $row->tipp->ToreB and $row->spiel->ToreA < $row->spiel->ToreB)){
+            if($row->tipp->ToreA == $row->tipp->ToreA && $row->spiel->ToreB == $row->spiel->ToreB){
+                $punkte = $punkte+3;
+            }else{
+                $punkte = $punkte+1; 
+            }
+        }
+        
+    }
+    return $punkte;
+}
+
 
 $getaction = htmlspecialchars($_GET["action"]);
 $postaction = htmlspecialchars($_POST["action"]);
 error_reporting(0);
 
-if($getaction = "getSpiele"){
+if($getaction == "getSpiele"){
     $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` FROM `spiel`");
     $jspiele = array();
     $i = 0;
@@ -154,7 +179,7 @@ if($getaction = "getSpiele"){
 
 }
 
-if ($getaction = "getTipps"){
+if ($getaction == "getTipps"){
 
     $tipps = $db->query("SELECT `Tippid`, `Spielid`, `ToreA`, `ToreB` FROM `tipp` WHERE `Userid` =".$_SESSION['KC']['Userid']);
     $jtipps = array();
@@ -163,10 +188,10 @@ if ($getaction = "getTipps"){
 
     foreach($tipps as $row){
         $jtipps[$i] = new Tipp();
-        $jspiele[$i] ->tippid = $row->Tippid;
-        $jspiele[$i] ->sid =  getSpiel($db, $row->Spielid);
-        $jspiele[$i] ->tippA =  $row->ToreA;
-        $jspiele[$i] ->tippB =  $row->ToreB;
+        $jtipps[$i] ->tippid = $row->Tippid;
+        $jtipps[$i] ->sid =  getSpiel($db, $row->Spielid);
+        $jtipps[$i] ->tippA =  $row->ToreA;
+        $jtipps[$i] ->tippB =  $row->ToreB;
 
         
        // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
@@ -175,12 +200,39 @@ if ($getaction = "getTipps"){
     }
 
     $jsonArray = ' { "Tipps" : [';
-        foreach($jspiele as $s){
+        foreach($jtipps as $s){
             $jsonArray = $jsonArray.json_encode($s).",";
         }
         $jsonArray = substr($jsonArray, 0, -1)."]}";
 
         echo $jsonArray;
+
+
+}
+
+if ($getaction == "getPunkte"){
+
+    $tipps = $db->query("SELECT `Userid`, `Username`, `Password` FROM `user`");
+    $jtipps = array();
+    $i = 0;
+    foreach($tipps as $row){
+        
+        $jtipps[$i] = new User();
+        $jtipps[$i] ->username = $row->Username;
+        $jtipps[$i] ->userid =  $row->Userid;
+        
+        $jtipps[$i] ->punkte =  getPunkte($db, $row->Userid);
+        $i++;
+        
+    }
+
+    $jsonArray = ' { "User" : [';
+        foreach($jtipps as $s){
+            $jsonArray = $jsonArray.json_encode($s).",";
+        }
+        $jsonArray = substr($jsonArray, 0, -1)."]}";
+
+    echo $jsonArray;
 
 
 }
@@ -191,7 +243,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if($_POST['action'] == "setTipp"){
         $stmt = $db->prepare("INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES (:Spielid, :Userid, :ToreA, :ToreB)");
         $stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
-
         $stmt->bindParam("Spielid", $_POST["Spielid"]);
         $stmt->bindParam("ToreA", $_POST["ToreA"]);
         $stmt->bindParam("ToreB", $_POST["ToreB"]);

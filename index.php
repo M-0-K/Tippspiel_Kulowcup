@@ -84,7 +84,7 @@ footer{
             <div class="row" style="justify-content: flex-end;  margin-right: 30px;"> 
                 <div class="col"><a target="body" href="html/spieluebersicht.php"><h3>Übersicht</h3> </a> </div>
                 <div class="col"><a target="body" href="html/Tippen.php"><h3>Tippen</h3></a> </div>
-                <div class="col"><a target="body" href="html/Tippen.php"><h3>Ranking</h3></a> </div>
+                <div class="col"><a target="body" href="html/Ranking.php"><h3>Ranking</h3></a> </div>
                 <div class="col"><a target="body" href="html/logout.php"> <h3>
                 <?php
 

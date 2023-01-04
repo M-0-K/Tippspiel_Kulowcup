@@ -84,3 +84,18 @@ INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`)
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'U3', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'U1', NULL, NULL, NULL, NULL, NULL);
 
+
+
+INSERT INTO `user`(`Username`, `Password`) VALUES ('Mike','[value-3]');
+INSERT INTO `user`(`Username`, `Password`) VALUES ('Ike','[value-3]');
+INSERT INTO `user`(`Username`, `Password`) VALUES ('Ricke','[value-3]');
+INSERT INTO `user`(`Username`, `Password`) VALUES ('Pimmel','[value-3]');
+
+INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','1','2','3');
+INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','2','2','1');
+INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','3','3','6');
+INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('2','1','2','3');
+INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('2','2','2','1');
+INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('2','3','3','6');
+
+
