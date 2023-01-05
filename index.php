@@ -1,10 +1,12 @@
 <?php
+error_reporting(0);
 if (!isset($_SESSION)) {
     session_start();
 }
 if($_SESSION['KC']['login']  !== 'ok'){
     $_SESSION['KC']['login'] = 'no';
 } 
+error_reporting(0);
 
 ?>
 
@@ -101,7 +103,7 @@ footer{
     </header>
     <main>
         <div class="embed-container">
-            <iframe name="body"  width="100%" src="html/login.php"> </iframe>
+            <iframe name="body"  width="100%" src="html/Spieluebersicht.php"> </iframe>
         </div>
 
     </main>

@@ -47,6 +47,12 @@ class User
     public $punkte;
 }
 
+class Spieletipps{
+    public $userid;
+    public $spiel;
+    public $tipp;
+}
+
 function getMannschaft($db, $id){
     $sqlmannschaft = $db->query("SELECT `Mid`, `Name`, `Abkuerzung`, `Bild` FROM Mannschaft WHERE Mid=".$id);
     $mannschaft = new Mannschaft();
@@ -100,20 +106,23 @@ function getSpiel($db, $id){
     return $jspiel;
 }
 
+
+
 function getPunkte($db, $id){
     $punkte = 0;
     
-    $sqltipps = $db->query("SELECT `Tippid`, tipp.Spielid, tipp.ToreA, tipp.ToreB, spiel.ToreA, spiel.ToreB FROM tipp INNER JOIN spiel ON tipp.Spielid = spiel.Spielid WHERE Userid =".$id);
+    $sqltipps = $db->query("SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB'  FROM tipp INNER JOIN spiel ON tipp.Spielid = spiel.Spielid WHERE Userid =".$id);
     
     foreach($sqltipps as $row){
-        if (($row->tipp->ToreA > $row->tipp->ToreB and $row->spiel->ToreA > $row->spiel->ToreB ) or ($row->tipp->ToreA < $row->tipp->ToreB and $row->spiel->ToreA < $row->spiel->ToreB)){
-            if($row->tipp->ToreA == $row->tipp->ToreA && $row->spiel->ToreB == $row->spiel->ToreB){
+        if (($row->tA > $row->tB and $row->sA > $row->sB ) 
+        or ($row->tA < $row->tB and $row->sA < $row->sB)){
+            if($row->tA == $row->sA && $row->tB == $row->sB){
                 $punkte = $punkte+3;
             }else{
                 $punkte = $punkte+1; 
             }
         }
-        
+
     }
     return $punkte;
 }
@@ -146,7 +155,7 @@ if($getaction == "getSpiele"){
         }
 
         if($row->ToreA == NULL){
-            $jspiele[$i] ->toreA = 0;
+            $jspiele[$i] ->toreA = null;
         } else {
             $jspiele[$i] ->toreA = $row->ToreA;
         }
@@ -158,7 +167,7 @@ if($getaction == "getSpiele"){
         }
 
         if($row->ToreB == NULL){
-            $jspiele[$i] ->toreB = 0;
+            $jspiele[$i] ->toreB = null;
         } else {
             $jspiele[$i] ->toreB = $row->ToreB;
         }
@@ -210,6 +219,9 @@ if ($getaction == "getTipps"){
 
 }
 
+
+
+
 if ($getaction == "getPunkte"){
 
     $tipps = $db->query("SELECT `Userid`, `Username`, `Password` FROM `user`");
@@ -225,6 +237,10 @@ if ($getaction == "getPunkte"){
         $i++;
         
     }
+
+    usort($jtipps, function($a, $b) {
+        return $b->punkte - $a->punkte;
+    });
 
     $jsonArray = ' { "User" : [';
         foreach($jtipps as $s){

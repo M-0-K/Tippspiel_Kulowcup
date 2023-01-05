@@ -36,7 +36,7 @@ if (isset($_GET['login'])) {
         $logmessage = "Erfolgreiches Login von $username auf $ip am $jetzt.\n";
         logschreiben($logmessage);
         //die('<p>Login erfolgreich. Weiter zum <a href="inhalt.php">internen Bereich</a></p>');
-        header("Location: startseite.php");
+        header("Location: Spieluebersicht.php");
     } else {
         echo "<style> input.formulare{background-color: red;}  </style>";
         $logmessage = "fehlerhafter Loginversuch von $username auf $ip am $jetzt.\n";

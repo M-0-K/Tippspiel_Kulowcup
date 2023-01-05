@@ -45,7 +45,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         let scoreB = document.createElement("div");
         scoreB.className = 'score';
 
-      
+
 
         if ( spiel.toreA > spiel.toreB){
           playertop.className = 'player top win'; 
@@ -60,9 +60,15 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
         playertop.appendChild(document.createTextNode(spiel.mA.abkuerzung));
         playerbot.appendChild(document.createTextNode(spiel.mB.abkuerzung));
-        scoreA.appendChild(document.createTextNode(spiel.toreA));
-        scoreB.appendChild(document.createTextNode(spiel.toreB));
 
+        if(spiel.toreA == null && spiel.toreB == null){
+          scoreA.appendChild(document.createTextNode("-"));
+          scoreB.appendChild(document.createTextNode("-")); 
+        }else {
+          scoreA.appendChild(document.createTextNode(spiel.toreA));
+          scoreB.appendChild(document.createTextNode(spiel.toreB)); 
+        }
+        
         playertop.appendChild(scoreA);
         playerbot.appendChild(scoreB);
 

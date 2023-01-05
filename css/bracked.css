@@ -1,30 +1,33 @@
+
 .flex-container {
     display: flex;
-}
-
-.flex-item {
 }
 
 .round {
 float: left;
 }
-.round.r-of-4 {
 
-}
 .round.r-of-2 {
 margin-top: 25px;
 }
 .bracket-game {
-max-width: 125px;
-margin: 10px 0;
+    display: flex;
+    margin: 10px 0;
 }
+
+
+
 .player {
-min-width: 100px;
+min-width: 200px;
 border: 1px solid #AAA;
 padding-left: 10px;
+justify-content: space-between;
+display: flex;
 }
 .player.top {
+  
 border-radius: 3px 3px 0 0;
+
 }
 .player.bot {
 border-radius: 0 0 3px 3px;
@@ -39,6 +42,9 @@ background: #EEE;
 }
 .player.win {
 background-color: #B8F2B8;
+}
+.player.tipp {
+    width: 3em;
 }
 .player.loss {
 background-color: #F2B8B8;
@@ -79,3 +85,17 @@ border: 1px solid #AAA;
 .clear {
 clear: both;
 }
+
+.number-input {
+    /* Styles für das gesamte Input-Feld */
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 0 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+  }
