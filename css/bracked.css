@@ -1,101 +1,50 @@
-
-.flex-container {
-    display: flex;
-}
-
-.round {
-float: left;
-}
-
-.round.r-of-2 {
-margin-top: 25px;
-}
-.bracket-game {
-    display: flex;
-    margin: 10px 0;
-}
-
-
-
-.player {
-min-width: 200px;
-border: 1px solid #AAA;
-padding-left: 10px;
-justify-content: space-between;
-display: flex;
-}
-.player.top {
-  
-border-radius: 3px 3px 0 0;
-
-}
-.player.bot {
-border-radius: 0 0 3px 3px;
-}
-.player .score {
-display: inline;
-float: right;
-border-left: 1px solid #AAA;
-padding-left: 10px;
-padding-right: 10px;
-background: #EEE;
-}
-.player.win {
-background-color: #B8F2B8;
-}
-.player.tipp {
-    width: 3em;
-}
-.player.loss {
-background-color: #F2B8B8;
-}
 .player.non {
-background-color: #f5dba8;
-}
-.connectors {
-float: left;
-min-width: 35px;
-}
-.connectors.r-of-2 .top-line {
-position: relative;
-top: 30px;
-width: 17px;
-border: 1px solid #AAA;
-}
-.connectors.r-of-2 .bottom-line {
-position: relative;
-top: 81px;
-width: 17px;
-border: 1px solid #AAA;
-}
-.connectors.r-of-2 .vert-line {
-position: relative;
-top: 26px;
-left: -16px;
-height: 55px;
-border-right: 2px solid #AAA;
-}
-.connectors.r-of-2 .next-line {
-position: relative;
-top: -4px;
-left: 17px;
-width: 17px;
-border: 1px solid #AAA;
-}
-.clear {
-clear: both;
-}
-
-.number-input {
-    /* Styles für das gesamte Input-Feld */
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    padding: 0 10px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-size: 16px;
-    text-align: center;
-    outline: none;
-  }
+    background-color: #f5dba8;
+    }
+    .connectors {
+    float: left;
+    min-width: 35px;
+    }
+    .connectors.r-of-2 .top-line {
+    position: relative;
+    top: 30px;
+    width: 17px;
+    border: 1px solid #AAA;
+    }
+    .connectors.r-of-2 .bottom-line {
+    position: relative;
+    top: 81px;
+    width: 17px;
+    border: 1px solid #AAA;
+    }
+    .connectors.r-of-2 .vert-line {
+    position: relative;
+    top: 26px;
+    left: -16px;
+    height: 55px;
+    border-right: 2px solid #AAA;
+    }
+    .connectors.r-of-2 .next-line {
+    position: relative;
+    top: -4px;
+    left: 17px;
+    width: 17px;
+    border: 1px solid #AAA;
+    }
+    .clear {
+    clear: both;
+    }
+    
+    .number-input {
+        /* Styles für das gesamte Input-Feld */
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        padding: 0 10px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+        text-align: center;
+        outline: none;
+      }

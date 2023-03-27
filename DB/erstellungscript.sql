@@ -65,17 +65,17 @@ INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`)
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '3', '2', '1', '5', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '3', '2', '2', '3', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '5', '2', '2', '4', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '3', '2', '2', '5', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '0', '2', '3', '4', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '0', '2', '3', '5', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '1', '2', '4', '5', NULL);
+INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '2', '5', NULL);
+INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '3', '4', NULL);
+INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '3', '5', NULL);
+INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '4', '5', NULL);
 
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '3', '2', '6', '7', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '4', '2', '6', '8', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '3', '2', '6', '9', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '6', '2', '6', '10', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '3', '2', '7', '8', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '2', '2', '7', '9', NULL);
+INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '7', '9', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '7', '10', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '8', '9', NULL);
 INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '8', '10', NULL);
@@ -89,7 +89,6 @@ INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`)
 INSERT INTO `user`(`Username`, `Password`) VALUES ('Mike','[value-3]');
 INSERT INTO `user`(`Username`, `Password`) VALUES ('Ike','[value-3]');
 INSERT INTO `user`(`Username`, `Password`) VALUES ('Ricke','[value-3]');
-INSERT INTO `user`(`Username`, `Password`) VALUES ('Pimmel','[value-3]');
 
 INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','1','2','3');
 INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','2','2','1');

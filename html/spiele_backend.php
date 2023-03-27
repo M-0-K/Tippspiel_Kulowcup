@@ -1,12 +1,14 @@
 <?php
 error_reporting(0);
+
 if (!isset($_SESSION)) {
     session_start();
 }
+/*
 if($_SESSION['KC']['login'] !== 'ok'){
   exit(header("Location:login.php"));
 }
-
+*/
 error_reporting(0);
 
 include '../script/db_connection.php'; // DB-Verbindung herstellen
@@ -54,7 +56,7 @@ class Spieletipps{
 }
 
 function getMannschaft($db, $id){
-    $sqlmannschaft = $db->query("SELECT `Mid`, `Name`, `Abkuerzung`, `Bild` FROM Mannschaft WHERE Mid=".$id);
+    $sqlmannschaft = $db->query("SELECT `Mid`, `Name`, `Abkuerzung`, `Bild` FROM mannschaft WHERE Mid=".$id);
     $mannschaft = new Mannschaft();
     foreach($sqlmannschaft as $row){
         $mannschaft -> mid =  $row->Mid;
@@ -255,15 +257,18 @@ if ($getaction == "getPunkte"){
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    if($_POST['action'] == "setTipp"){
+    
+    if($postaction == "setTipp"){
+        error_reporting(E_ALL);
         $stmt = $db->prepare("INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES (:Spielid, :Userid, :ToreA, :ToreB)");
-        $stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
+        /*$stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
         $stmt->bindParam("Spielid", $_POST["Spielid"]);
         $stmt->bindParam("ToreA", $_POST["ToreA"]);
         $stmt->bindParam("ToreB", $_POST["ToreB"]);
-        $stmt->execute();
-    
+        $stmt->execute(); */
+        echo $_POST["ToreA"];
+        $new = $stmt->execute(array('Userid' => $_SESSION['KC']['Userid'], 'Spielid' => $_POST["Spielid"], 'ToreA' => $_POST["ToreA"], 'ToreB' => $_POST["ToreB"]));
+        echo $new;
     }
 
 }

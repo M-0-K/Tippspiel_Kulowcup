@@ -1,5 +1,5 @@
 <?php
-
+/*
 error_reporting(0);
 if (!isset($_SESSION)) {
     session_start();
@@ -7,6 +7,7 @@ if (!isset($_SESSION)) {
 if($_SESSION['KC']['login'] !== 'ok'){
   exit(header("Location:login.php"));
 }
+*/
 include '../script/db_connection.php'; // DB-Verbindung herstellen
 
 ?>

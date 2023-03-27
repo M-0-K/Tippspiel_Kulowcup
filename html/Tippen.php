@@ -12,8 +12,8 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 ?>
 
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
+<!DOCTYPE html>
+<html lang="de">
 <head>
 <meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>
 <title>Turnierbaum</title>
@@ -47,6 +47,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 <script>
     function spiel(spiel, tipps){
       let tipp = null;
+      console.log(tipps);
       if(tipps != null){
       for(let i = 0; i < tipps.Tipps.length; i++){
         //console.log(tipps.Tipps[i].sid.sid + " == " + spiel.sid);
@@ -152,9 +153,9 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
     var tipps;
     $.get("spiele_backend.php",{action: "getTipps"}, function(data){
             //console.log(data);
-            if(data.canApprove){
+            //if(data.canApprove){
               tipps = JSON.parse(data);
-            }
+           // }
             
 
             $.get("spiele_backend.php",{action: "getSpiele"}, function(data){
@@ -174,23 +175,24 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
     
       function speichern(){
-        alert("Speichern");
+        //alert("Speichern");
 
         var inputs = document.getElementsByClassName('number-input');
 
         for(var i = 0; i < inputs.length; i++) {
           
           if(inputs[i].disabled != true &&  inputs[i].value != null && inputs[i+1].value){
-            console.log(inputs[i].id);
+            //console.log(inputs[i].id);
             if(inputs[i].id.substring(1) == inputs[i+1].id.substring(1)){
-              console.log("action=setTipp&tA="+ inputs[i].value +"&tA="+ inputs[i+1].value + "&sid=" +inputs[i+1].id.substring(1));
+              console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
 
               xhr.open('POST', 'spiele_backend.php', true);
-              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+              xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
               //xhr.onreadystatechange = infoanzeige;
               xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                   window.location.replace('Tippen.php');
+                  //alert(xhr.responseText);
                 }
               }
               xhr.send("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
@@ -224,6 +226,8 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
  
 </div>
+
+
 
 
   
