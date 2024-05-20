@@ -4,7 +4,7 @@
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 $DSN = 'mysql:host=localhost;dbname=tippspiel';
-$DB_USER = 'Website';
+$DB_USER = 'website';
 $DB_PW = '47114711';
 $DB_options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',

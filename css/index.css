@@ -33,7 +33,7 @@ hr {
 h1 {
     font-size: 30pt;
     font-weight: bold;
-    color: #006699;
+    color: #00496d;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -41,14 +41,14 @@ h2 {
     font-size: 25pt;
     text-align: center;
     font-weight: bold;
-    color: #006699;
+    color: #0072ac;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 h3 {
     font-size: 16pt;
     text-align: center;
-    color: #006699;
+    color: #008fd6;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -62,5 +62,20 @@ input {
     border-radius: 10px;
     width: 3em;
 
+}
+
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.flex-item{
+    width: 100%;
+    
 }
 

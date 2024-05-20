@@ -16,7 +16,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Turnierbaum</title>
 
 <script src="../script/jquery-3.6.0.min.js" type="text/javascript"></script>
@@ -26,58 +26,88 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
 <style type="text/css">
 
+body{
 
+  background-image: url("../data/background.png");
+}
 
 </style>
 </head>
 
 <script>
-    function spiel(spiel){
+   function spiel(spiel) {
+    let bracket = document.createElement("div");
+    bracket.className = 'bracket-game';
 
-        let bracket = document.createElement("div");
-        bracket.className = 'bracket-game';
+    let playertop = document.createElement("div");
+    playertop.className = 'player top';
 
-        let playertop = document.createElement("div");
-        
-        let scoreA = document.createElement("div");
-        scoreA.className = 'score';
-        let playerbot = document.createElement("div");
-        
-        let scoreB = document.createElement("div");
-        scoreB.className = 'score';
+    let playerbot = document.createElement("div");
+    playerbot.className = 'player bot';
 
+    let logoA = document.createElement("img");
+    logoA.className = 'team-logo';
+    logoA.src = spiel.mA.logo ? spiel.mA.logo : '../data/none.jpg';
 
+    let logoB = document.createElement("img");
+    logoB.className = 'team-logo';
+    logoB.src = spiel.mB.logo ? spiel.mB.logo : '../data/none.jpg';
 
-        if ( spiel.toreA > spiel.toreB){
-          playertop.className = 'player top win'; 
-          playerbot.className = 'player bot loss';
-        } else if (spiel.toreA < spiel.toreB){ 
-          playerbot.className = 'player bot win';
-          playertop.className = 'player top loss'; 
-        } else if (spiel.toreA == spiel.toreB){
-          playerbot.className = 'player bot non';
-          playertop.className = 'player top non'; 
-        } 
+    let nameA = document.createElement("span");
+    nameA.className = 'team-name';
+    nameA.textContent = spiel.mA.name;
 
-        playertop.appendChild(document.createTextNode(spiel.mA.abkuerzung));
-        playerbot.appendChild(document.createTextNode(spiel.mB.abkuerzung));
+    let nameB = document.createElement("span");
+    nameB.className = 'team-name';
+    nameB.textContent = spiel.mB.name;
 
-        if(spiel.toreA == null && spiel.toreB == null){
-          scoreA.appendChild(document.createTextNode("-"));
-          scoreB.appendChild(document.createTextNode("-")); 
-        }else {
-          scoreA.appendChild(document.createTextNode(spiel.toreA));
-          scoreB.appendChild(document.createTextNode(spiel.toreB)); 
-        }
-        
-        playertop.appendChild(scoreA);
-        playerbot.appendChild(scoreB);
+    let scoreA = document.createElement("div");
+    scoreA.className = 'score';
+    let scoreB = document.createElement("div");
+    scoreB.className = 'score';
 
-        bracket.appendChild(playertop);
-        bracket.appendChild(playerbot);
-
-        document.getElementById(spiel.phase).appendChild(bracket);
+    if (spiel.toreA > spiel.toreB) {
+        playertop.classList.add('win');
+        playerbot.classList.add('los');
+    } else if (spiel.toreA < spiel.toreB) {
+        playertop.classList.add('los');
+        playerbot.classList.add('win');
+    } else {
+        playertop.classList.add('non');
+        playerbot.classList.add('non');
     }
+
+    if (spiel.toreA == null && spiel.toreB == null) {
+        scoreA.textContent = "-";
+        scoreB.textContent = "-";
+    } else {
+        scoreA.textContent = spiel.toreA;
+        scoreB.textContent = spiel.toreB;
+    }
+
+    let topInfo = document.createElement("div");
+    topInfo.className = 'team-info';
+    topInfo.appendChild(logoA);
+    topInfo.appendChild(nameA);
+
+    let botInfo = document.createElement("div");
+    botInfo.className = 'team-info';
+    botInfo.appendChild(logoB);
+    botInfo.appendChild(nameB);
+
+    playertop.appendChild(topInfo);
+    playertop.appendChild(scoreA);
+
+    playerbot.appendChild(botInfo);
+    playerbot.appendChild(scoreB);
+
+    bracket.appendChild(playertop);
+    bracket.appendChild(playerbot);
+
+    document.getElementById(spiel.phase).appendChild(bracket);
+}
+
+
 
     var xhr = new XMLHttpRequest();
     var slist;
@@ -108,8 +138,11 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             <div class="flex-item" id="B">
             <h3>Gruppe B</h3>
             </div>
-            <div class="flex-item" id="U3">
-            <h3>Um den Dritten</h3>
+            <div class="flex-item" id="">
+            <h3>Achtelfinale</h3>
+            </div>
+            <div class="flex-item" id="">
+            <h3>Halbfinale</h3>
             </div>
             <div class="flex-item" id="U1">
             <h3>Finale</h3>

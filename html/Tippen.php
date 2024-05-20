@@ -52,7 +52,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
       for(let i = 0; i < tipps.Tipps.length; i++){
         //console.log(tipps.Tipps[i].sid.sid + " == " + spiel.sid);
         if(tipps.Tipps[i].sid.sid == spiel.sid){
-          console.log("gefunden");
+          //console.log("gefunden");
           tipp = tipps.Tipps[i];
           break;
         }  
@@ -83,7 +83,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         scoreB.className = 'score';
 
       
-
+        /*
         if ( spiel.toreA > spiel.toreB){
           playertop.className = 'player top win'; 
           playerbot.className = 'player bot loss';
@@ -94,11 +94,14 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
           playerbot.className = 'player bot non';
           playertop.className = 'player top non'; 
         } 
+        */
 
         playertop.appendChild(document.createTextNode(spiel.mA.abkuerzung));
         playerbot.appendChild(document.createTextNode(spiel.mB.abkuerzung));
 
-
+        //if(spiel.status == 1){
+          alert(spiel.status);
+        //}
       
         let numberA = document.createElement('input');
         numberA.type = 'number';
@@ -116,13 +119,13 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         numberB.id = "B"+ spiel.sid;
 
         if(tipp != null){
-          //console.log(tipp.ToreA);
+          //console.log(tipp.toreA);
           numberA.value = tipp.tippA;
           numberB.value = tipp.tippB;
           numberA.disabled = true;
           numberB.disabled = true;
-        }
-
+        } 
+        /*
         if(spiel.toreA == null && spiel.toreB == null){
           scoreA.appendChild(document.createTextNode("-"));
           scoreB.appendChild(document.createTextNode("-")); 
@@ -132,15 +135,13 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
           numberA.disabled = true;
           numberB.disabled = true;
         }
-        
+        */
         tippA.appendChild(numberA);
         tippB.appendChild(numberB);
         
 
         playertop.appendChild(tippA);
         playerbot.appendChild(tippB);
-
-        
 
         bracket.appendChild(playertop);
         bracket.appendChild(playerbot);
@@ -152,43 +153,44 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
     var slist;
     var tipps;
     $.get("spiele_backend.php",{action: "getTipps"}, function(data){
-            //console.log(data);
-            //if(data.canApprove){
+            console.log(data);
+            if(data.canApprove){
               tipps = JSON.parse(data);
-           // }
+            }
             
 
             $.get("spiele_backend.php",{action: "getSpiele"}, function(data){
             // Display the returned data in browser
-            //console.log(data.canApprove);
-            //console.log(data);
+            console.log(data.canApprove);
+            console.log(data);
             slist = JSON.parse(data);
-            //alert(data);
+           // alert(data);
             //slist = JSON.parse('{ "Spiele" : [{"sid":1,"phase":"A","mA":{"id":null,"name":"Flames of Pils","abkuerzung":"FoP","bild":"fop.png","mid":1},"toreA":3,"mB":{"id":null,"name":"WD-40","abkuerzung":"WD4","bild":"wd.png","mid":2},"toreB":2}]}');
 
             for(let i = 0; i < slist.Spiele.length; i++){
                 spiel(slist.Spiele[i], tipps);
             }
 
-      });
+          
+        } );
       });
 
     
       function speichern(){
-        //alert("Speichern");
+       // alert("Speichern");
 
         var inputs = document.getElementsByClassName('number-input');
 
         for(var i = 0; i < inputs.length; i++) {
           
           if(inputs[i].disabled != true &&  inputs[i].value != null && inputs[i+1].value){
-            //console.log(inputs[i].id);
+            console.log(inputs[i].id);
             if(inputs[i].id.substring(1) == inputs[i+1].id.substring(1)){
               console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
 
               xhr.open('POST', 'spiele_backend.php', true);
               xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-              //xhr.onreadystatechange = infoanzeige;
+              xhr.onreadystatechange = infoanzeige;
               xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                   window.location.replace('Tippen.php');
