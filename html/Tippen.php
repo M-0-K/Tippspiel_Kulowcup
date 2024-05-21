@@ -39,6 +39,19 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
     outline: none;
   }
 
+button {
+  display: inline-block;
+    width: 4em;
+    height: inherit;
+    padding: 0 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+}
+
 
 
 </style>
@@ -47,7 +60,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 <script>
     function spiel(spiel, tipps){
       let tipp = null;
-      console.log(tipps);
+      //console.log(tipps);
       if(tipps != null){
       for(let i = 0; i < tipps.Tipps.length; i++){
         //console.log(tipps.Tipps[i].sid.sid + " == " + spiel.sid);
@@ -59,7 +72,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
       }
     }
 
-      console.log(tipp);
+      //console.log(tipp);
 
         let bracket = document.createElement("div");
         bracket.className = 'bracket-game';
@@ -100,7 +113,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         playerbot.appendChild(document.createTextNode(spiel.mB.abkuerzung));
 
         //if(spiel.status == 1){
-          alert(spiel.status);
+          //alert(spiel.status);
         //}
       
         let numberA = document.createElement('input');
@@ -119,12 +132,19 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         numberB.id = "B"+ spiel.sid;
 
         if(tipp != null){
-          //console.log(tipp.toreA);
+          //alert(tipp.toreA);
           numberA.value = tipp.tippA;
           numberB.value = tipp.tippB;
+
+          
+        } 
+        //console.log(spiel.status);
+        if(spiel.status == 1){
           numberA.disabled = true;
           numberB.disabled = true;
-        } 
+        }
+       
+
         /*
         if(spiel.toreA == null && spiel.toreB == null){
           scoreA.appendChild(document.createTextNode("-"));
@@ -154,25 +174,20 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
     var tipps;
     $.get("spiele_backend.php",{action: "getTipps"}, function(data){
             console.log(data);
-            if(data.canApprove){
-              tipps = JSON.parse(data);
-            }
+            tipps = JSON.parse(data);
+            } );
             
 
-            $.get("spiele_backend.php",{action: "getSpiele"}, function(data){
+    $.get("spiele_backend.php",{action: "getSpiele"}, function(data){
             // Display the returned data in browser
             console.log(data.canApprove);
             console.log(data);
             slist = JSON.parse(data);
            // alert(data);
             //slist = JSON.parse('{ "Spiele" : [{"sid":1,"phase":"A","mA":{"id":null,"name":"Flames of Pils","abkuerzung":"FoP","bild":"fop.png","mid":1},"toreA":3,"mB":{"id":null,"name":"WD-40","abkuerzung":"WD4","bild":"wd.png","mid":2},"toreB":2}]}');
-
             for(let i = 0; i < slist.Spiele.length; i++){
                 spiel(slist.Spiele[i], tipps);
             }
-
-          
-        } );
       });
 
     
@@ -190,7 +205,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
               xhr.open('POST', 'spiele_backend.php', true);
               xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-              xhr.onreadystatechange = infoanzeige;
+              //xhr.onreadystatechange = infoanzeige;
               xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                   window.location.replace('Tippen.php');
@@ -227,6 +242,10 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             <h3>Finale</h3>
             </div>
     </div>
+    <div> <button onclick="speichern();">Fertig </button> </div>
+
+ 
+</div>
 <div> 
   
 </body>

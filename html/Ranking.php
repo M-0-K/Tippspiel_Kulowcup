@@ -9,9 +9,7 @@ if($_SESSION['KC']['login'] !== 'ok'){
 }
 */
 include '../script/db_connection.php'; // DB-Verbindung herstellen
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="de">
@@ -20,98 +18,109 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking</title>
-<script src="../script/jquery-3.6.0.min.js" type="text/javascript"></script>
-<link href="../css/bracked.css" rel="stylesheet">
-<link href="../css/index.css" rel="stylesheet">
-</head>
-<style>
+    <script src="../script/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <link href="../css/index.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
 
-.table {
-  display: flex; /* Verwende flexbox, um die Elemente anzuordnen */
-  flex-wrap: wrap; /* Erlaube, dass sich die Elemente auf mehrere Zeilen aufteilen */
-  align-items: center; /* Zentriere die Elemente vertikal */
-  justify-content: space-between; /* Verteile die Elemente gleichmäßig entlang der Hauptachse */
-}
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: top;
+            min-height: 100vh;
+            background-image: url("../data/background.jpg")
+        }
 
-.row {
-  width: 50%; /* Setze die Breite der Elemente auf 50% */
-  background-color: lightgray; /* Füge einen Hintergrund hinzu */
-  display: flex;
-}
+        main {
+            width: 90%;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 1%;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .row.header {
+            background-color: #000;
+            color: #fff;
+            border: none;
+        }
+
+        .cell {
+            flex: 1;
+            text-align: center;
+        }
+
+        .user {
+            text-align: center;
+        }
+
+        .score {
+            text-align: center;
+        }
 
 
-
-.cell {
-  padding: 20px; /* Füge Padding hinzu */
-  box-sizing: border-box; /* Berücksichtige Padding und Border bei der Berechnung der Größe */
-  border-radius: 5px; /* Füge abgerundete Ecken hinzu */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Füge einen Schatten hinzu */
-}
-
-.cell.player{
-    width: 300px;
-}
-
-.cell.score{
-    width: 50px;
-}
-
-</style>
-
-
-
-<script>
-    $.get("spiele_backend.php",{action: "getPunkte"}, function(data){
-            // Display the returned data in browser
-            //console.log(data.canApprove);
-            console.log(data);
-            slist = JSON.parse(data);
-            //console.log(data);
-            //alert(data);
-            
-
-            for(let i = 0; i < slist.User.length; i++){
-                ausgabe(slist.User[i]);
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-      });
-      
-      function ausgabe(spieler){
+            .cell {
+                text-align: left;
+                padding: 5px 0;
+            }
 
-        let bracket = document.createElement("div");
-        bracket.className = 'row';
-        let user = document.createElement("div");
-        user.className = 'cell user';
-        let score = document.createElement("div");
-        score.className = 'cell score';
-        user.appendChild(document.createTextNode(spieler.username));
-        score.appendChild(document.createTextNode(spieler.punkte));
-        bracket.appendChild(user);
-        bracket.appendChild(score);
+            .score {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
 
-        document.getElementById("table").appendChild(bracket);
-
-
-      }
-      
-</script>
 <body>
-    <header>
-        <h2> Ranking </h2>
-   </header>
-   <main id="main">
-   <div id ="table">
-   <div class="row">
-    <div class="cell">User</div>
-    <div class="cell">Score</div>
-  </div>
+    <main id="main">
+        <div id="table">
+            <div class="row header">
+                <div class="cell">User</div>
+                <div class="cell">Score</div>
+            </div>
+        </div>
+    </main>
 
+    <script>
+        $.get("spiele_backend.php", { action: "getPunkte" }, function(data) {
+            let slist = JSON.parse(data);
+            for (let i = 0; i < slist.User.length; i++) {
+                ausgabe(slist.User[i]);
+            }
+        });
 
-    </div>
-   </main>
-   <footer>
-   </footer>
-
+        function ausgabe(spieler) {
+            let bracket = document.createElement("div");
+            bracket.className = 'row';
+            let user = document.createElement("div");
+            user.className = 'cell user';
+            let score = document.createElement("div");
+            score.className = 'cell score';
+            user.appendChild(document.createTextNode(spieler.username));
+            score.appendChild(document.createTextNode(spieler.punkte));
+            bracket.appendChild(user);
+            bracket.appendChild(score);
+            document.getElementById("table").appendChild(bracket);
+        }
+    </script>
 </body>
 
 </html>

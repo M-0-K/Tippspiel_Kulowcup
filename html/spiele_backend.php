@@ -29,6 +29,7 @@ class Spiel
     public $toreA;
     public $mB;
     public $toreB;
+    public $status;
 
 }
 
@@ -73,8 +74,9 @@ function getSpiel($db, $id){
     $leereMannschaft-> name = '-';
     $leereMannschaft-> abkuerzung = '-';
     $leereMannschaft-> bild = 'non.png';
+    $leereMannschaft-> status = 0;
 
-    $sqlspiel = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` FROM `spiel` WHERE Spielid=".$id);
+    $sqlspiel = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status` FROM `spiel` WHERE Spielid=".$id);
     $jspiel = new Spiel();
     foreach($sqlspiel as $row){
         $jspiel ->sid = $row->Spielid;
@@ -103,6 +105,11 @@ function getSpiel($db, $id){
             $jspiel ->toreB = 0;
         } else {
             $jspiel->toreB = $row->ToreB;
+        }
+        if($row->Status == NULL){
+            $jspiel ->status = 0;
+        } else {
+            $jspiel->status = $row->Status;
         }
     }
     return $jspiel;
@@ -135,7 +142,7 @@ $postaction = htmlspecialchars($_POST["action"]);
 error_reporting(0);
 
 if($getaction == "getSpiele"){
-    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` FROM `spiel`");
+    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status` FROM `spiel`");
     $jspiele = array();
     $i = 0;
     $leereMannschaft = new Mannschaft();
@@ -143,6 +150,7 @@ if($getaction == "getSpiele"){
     $leereMannschaft-> name = '-';
     $leereMannschaft-> abkuerzung = '-';
     $leereMannschaft-> bild = 'non.png';
+    $leereMannschaft-> status = 0;
 
     foreach($spiele as $row){
         $jspiele[$i] = new Spiel();
@@ -172,6 +180,12 @@ if($getaction == "getSpiele"){
             $jspiele[$i] ->toreB = null;
         } else {
             $jspiele[$i] ->toreB = $row->ToreB;
+        }
+
+        if($row->Status == NULL){
+            $jspiele[$i] ->status = 0;
+        } else {
+            $jspiele[$i]->status = $row->Status;
         }
         
         
@@ -260,6 +274,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     
     if($postaction == "setTipp"){
         error_reporting(E_ALL);
+
+        // Hier muss geprüft werden ob schon ein Eintrag da ist und ob der Einttrag gemacht werden darf
+        
         $stmt = $db->prepare("INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES (:Spielid, :Userid, :ToreA, :ToreB)");
         /*$stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
         $stmt->bindParam("Spielid", $_POST["Spielid"]);

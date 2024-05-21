@@ -17,13 +17,72 @@ if (isset($_POST['submit'])) {
 </head>
 
 <style>
-    input.formulare{
-        margin: 5px;
-        width: 250px;
-        height: 30px;
-        border-radius: 7px;
-        
-    }
+    body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: black;
+        }
+
+        input.formulare {
+            margin: 10px 0;
+            width: calc(100% - 20px);
+            height: 40px;
+            border-radius: 10px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        input.register {
+            width: 100%;
+            height: 40px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input.register:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 10px;
+            }
+
+            input.formulare, input.register {
+                width: calc(100% - 10px);
+            }
+        }
 </style>
 
 <body>
@@ -50,9 +109,11 @@ if (isset($_POST['submit'])) {
                 $('#registerButton').val("Dateien werden überprüft");
                 let pw1 = $('input[name=pw]').val();
                 let pw2 = $('input[name=pw2]').val();
-                if (pw1.length > 5 && pw1 === pw2) {
+                if (pw1.length > 7 && pw1 === pw2) {
                     document.getElementById("loginForm").submit();
-                } else {
+                } else if (pw1.length <= 7 ){
+                    alert('Passwort ist zu Kurz. Das Passwort muss mindestens 8 Zeichen lang sein.');
+                } else{
                     alert('Passwörter stimmen nicht überein!');
                 }
                 $('#registerButton').val('registrieren');

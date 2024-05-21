@@ -141,13 +141,13 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             <div class="flex-item" id="B">
             <h3>Gruppe B</h3>
             </div>
-            <div class="flex-item" id="">
+            <div class="flex-item" id="AF">
             <h3>Achtelfinale</h3>
             </div>
-            <div class="flex-item" id="">
+            <div class="flex-item" id="HF">
             <h3>Halbfinale</h3>
             </div>
-            <div class="flex-item" id="U1">
+            <div class="flex-item" id="F">
             <h3>Finale</h3>
             </div>
     </div>
