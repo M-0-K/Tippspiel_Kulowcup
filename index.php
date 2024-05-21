@@ -30,7 +30,6 @@ error_reporting(0);
         header {
             background-color: black;
             color: white;
-            padding: 10px;
         }
 
         .embed-container {
@@ -64,8 +63,9 @@ error_reporting(0);
         }
 
         .col {
-            padding: 5px;
-            margin: 0;
+            margin-left: 15px;
+            vertical-align: bottom;
+            
         }
 
         a {

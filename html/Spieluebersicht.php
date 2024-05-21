@@ -26,9 +26,9 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
 <style type="text/css">
 
-body{
+.flex-container{
 
-  background-image: url("../data/background.png");
+  background-image: url("../data/background.jpg") ;
 }
 
 </style>
@@ -52,7 +52,7 @@ body{
     let logoB = document.createElement("img");
     logoB.className = 'team-logo';
     logoB.src = spiel.mB.logo ? spiel.mB.logo : '../data/none.jpg';
-
+    
     let nameA = document.createElement("span");
     nameA.className = 'team-name';
     nameA.textContent = spiel.mA.name;
@@ -72,7 +72,10 @@ body{
     } else if (spiel.toreA < spiel.toreB) {
         playertop.classList.add('los');
         playerbot.classList.add('win');
-    } else {
+    } else if(spiel.toreA = spiel.toreB){
+        playertop.classList.add('draw');
+        playerbot.classList.add('draw');
+    } else{
         playertop.classList.add('non');
         playerbot.classList.add('non');
     }

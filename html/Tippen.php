@@ -209,6 +209,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
 </script>
 <body>
+
 <div class="flex-container" style="justify-content: center; justify-content: space-between;">
             <div class="flex-item" id="A">
               <h3>Gruppe A</h3>
@@ -216,22 +217,17 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
             <div class="flex-item" id="B">
             <h3>Gruppe B</h3>
             </div>
-            <div class="flex-item" id="U3">
-            <h3>Um den Dritten</h3>
+            <div class="flex-item" id="">
+            <h3>Achtelfinale</h3>
+            </div>
+            <div class="flex-item" id="">
+            <h3>Halbfinale</h3>
             </div>
             <div class="flex-item" id="U1">
             <h3>Finale</h3>
             </div>
     </div>
 <div> 
-<div class="row"> <button onclick="speichern();">Fertig </button> </div>
-
- 
-</div>
-
-
-
-
   
 </body>
 </html>
