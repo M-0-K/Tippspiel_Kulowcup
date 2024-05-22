@@ -269,40 +269,48 @@ if ($getaction == "getPunkte"){
 }
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "setTipp") {
+    error_reporting(E_ALL);
+    // Hier muss geprüft werden ob schon ein Eintrag da ist und ob der Eintrag gemacht werden darf
     
-    if($postaction == "setTipp"){
-        error_reporting(E_ALL);
+    // Parameter vorbereiten
+    $userid = $_SESSION['KC']['Userid'];
+    $spielid = $_POST["Spielid"];
+    $toreA = $_POST["ToreA"];
+    $toreB = $_POST["ToreB"];
 
-        // Hier muss geprüft werden ob schon ein Eintrag da ist und ob der Einttrag gemacht werden darf
-       /*
-            $statement = $db->prepare("SELECT Tippid FROM tipp WHERE tipp.Userid = :Userid AND tipp.Spielid = :Spielid");
-            $result = $statement->execute(array('Userid' => $_SESSION['KC']['Userid'], 'Spielid' => $_POST["Spielid"]));
-            $zeile = $statement->fetch();
-            if ($zeile->anzahl > 0) {
-                header('Location: https://www.ziel-url.de');
-                exit;
-                echo "Es wurde bereits getippt<br>";
-                $error = true;
-            }
-            */
+    // SQL-Abfrage, um zu überprüfen, ob das Spiel bereits läuft
+    $statement = $db->prepare("SELECT Status FROM spiel WHERE Spielid = :Spielid");
+    $statement->execute(array('Spielid' => $spielid));
+    $status = $statement->fetch(PDO::FETCH_ASSOC);
 
-        
-        $stmt = $db->prepare("INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES (:Spielid, :Userid, :ToreA, :ToreB)");
-        /*
-        $stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
-        $stmt->bindParam("Spielid", $_POST["Spielid"]);
-        $stmt->bindParam("ToreA", $_POST["ToreA"]);
-        $stmt->bindParam("ToreB", $_POST["ToreB"]);
-        $stmt->execute(); 
-        */
+    // Prüfe, ob das Spiel schon läuft
+    if ($status && $status['Status'] == '1') {
+        echo "Das Spiel läuft bereits. Tipps können nicht mehr abgegeben werden.";
+    } else {
+        // SQL-Abfrage, um zu überprüfen, ob ein Tipp bereits existiert
+        $statement = $db->prepare("SELECT Tippid FROM tipp WHERE Userid = :Userid AND Spielid = :Spielid");
+        $statement->execute(array('Userid' => $userid, 'Spielid' => $spielid));
+        $zeile = $statement->fetch(PDO::FETCH_ASSOC);
 
-        echo $_POST["ToreA"];
-        $new = $stmt->execute(array('Userid' => $_SESSION['KC']['Userid'], 'Spielid' => $_POST["Spielid"], 'ToreA' => $_POST["ToreA"], 'ToreB' => $_POST["ToreB"]));
-        echo $new;
+        // Prüfen, ob ein Eintrag gefunden wurde
+        if ($zeile) {
+            // Update-Anweisung, wenn der Tipp bereits existiert
+            $stmt = $db->prepare("UPDATE tipp SET ToreA = :ToreA, ToreB = :ToreB WHERE Userid = :Userid AND Spielid = :Spielid");
+        } else {
+            // Insert-Anweisung, wenn der Tipp noch nicht existiert
+            $stmt = $db->prepare("INSERT INTO tipp (Spielid, Userid, ToreA, ToreB) VALUES (:Spielid, :Userid, :ToreA, :ToreB)");
+        }
+
+        // Parameter binden und ausführen
+        $new = $stmt->execute(array('Userid' => $userid, 'Spielid' => $spielid, 'ToreA' => $toreA, 'ToreB' => $toreB));
+
+        // Ergebnis ausgeben
+        echo $new ? "Tipp erfolgreich gespeichert." : "Fehler beim Speichern des Tipps.";
     }
-
 }
+
+
 
 
 
