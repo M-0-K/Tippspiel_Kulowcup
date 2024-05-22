@@ -19,7 +19,7 @@
 
         function ausgabe(spieler) {
             let bracket = document.createElement("div");
-            bracket.className = 'row';
+            bracket.className = 'table row';
             let user = document.createElement("div");
             user.className = 'cell user';
             let score = document.createElement("div");

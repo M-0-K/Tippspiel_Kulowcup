@@ -21,14 +21,18 @@ function additionalHeaders(){?>
         .row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+        }
+
+        .table.row {
             border-bottom: 1px solid #ddd;
+            padding: 10px 0;
         }
 
         .row.header {
             background-color: #000;
             color: #fff;
             border: none;
+            padding: 10px 0;
         }
 
         .cell {
