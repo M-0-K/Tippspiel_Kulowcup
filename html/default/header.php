@@ -46,7 +46,7 @@
 
         main{
 
-            height: inherit;
+           /* height: inherit;*/
         }
 
         .row {
