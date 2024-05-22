@@ -5,6 +5,13 @@
   padding: 10px;
   gap: 20px;
   min-width: 120px;
+  margin: 10px;
+}
+
+.button-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .flex-item {
@@ -13,8 +20,8 @@
   border-radius: 10px;
   padding: 10px;
   flex: 1;
-  min-width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
 }
 
 .flex-item h3 {
@@ -35,7 +42,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   margin-top: 2%;
+  
 }
+
 
 .player {
   display: flex;
@@ -44,8 +53,6 @@
   justify-content: space-between;
   width: 100%;
   padding: 0px;
-  min-width: 60px;
-
 }
 .player.top{
  border-top-left-radius: 8px;
@@ -66,10 +73,11 @@
   color: #fff;
 }
 
-.bracket.draw {
+.player.draw {
   background-color: #ffb324;
   color: #fff;
 }
+
 .player.non {
   background-color: #8d8d8d;
   color: #fff;
@@ -94,6 +102,7 @@
   flex-grow: 1;
   text-align: left;
   margin-left: 3%;
+  white-space: nowrap;
 }
 
 .score {
@@ -102,6 +111,37 @@
   margin: 2%;
   text-align: center;
 }
+
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.number-input {
+  width: 60px;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.number-input:focus {
+  border-color: #80bdff;
+  outline: none;
+}
+
 
 @media (max-width: 600px) {
   .flex-container {
