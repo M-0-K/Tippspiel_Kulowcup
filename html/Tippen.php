@@ -25,35 +25,6 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
 
 <style type="text/css">
 
-.number-input {
-    /* Styles für das gesamte Input-Feld */
-    display: inline-block;
-    width: 4em;
-    height: inherit;
-    padding: 0 10px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-size: 16px;
-    text-align: center;
-    outline: none;
-  }
-
-button {
-  display: inline-block;
-    width: 4em;
-    height: inherit;
-    padding: 0 10px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-size: 16px;
-    text-align: center;
-    outline: none;
-}
-
-
-
 </style>
 </head>
 
@@ -80,7 +51,7 @@ button {
         let playertop = document.createElement("div");
 
         let tippA = document.createElement("div");
-        tippA.className = 'score';
+        tippA.className = 'tipp';
         
         let scoreA = document.createElement("div");
         scoreA.className = 'score';
@@ -89,7 +60,7 @@ button {
         let playerbot = document.createElement("div");
 
         let tippB = document.createElement("div");
-        tippB.className = 'score';
+        tippB.className = 'tipp';
         
         
         let scoreB = document.createElement("div");
@@ -109,8 +80,17 @@ button {
         } 
         */
 
-        playertop.appendChild(document.createTextNode(spiel.mA.abkuerzung));
-        playerbot.appendChild(document.createTextNode(spiel.mB.abkuerzung));
+        let nameA = document.createElement("span");
+        nameA.className = 'team-name';
+        nameA.textContent = spiel.mA.name;
+
+        let nameB = document.createElement("span");
+        nameB.className = 'team-name';
+        nameB.textContent = spiel.mB.name;
+
+        playertop.appendChild(nameA);
+        playerbot.appendChild(nameB);
+
 
         //if(spiel.status == 1){
           //alert(spiel.status);
@@ -135,16 +115,39 @@ button {
           //alert(tipp.toreA);
           numberA.value = tipp.tippA;
           numberB.value = tipp.tippB;
-
-          
         } 
         //console.log(spiel.status);
-        if(spiel.status == 1){
+        scoreA.textContent = "-";
+        scoreB.textContent = "-";
+        playertop.className = 'player top non';
+        playerbot.className = 'player bot non';
+        if(spiel.status == 1 || spiel.toreA != null || spiel.toreB != null){
           numberA.disabled = true;
           numberB.disabled = true;
+          if (spiel.toreA == null && spiel.toreB == null) {
+            
+            } else {
+            scoreA.textContent = spiel.toreA;
+            scoreB.textContent = spiel.toreB;
+          }
+          if (tipp != null){
+          if(spiel.toreA == tipp.tippA && spiel.toreA == tipp.tippA){
+            playertop.className = 'player top win';
+            playerbot.className = 'player bot win';
+          } else if (1){
+            playertop.className = 'player top draw';
+            playerbot.className = 'player bot draw';
+          } else {
+            playertop.className = 'player top los';
+            playerbot.className = 'player bot los';
+          }
+        }else{
+            playertop.className = 'player top los';
+            playerbot.className = 'player bot los';
+          }
+
         }
        
-
         /*
         if(spiel.toreA == null && spiel.toreB == null){
           scoreA.appendChild(document.createTextNode("-"));
@@ -162,6 +165,8 @@ button {
 
         playertop.appendChild(tippA);
         playerbot.appendChild(tippB);
+        playertop.appendChild(scoreA);
+        playerbot.appendChild(scoreB);
 
         bracket.appendChild(playertop);
         bracket.appendChild(playerbot);
@@ -242,9 +247,7 @@ button {
             <h3>Finale</h3>
             </div>
     </div>
-    <div> <button onclick="speichern();">Fertig </button> </div>
-
- 
+    <div class="button-container"> <button onclick="speichern();"  class="button"  > Tipp Speichern </button> </div>
 </div>
 <div> 
   
