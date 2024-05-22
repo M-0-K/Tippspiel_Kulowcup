@@ -16,7 +16,7 @@ error_reporting(0);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/index.css" rel="stylesheet">
+    <link href="../css/index.css" rel="stylesheet">
     <title>KulowCup</title>
     
     <style>
@@ -163,10 +163,10 @@ error_reporting(0);
                 <div></div>
             </div>
             <div class="menu-items" id="menuItems">
-                <div class="col"><a target="body" href="html/Spieluebersicht.php"><h3>Übersicht</h3></a></div>
-                <div class="col"><a target="body" href="html/Tippen.php"><h3>Tippen</h3></a></div>
-                <div class="col"><a target="body" href="html/Ranking.php"><h3>Ranking</h3></a></div>
-                <div class="col"><a target="body" href="html/logout.php"><h3>
+                <div class="col"><a target="body" href="Spieluebersicht.php"><h3>Übersicht</h3></a></div>
+                <div class="col"><a target="body" href="Tippen.php"><h3>Tippen</h3></a></div>
+                <div class="col"><a target="body" href="Ranking.php"><h3>Ranking</h3></a></div>
+                <div class="col"><a target="body" href="logout.php"><h3>
                     <?php
                     if ($_SESSION['KC']['login'] !== 'ok') {
                         echo 'Login';
@@ -179,7 +179,7 @@ error_reporting(0);
     </header>
     <main>
         <div class="embed-container">
-            <iframe name="body" width="100%" src="html/Spieluebersicht.php"></iframe>
+            <iframe name="body" width="100%" src="Spieluebersicht.php"></iframe>
         </div>
     </main>
 

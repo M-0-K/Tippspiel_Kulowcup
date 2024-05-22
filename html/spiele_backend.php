@@ -116,7 +116,6 @@ function getSpiel($db, $id){
 }
 
 
-
 function getPunkte($db, $id){
     $punkte = 0;
     
@@ -276,13 +275,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         error_reporting(E_ALL);
 
         // Hier muss geprüft werden ob schon ein Eintrag da ist und ob der Einttrag gemacht werden darf
+       /*
+            $statement = $db->prepare("SELECT Tippid FROM tipp WHERE tipp.Userid = :Userid AND tipp.Spielid = :Spielid");
+            $result = $statement->execute(array('Userid' => $_SESSION['KC']['Userid'], 'Spielid' => $_POST["Spielid"]));
+            $zeile = $statement->fetch();
+            if ($zeile->anzahl > 0) {
+                header('Location: https://www.ziel-url.de');
+                exit;
+                echo "Es wurde bereits getippt<br>";
+                $error = true;
+            }
+            */
+
         
         $stmt = $db->prepare("INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES (:Spielid, :Userid, :ToreA, :ToreB)");
-        /*$stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
+        /*
+        $stmt->bindParam("Userid", $_SESSION['KC']['Userid']);
         $stmt->bindParam("Spielid", $_POST["Spielid"]);
         $stmt->bindParam("ToreA", $_POST["ToreA"]);
         $stmt->bindParam("ToreB", $_POST["ToreB"]);
-        $stmt->execute(); */
+        $stmt->execute(); 
+        */
+
         echo $_POST["ToreA"];
         $new = $stmt->execute(array('Userid' => $_SESSION['KC']['Userid'], 'Spielid' => $_POST["Spielid"], 'ToreA' => $_POST["ToreA"], 'ToreB' => $_POST["ToreB"]));
         echo $new;

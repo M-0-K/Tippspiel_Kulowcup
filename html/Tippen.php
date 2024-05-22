@@ -122,8 +122,8 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
         playertop.className = 'player top non';
         playerbot.className = 'player bot non';
         if(spiel.status == 1 || spiel.toreA != null || spiel.toreB != null){
-          numberA.disabled = true;
-          numberB.disabled = true;
+          //numberA.disabled = true;
+          //numberB.disabled = true;
           if (spiel.toreA == null && spiel.toreB == null) {
             
             } else {
@@ -134,7 +134,7 @@ include '../script/db_connection.php'; // DB-Verbindung herstellen
           if(spiel.toreA == tipp.tippA && spiel.toreA == tipp.tippA){
             playertop.className = 'player top win';
             playerbot.className = 'player bot win';
-          } else if (1){
+          } else if ( ((spiel.toreA - spiel.toreB) >= 0 && (tipp.toreA - tipp.toreB) >= 0) || ((spiel.toreB - spiel.toreA) >= 0 && (tipp.toreB - tipp.toreA) >= 0) ){
             playertop.className = 'player top draw';
             playerbot.className = 'player bot draw';
           } else {
