@@ -12,7 +12,7 @@
     <?php if (function_exists('additionalHeaders')){
         additionalHeaders();
     }?>
-    <style>
+   <!-- <style>
         body, html {
             margin: 0;
             padding: 0;
@@ -99,6 +99,9 @@
         }
 
         @media (max-width: 600px) {
+            html, body {
+                background-attachment: fixed;
+            }
             header {
                 padding: 10px;
             }
@@ -142,7 +145,7 @@
             height: 100%;
         }
         }
-    </style>
+    </style> -->
 
 </head>
     <script>

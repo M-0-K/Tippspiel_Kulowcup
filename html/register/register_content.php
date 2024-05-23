@@ -1,4 +1,4 @@
-<main style="display: flex;justify-content: center;">
+<main>
 
 
     <div class="container">
