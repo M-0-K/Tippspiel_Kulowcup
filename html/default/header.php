@@ -17,7 +17,11 @@
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
             box-sizing: border-box;
+            background-image: url("../../data/background.jpg") ;
+            background-position: center;
+            /* background-attachment: fixed;*/
         }
 
         header {
@@ -136,12 +140,6 @@
             left: 0;
             width: 95%;
             height: 100%;
-        }
-        body{
-
-        background-image: url("../../data/background.jpg") ;
-        background-position: center;
-        background-attachment: fixed;
         }
         }
     </style>
