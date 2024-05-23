@@ -28,15 +28,21 @@ if (isset($_GET['login'])) {
         fclose($logdatei);
     }
 
-    if ($user !== false && password_verify($pw, $user->Password) && $user->Enabled == 1) {
-        $_SESSION['KC']['login'] = 'ok';
-        $_SESSION['KC']['Userid'] = $user->Userid;
+    if ($user !== false && password_verify($pw, $user->Password)) {
+        if ($user->Enabled == 1){
+            $_SESSION['KC']['login'] = 'ok';
+            $_SESSION['KC']['Userid'] = $user->Userid;
 
-        $logmessage = "Erfolgreiches Login von $username auf $ip am $jetzt.\n";
-        logschreiben($logmessage);
-        header("Location: ../../html/tippen/tippen.php");
+            $logmessage = "Erfolgreiches Login von $username auf $ip am $jetzt.\n";
+            logschreiben($logmessage);
+            header("Location: ../../html/tippen/tippen.php");
+        } else {
+        echo "<style> input.formulare{background-color: red;}  </style>";
+        $ErrorMSG = "Das Konto ist noch nicht aktiviert";
+        }
     } else {
         echo "<style> input.formulare{background-color: red;}  </style>";
+        $ErrorMSG = "Benutzername oder Kennwort ist falsch.";
         $logmessage = "fehlerhafter Loginversuch von $username auf $ip am $jetzt.\n";
         logschreiben($logmessage);
     }
