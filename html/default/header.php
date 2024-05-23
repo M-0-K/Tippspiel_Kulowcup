@@ -141,6 +141,8 @@
         body{
 
         background-image: url("/data/background.jpg") ;
+        background-position: center;
+        background-attachment: fixed;
         }
         }
     </style>
