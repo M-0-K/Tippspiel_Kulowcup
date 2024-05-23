@@ -3,7 +3,7 @@
 
 
 date_default_timezone_set("Europe/Berlin");
-include_once("../script/db_connection.php");
+include_once("../../script/db_connection.php");
 
 //Daten
 $uname = trim($_POST['uname']);
@@ -42,7 +42,7 @@ if (!$error) {
     $result = $statement->execute(array('Username' => $uname, 'Password' => $hashed_pw));
 }
 if ($result) {
-    echo "<p>Du wurdest erfolgreich registriert. <a href='login.php'>Zum Login</a></p>";
+    echo "<p>Du wurdest erfolgreich registriert. <a href='../login/login.php'>Zum Login</a></p>";
     $showFormular = false;
 } else {
     echo "<p>Leider ist ein Fehler aufgetreten!<p>";
