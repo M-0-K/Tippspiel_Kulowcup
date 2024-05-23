@@ -12,16 +12,26 @@ $passwort2 = $_POST['pw2'];
 
 $error = false;
 if (strlen($uname) < 2) {
-    echo "Bitte einen Vornamen eingeben!<br>";
+    echo "<script>
+        alert('Bitte einen Username eingeben!');
+        location.replace('../../html/register/register.php');
+        </script>";
     $error = true;
 }
 
-if (strlen($passwort1) < 6) {
-    echo "Bitte Passwort eingeben!<br>";
+if (strlen($passwort1) < 4) {
+    echo "<script>
+        alert('Passwörter zu kurz!');
+        location.replace('../../html/register/register.php');
+        </script>";
     $error = true;
 }
 if ($passwort1 !== $passwort2) {
-    echo "Passwörter ungleich!<br>";
+    echo "<script>
+        alert('Passwörter ungleich!');
+        location.replace('../../html/register/register.php');
+        </script>";
+    
     $error = true;
 }
 
@@ -31,7 +41,11 @@ if (!$error) {
     $result = $statement->execute(array('Username' => $uname));
     $zeile = $statement->fetch();
     if ($zeile->anzahl > 0) {
-        echo "E-Mail bereits registriert!<br>";
+
+        echo "<script>
+        alert('Benutzer bereist Registriert!');
+        location.replace('../../html/register/register.php');
+        </script>";
         $error = true;
     }
 }
@@ -40,10 +54,13 @@ if (!$error) {
     $hashed_pw = password_hash($passwort1, PASSWORD_DEFAULT);
     $statement = $db->prepare("INSERT INTO `user` (`Username`, `Password`) VALUES ( :Username, :Password)");
     $result = $statement->execute(array('Username' => $uname, 'Password' => $hashed_pw));
-}
-if ($result) {
-    echo "<p>Du wurdest erfolgreich registriert. <a href='../login/login.php'>Zum Login</a></p>";
-    $showFormular = false;
-} else {
-    echo "<p>Leider ist ein Fehler aufgetreten!<p>";
-}
+
+    if ($result) {
+        header("Location: ../../html/login/login.php");
+        $showFormular = false;
+    } else {
+        echo "<p>Leider ist ein Fehler aufgetreten!<p>";
+    }
+} 
+
+
