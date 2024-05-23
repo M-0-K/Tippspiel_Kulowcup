@@ -13,7 +13,6 @@
       }
     }
 
-      //console.log(tipp);
 
         let bracket = document.createElement("div");
         bracket.className = 'bracket-game';
@@ -36,20 +35,6 @@
         let scoreB = document.createElement("div");
         scoreB.className = 'score';
 
-
-        /*
-        if ( spiel.toreA > spiel.toreB){
-          playertop.className = 'player top win';
-          playerbot.className = 'player bot loss';
-        } else if (spiel.toreA < spiel.toreB){
-          playerbot.className = 'player bot win';
-          playertop.className = 'player top loss';
-        } else if (spiel.toreA == spiel.toreB){
-          playerbot.className = 'player bot non';
-          playertop.className = 'player top non';
-        }
-        */
-
         let nameA = document.createElement("span");
         nameA.className = 'team-name';
         nameA.textContent = spiel.mA.name;
@@ -61,10 +46,6 @@
         playertop.appendChild(nameA);
         playerbot.appendChild(nameB);
 
-
-        //if(spiel.status == 1){
-          //alert(spiel.status);
-        //}
 
         let numberA = document.createElement('input');
         numberA.type = 'number';
@@ -82,29 +63,31 @@
         numberB.id = "B"+ spiel.sid;
 
         if(tipp != null){
-          //alert(tipp.toreA);
           numberA.value = tipp.tippA;
           numberB.value = tipp.tippB;
         }
-        //console.log(spiel.status);
+
         scoreA.textContent = "-";
         scoreB.textContent = "-";
         playertop.className = 'player top non';
         playerbot.className = 'player bot non';
+
         if(spiel.status == 1 || spiel.toreA != null || spiel.toreB != null){
-          numberA.disabled = true;
-          numberB.disabled = true;
+          //numberA.disabled = true;
+          //numberB.disabled = true;
           if (spiel.toreA == null && spiel.toreB == null) {
 
             } else {
             scoreA.textContent = spiel.toreA;
             scoreB.textContent = spiel.toreB;
           }
+
           if (tipp != null){
-          if(spiel.toreA == tipp.tippA && spiel.toreA == tipp.tippA){
+          if(spiel.toreA == tipp.tippA && spiel.toreB == tipp.tippB){
             playertop.className = 'player top win';
             playerbot.className = 'player bot win';
-          } else if (1){
+          } else if ( (spiel.toreA  > spiel.toreB)  && (tipp.tippA > tipp.tippB) || (spiel.toreB > spiel.toreA) && (tipp.tippB > tipp.tippA) ||  (spiel.toreA - spiel.toreB == tipp.tippA - tipp.tippB ) ){
+
             playertop.className = 'player top draw';
             playerbot.className = 'player bot draw';
           } else {
@@ -118,17 +101,7 @@
 
         }
 
-        /*
-        if(spiel.toreA == null && spiel.toreB == null){
-          scoreA.appendChild(document.createTextNode("-"));
-          scoreB.appendChild(document.createTextNode("-"));
-        }else {
-          scoreA.appendChild(document.createTextNode(spiel.toreA));
-          scoreB.appendChild(document.createTextNode(spiel.toreB));
-          numberA.disabled = true;
-          numberB.disabled = true;
-        }
-        */
+
         tippA.appendChild(numberA);
         tippB.appendChild(numberB);
 
@@ -153,7 +126,7 @@
             } );
 
 
-    $.get("spiele_backend.php",{action: "getSpiele"}, function(data){
+    $.get("../spiele_backend.php",{action: "getSpiele"}, function(data){
             // Display the returned data in browser
             console.log(data.canApprove);
             console.log(data);
@@ -167,35 +140,36 @@
 
 
       function speichern(){
-       // alert("Speichern");
+    // alert("Speichern");
 
-        var inputs = document.getElementsByClassName('number-input');
+    var inputs = document.getElementsByClassName('number-input');
 
-        for(var i = 0; i < inputs.length; i++) {
+    for(var i = 0; i < inputs.length; i++) {
 
-          if(inputs[i].disabled != true &&  inputs[i].value != null && inputs[i+1].value){
+        if(inputs[i].disabled != true &&  inputs[i].value != null && inputs[i+1].value != null){
             console.log(inputs[i].id);
             if(inputs[i].id.substring(1) == inputs[i+1].id.substring(1)){
-              console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
+                console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
 
-              xhr.open('POST', 'spiele_backend.php', true);
-              xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-              //xhr.onreadystatechange = infoanzeige;
-              xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                  //window.location.replace('tippen.php');
-                  //alert(xhr.responseText);
-                }
-              }
-              xhr.send("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
+                // Um die xhr-Variable in einer Schleife zu kapseln, erstellen wir eine Funktion
+                (function(toreA, toreB, spielid) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '../spiele_backend.php', true);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            window.location.replace('tippen.php');
+                            //alert(xhr.responseText);
+                        }
+                    }
+                    xhr.send("action=setTipp&ToreA="+ toreA +"&ToreB="+ toreB + "&Spielid=" + spielid);
+                })(inputs[i].value, inputs[i+1].value, inputs[i+1].id.substring(1));
             }
-          }
-          i++;
+        }
+        i++;
+    }
+}
 
-
-
-          }
-      }
 
 </script>
 <body>

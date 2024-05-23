@@ -9,7 +9,7 @@
                 <input class='register' type="submit" name="login" value="Login">
             </form>
             <br>
-            <p>Noch nicht angemeldet? <a href="register.php">Registrierung</a></p>
+            <p>Noch nicht angemeldet? <a href="../register.php">Registrierung</a></p>
             <?php
             if (isset($errorMessage)) {
                 echo "<p>$errorMessage</p>";
