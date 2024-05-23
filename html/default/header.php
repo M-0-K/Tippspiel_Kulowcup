@@ -140,7 +140,7 @@
         }
         body{
 
-        background-image: url("/data/background.jpg") ;
+        background-image: url("../../data/background.jpg") ;
         background-position: center;
         background-attachment: fixed;
         }
