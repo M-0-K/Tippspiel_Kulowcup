@@ -11,11 +11,11 @@
 
     let logoA = document.createElement("img");
     logoA.className = 'team-logo';
-    logoA.src = spiel.mA.logo ? spiel.mA.logo : '/data/none.jpg';
+    logoA.src = spiel.mA.logo ? spiel.mA.logo : '../../data/none.jpg';
 
     let logoB = document.createElement("img");
     logoB.className = 'team-logo';
-    logoB.src = spiel.mB.logo ? spiel.mB.logo : '/data/none.jpg';
+    logoB.src = spiel.mB.logo ? spiel.mB.logo : '../../data/none.jpg';
 
     let nameA = document.createElement("span");
     nameA.className = 'team-name';
@@ -78,7 +78,7 @@
 
     var xhr = new XMLHttpRequest();
     var slist;
-    $.get("/html/spiele_backend.php",{action: "getSpiele"}, function(data){
+    $.get("../../html/spiele_backend.php",{action: "getSpiele"}, function(data){
             // Display the returned data in browser
             //console.log(data.canApprove);
             console.log(data);

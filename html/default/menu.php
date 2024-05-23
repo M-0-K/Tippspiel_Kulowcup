@@ -17,11 +17,15 @@
                 <div class="col"><a target="body" href="../../html/ranking/ranking.php"><h3>Ranking</h3></a></div>
                 <div class="col"><a target="body" href="../../html/logout/logout.php"><h3>
                     <?php
-                    if ($_SESSION['KC']['login'] !== 'ok') {
-                        echo 'Login';
-                    } else {
-                        echo 'Logout';
+                    error_reporting(0);
+                    if (1){
+                        if ($_SESSION['KC']['login'] !== 'ok') {
+                            echo 'Login';
+                        } else {
+                            echo 'Logout';
+                        }
                     }
+                    
                     ?></h3></a></div>
             </div>
         </div>

@@ -11,6 +11,7 @@
             <br>
             <p>Noch nicht angemeldet? <a href="../register/register.php">Registrierung</a></p>
             <?php
+            error_reporting(0);
             if (isset($errorMessage)) {
                 echo "<p>$errorMessage</p>";
             }

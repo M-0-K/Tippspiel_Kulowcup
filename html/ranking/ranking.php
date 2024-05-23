@@ -1,6 +1,14 @@
 <?php
 include '../../script/db_connection.php'; // DB-Verbindung herstellen
 
+error_reporting(0);
+if (!isset($_SESSION)) {
+    session_start();
+}
+if ($_SESSION['KC']['login'] !== 'ok') {
+    $_SESSION['KC']['login'] = 'no';
+}
+
 $PageTitle="Ranking";
 function additionalHeaders(){?>
 <!-- define additional headers here -->
