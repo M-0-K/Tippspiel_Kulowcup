@@ -12,7 +12,7 @@ include '../../script/db_connection.php'; // DB-Verbindung herstellen
 $PageTitle="Tunierbaum";
 function additionalHeaders(){?>
 <!-- define additional headers here -->
-<script src="/script/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="../../script/jquery-3.6.0.min.js" type="text/javascript"></script>
 <?php }
 include_once('../default/header.php');
 include_once('../default/menu.php');

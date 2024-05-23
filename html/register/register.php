@@ -6,7 +6,7 @@ if (isset($_POST['submit'])) {
 $PageTitle="Registrierung";
 function additionalHeaders(){?>
 <!-- define additional headers here -->
-<script src="/script/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="../../script/jquery-3.6.0.min.js" type="text/javascript"></script>
  <style>
         body {
             font-family: Arial, sans-serif;
