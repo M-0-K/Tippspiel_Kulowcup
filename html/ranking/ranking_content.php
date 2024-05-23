@@ -11,6 +11,7 @@
 
     <script>
         $.get("../spiele_backend.php", { action: "getPunkte" }, function(data) {
+            console.log(data);
             let slist = JSON.parse(data);
             for (let i = 0; i < slist.User.length; i++) {
                 ausgabe(slist.User[i]);

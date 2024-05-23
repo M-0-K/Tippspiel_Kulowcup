@@ -114,22 +114,24 @@
         bracket.appendChild(playertop);
         bracket.appendChild(playerbot);
 
-        document.getElementById(spiel.phase).appendChild(bracket);
+        if(document.getElementById(spiel.phase)){
+      document.getElementById(spiel.phase).appendChild(bracket);
+        }
     }
 
     var xhr = new XMLHttpRequest();
     var slist;
     var tipps;
     $.get("../spiele_backend.php",{action: "getTipps"}, function(data){
-            console.log(data);
+            //console.log(data);
             tipps = JSON.parse(data);
             } );
 
 
     $.get("../spiele_backend.php",{action: "getSpiele"}, function(data){
             // Display the returned data in browser
-            console.log(data.canApprove);
-            console.log(data);
+            //console.log(data.canApprove);
+            //console.log(data);
             slist = JSON.parse(data);
            // alert(data);
             //slist = JSON.parse('{ "Spiele" : [{"sid":1,"phase":"A","mA":{"id":null,"name":"Flames of Pils","abkuerzung":"FoP","bild":"fop.png","mid":1},"toreA":3,"mB":{"id":null,"name":"WD-40","abkuerzung":"WD4","bild":"wd.png","mid":2},"toreB":2}]}');
@@ -149,7 +151,7 @@
         if(inputs[i].disabled != true &&  inputs[i].value != null && inputs[i+1].value != null){
             console.log(inputs[i].id);
             if(inputs[i].id.substring(1) == inputs[i+1].id.substring(1)){
-                console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
+                //console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
 
                 // Um die xhr-Variable in einer Schleife zu kapseln, erstellen wir eine Funktion
                 (function(toreA, toreB, spielid) {
