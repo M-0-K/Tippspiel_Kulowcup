@@ -117,18 +117,27 @@ function getSpiel($db, $id){
 
 
 function getPunkte($db, $id){
+    error_reporting(1);
     $punkte = 0;
     
-    $sqltipps = $db->query("SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB'  FROM tipp INNER JOIN spiel ON tipp.Spielid = spiel.Spielid WHERE Userid =".$id);
+    $sqltipps = $db->query(
+    "   SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB' FROM tipp 
+        INNER JOIN spiel ON tipp.Spielid = spiel.Spielid 
+        WHERE spiel.Status = 1 AND Userid = ".$id);
     
     foreach($sqltipps as $row){
-        if (($row->tA > $row->tB and $row->sA > $row->sB ) 
-        or ($row->tA < $row->tB and $row->sA < $row->sB)){
-            if($row->tA == $row->sA && $row->tB == $row->sB){
-                $punkte = $punkte+3;
-            }else{
-                $punkte = $punkte+1; 
-            }
+        if ($row->tA == $row->sA && $row->tB == $row->sB) {
+            // Spieler hat das Spielergebnis richtig vorhergesagt
+            $punkte = $punkte + 4;
+        } elseif (($row->tA - $row->tB) == ($row->sA - $row->sB)) {
+            // Spieler hat die Tordifferenz richtig vorhergesagt
+            $punkte = $punkte + 3;
+        } elseif (($row->tA > $row->tB && $row->sA > $row->sB) || ($row->tA < $row->tB && $row->sA < $row->sB)) {
+            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt
+            $punkte = $punkte + 2;
+        } else {
+            // Spieler hat falsch getippt
+            $punkte = $punkte + 0;
         }
 
     }
@@ -310,6 +319,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
     }
 }
 
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 
 
 

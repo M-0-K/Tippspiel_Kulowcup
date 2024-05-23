@@ -71,7 +71,9 @@
     bracket.appendChild(playertop);
     bracket.appendChild(playerbot);
 
+    if(document.getElementById(spiel.phase)){
     document.getElementById(spiel.phase).appendChild(bracket);
+    }
 }
 
 
