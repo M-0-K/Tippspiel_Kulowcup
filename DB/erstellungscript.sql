@@ -11,7 +11,7 @@ CREATE TABLE `mannschaft` (
 
 CREATE TABLE `spiel` (
   `Spielid` int(11) PRIMARY KEY AUTO_INCREMENT,
-  `Phase` varchar(255) NOT NULL,
+  `Phase` varchar(4) NOT NULL,
   `ToreA` int(11),
   `ToreB` int(11),
   `MA` int(11) ,
@@ -30,7 +30,8 @@ CREATE TABLE `tipp` (
 CREATE TABLE `user` (
   `Userid` int(11) PRIMARY KEY AUTO_INCREMENT,
   `Username` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL
+  `Password` varchar(255) NOT NULL,
+  `Enabled` BOOLEAN DEFAULT 0
 );
 
 Alter Table spiel Add constraint beinhaltet1 foreign key(MA) references mannschaft(Mid);

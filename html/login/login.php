@@ -28,7 +28,7 @@ if (isset($_GET['login'])) {
         fclose($logdatei);
     }
 
-    if ($user !== false && password_verify($pw, $user->Password)) {
+    if ($user !== false && password_verify($pw, $user->Password) && $user->Enabled == 1) {
         $_SESSION['KC']['login'] = 'ok';
         $_SESSION['KC']['Userid'] = $user->Userid;
 
