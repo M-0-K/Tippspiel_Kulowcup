@@ -10,7 +10,9 @@ function additionalHeaders(){?>
 <?php }
 include_once('../default/header.php');
 include_once('../default/menu.php');
-
+if (isset($_GET['register'])) {
+    include_once('user_eintrag.php');
+}
 include_once('register_content.php');
 include_once('../default/footer.php');
 ?>

@@ -12,26 +12,20 @@ $passwort2 = $_POST['pw2'];
 
 $error = false;
 if (strlen($uname) < 2) {
-    echo "<script>
-        alert('Bitte einen Username eingeben!');
-        location.replace('../../html/register/register.php');
-        </script>";
+    $ErrorUSR = "Nutzername zu kurz!";
     $error = true;
 }
 
 if (strlen($passwort1) < 4) {
-    echo "<script>
-        alert('Passwörter zu kurz!');
-        location.replace('../../html/register/register.php');
-        </script>";
+    $ErrorPWD = "Passwort zu kurz!";
+    $usrName = $uname;
+    echo "<style> input.formulare{background-color: red;}  </style>";
     $error = true;
 }
 if ($passwort1 !== $passwort2) {
-    echo "<script>
-        alert('Passwörter ungleich!');
-        location.replace('../../html/register/register.php');
-        </script>";
-    
+    $ErrorPWD = "Passwörter ungleich!";
+    $usrName = $uname;
+    echo "<style> input.formulare{background-color: red;}  </style>";
     $error = true;
 }
 
@@ -42,10 +36,7 @@ if (!$error) {
     $zeile = $statement->fetch();
     if ($zeile->anzahl > 0) {
 
-        echo "<script>
-        alert('Benutzer bereist Registriert!');
-        location.replace('../../html/register/register.php');
-        </script>";
+        $ErrorPWD = "Der Benutzer existiert bereits.";
         $error = true;
     }
 }
