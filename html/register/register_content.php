@@ -8,7 +8,7 @@
         </div>
 
         <form id="loginForm" action='user_eintrag.php' method='POST' style="text-align: center;" >
-            <input type='text' class='formulare' name='uname' placeholder='Benutzername' autocomplete='off'> <br>
+            <input type='text' class='formulare' name='uname' placeholder='Benutzername' autocomplete='off' pattern="[a-zA-Z0-9]*" title="Der Benutzername darf nur Buchstaben und Zahlen beinhalten"> <br>
             <input type='password' class='formulare' name='pw' placeholder='Passwort' autocomplete='off'> <br>
             <input type='password' class='formulare' name='pw2' placeholder='Passwort wiederhohlen' autocomplete='off'> <br>
 

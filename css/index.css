@@ -193,7 +193,7 @@ h4 {
 
 
 /* Mobile */
-        @media (max-width: 600px) {
+        @media (max-width: 660px) {
             html, body {
                 background-attachment: fixed;
             }
