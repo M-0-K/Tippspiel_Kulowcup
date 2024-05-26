@@ -48,15 +48,36 @@ Alter Table tipp Add constraint gehoert foreign key(Userid) references user(User
 
 INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (1, 'Flames of Pils', 'FoP', 'fop.png'),
-(2, 'WD-40', 'WD4', 'wd.png'),
+(2, 'WD-40', 'WD4', 'wd40.png'),
 (3, 'Lange Garde', 'LG', 'lg.png'),
-(4, 'Kulowminati', 'KM', 'km.png'),
+(4, 'Kulowminati', 'KM', 'kulowminati.png'),
 (5, 'Kocina Kulow', 'KK', 'kk.png'),
 (6, 'Kulow Section', 'KS', 'ks.png'),
-(7, 'Gut Kickerz', 'GK', 'gk.png'),
+(7, 'Gut Kickerz', 'GK', 'gutkickerz.png'),
 (8, 'Feiglinge', 'FG', 'fg.png'),
 (9, 'Dorftrottel', 'DT', 'dt.png'),
-(10, 'Grüne Garde', 'GG', 'gg.png');
+(10, 'Grüne Garde', 'GG', 'gg.png'),
+(11, 'Bottles','','bottles.svg'),
+(12, 'Club der Einfallslosen','CDE','club_der_einfallslosen.svg'),
+(13, 'Club ohne Namen','CON','con.svg'),
+(14, 'Company of Kulow','COK','cok.svg'),
+(15, 'Commodors','COM','commodors.svg'),
+(16, 'Crackers','CRK','crackers.svg'),
+(17, 'Die Anderen','AND','die_anderen.svg'),
+(18, 'Die immer Blauen','DIB','dib.svg'),
+(19, 'Die Kurzen','DK','dk.svg'),
+(20, 'DSF','DSF','dsf.svg'),
+(21, 'Gewerkschaft','GW','gewerkschaft.svg'),
+(22, 'KDB','KDB','kdb.svg'),
+(23, 'Kingston Club','KC','kingston_club.svg'),
+(24, 'Kombinat','KBN','kombinat.svg'),
+(25, 'Kopflos e.Vau','KPF','kopflos.svg'),
+(26, 'Kulow Angels','KA','kulow_angles.svg'),
+(27, 'Kulow Chaos','KCH','kulow_chaos.svg'),
+(28, 'RC Ungelenk','RC','rcungelenk.svg'),
+(29, 'Smarties','SMT','smarties.svg'),
+(30, 'Smofois','SMF','smofois.svg'),
+(31, 'UCT','UCT','uct.svg');
 
 
 
