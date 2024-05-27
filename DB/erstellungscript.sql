@@ -72,11 +72,11 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (23, 'Kingston Club','KC','kingston_club.svg'),
 (24, 'Kombinat','KBN','kombinat.svg'),
 (25, 'Kopflos e.Vau','KPF','kopflos.svg'),
-(26, 'Kulow Angels','KA','kulow_angles.svg'),
+(26, 'Kulow Angels','KA','kulow_angels.svg'),
 (27, 'Kulow Chaos','KCH','kulow_chaos.svg'),
 (28, 'RC Ungelenk','RC','rcungelenk.svg'),
 (29, 'Smarties','SMT','smarties.svg'),
-(30, 'Smofois','SMF','smofois.svg'),
+(30, 'Smofojs','SMF','smofojs.svg'),
 (31, 'UCT','UCT','uct.svg');
 
 
