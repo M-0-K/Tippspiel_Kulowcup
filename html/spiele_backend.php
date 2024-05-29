@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+error_reporting(1);
 
 if (!isset($_SESSION)) {
     session_start();
@@ -9,11 +9,11 @@ if($_SESSION['KC']['login'] !== 'ok'){
   exit(header("Location:login.php"));
 }
 */
-error_reporting(0);
+//error_reporting(0);
 
 include '../script/db_connection.php'; // DB-Verbindung herstellen
 
-error_reporting(0);
+//error_reporting(0);
 class Mannschaft{
     public $id;
     public $name;
@@ -54,6 +54,43 @@ class Spieletipps{
     public $userid;
     public $spiel;
     public $tipp;
+}
+
+class Tunier{
+    public $tunierid;
+    public $jahr;
+    public $saison;
+    public $gewinner;
+}
+
+function getTunier($db, $id){
+    $sqltunier = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier WHERE Tid=".$id);
+    $tunier = new Tunier();
+    foreach($sqltunier as $row){
+        $tunier->tunierid =  $row->Tid;
+        $tunier->jahr =  $row->Jahr;
+        $tunier->saison =  $row->Saison;
+        $tunier->gewinner = getMannschaft($db, $row->Gewinner);
+    }
+    return $tunier;
+}
+
+function getTuniere($db){
+    $tuniere = array();
+
+    $sqltuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier");
+    
+    foreach($sqltuniere as $row){
+        $tunier = new Tunier();
+        $tunier->tunierid =  $row->Tid;
+        $tunier->jahr =  $row->Jahr;
+        $tunier->saison =  $row->Saison;
+        $tunier->gewinner = getMannschaft($db, $row->Gewinner);
+
+        $tuniere[] = $tunier;
+    }
+    
+    return $tuniere;
 }
 
 function getMannschaft($db, $id){
@@ -146,8 +183,8 @@ function getPunkte($db, $id){
 
 
 $getaction = htmlspecialchars($_GET["action"]);
-$postaction = htmlspecialchars($_POST["action"]);
-error_reporting(0);
+//$postaction = htmlspecialchars($_POST["action"]);
+error_reporting(1);
 
 if($getaction == "getSpiele"){
     $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status` FROM `spiel`");
@@ -243,6 +280,33 @@ if ($getaction == "getTipps"){
 
 }
 
+if ($getaction == "getTuniere") {
+    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM `tunier`");
+    $jsonArray = '{ "Tuniere" : [';
+
+    foreach ($tuniere as $row) {
+        $tunier = new Tunier();
+        $tunier->tunierid = $row->Tid;
+        $tunier->jahr = $row->Jahr;
+        $tunier->saison = $row->Saison;
+        
+        if ($row->Gewinner == NULL) {
+            $tunier->gewinner = '-';
+            $tunier->logo = 'non.png'; // Annahme: Standard-Logo, falls kein Gewinner vorhanden ist
+        } else {
+            // Hier kannst du die Methode verwenden, um die Mannschaftsdaten des Gewinners abzurufen
+            $gewinnerMannschaft = getMannschaft($db, $row->Gewinner);
+            $tunier->gewinner = $gewinnerMannschaft->name; // Annahme: Gewinner ist eine Mannschaft
+            $tunier->logo = $gewinnerMannschaft->bild; // Annahme: Bild der Gewinnermannschaft
+        }
+
+        $jsonArray .= json_encode($tunier) . ",";
+    }
+
+    $jsonArray = rtrim($jsonArray, ",") . "]}";
+
+    echo $jsonArray;
+}
 
 
 
