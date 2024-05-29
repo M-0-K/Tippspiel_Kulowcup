@@ -172,7 +172,7 @@ if($getaction == "getSpiele"){
             $jspiele[$i] ->mA = getMannschaft($db, $row->MA);
         }
 
-        if($row->ToreA == NULL){
+        if($row->ToreA === NULL){
             $jspiele[$i] ->toreA = null;
         } else {
             $jspiele[$i] ->toreA = $row->ToreA;
@@ -184,7 +184,7 @@ if($getaction == "getSpiele"){
             $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
         }
 
-        if($row->ToreB == NULL){
+        if($row->ToreB === NULL){
             $jspiele[$i] ->toreB = null;
         } else {
             $jspiele[$i] ->toreB = $row->ToreB;

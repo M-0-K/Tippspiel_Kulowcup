@@ -37,11 +37,12 @@
 
         let nameA = document.createElement("span");
         nameA.className = 'team-name';
-        nameA.textContent = spiel.mA.name;
+        nameA.textContent = spiel.mA.name.length > 20 ? spiel.mA.abkuerzung : spiel.mA.name;
 
         let nameB = document.createElement("span");
         nameB.className = 'team-name';
-        nameB.textContent = spiel.mB.name;
+        nameB.textContent = spiel.mB.name.length > 20 ? spiel.mB.abkuerzung : spiel.mB.name;
+        
 
         playertop.appendChild(nameA);
         playerbot.appendChild(nameB);
@@ -183,8 +184,8 @@
             <div class="flex-item" id="B">
             <h3>Gruppe B</h3>
             </div>
-            <div class="flex-item" id="AF">
-            <h3>Achtelfinale</h3>
+            <div class="flex-item" id="VF">
+            <h3>Viertelfinale</h3>
             </div>
             <div class="flex-item" id="HF">
             <h3>Halbfinale</h3>

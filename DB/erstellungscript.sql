@@ -1,5 +1,3 @@
--- SQL Erstellungsscript 
-
 CREATE TABLE `mannschaft` (
   `Mid` int(11) PRIMARY KEY AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
@@ -7,24 +5,26 @@ CREATE TABLE `mannschaft` (
   `Bild` varchar(255) NOT NULL
 );
 
-
+CREATE TABLE `tunier` (
+  `Tid` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `Saison` enum('Sommer','Winter') NOT NULL,
+  `Jahr` int(11) NOT NULL,
+  `Gewinner` int(11),
+  FOREIGN KEY (`Gewinner`) REFERENCES `mannschaft`(`Mid`)
+);
 
 CREATE TABLE `spiel` (
   `Spielid` int(11) PRIMARY KEY AUTO_INCREMENT,
   `Phase` varchar(4) NOT NULL,
-  `ToreA` int(11),
-  `ToreB` int(11),
-  `MA` int(11) ,
-  `MB` int(11) ,
-  `Status` BOOLEAN
-);
-
-CREATE TABLE `tipp` (
-  `Tippid` int(11) PRIMARY KEY AUTO_INCREMENT,
-  `Spielid` int(11) NOT NULL,
-  `Userid` int(11) NOT NULL,
-  `ToreA` int(11) NOT NULL,
-  `ToreB` int(11) NOT NULL
+  `ToreA` int(4),
+  `ToreB` int(4),
+  `MA` int(11),
+  `MB` int(11),
+  `Tunier` int(11),
+  `Status` BOOLEAN DEFAULT 0,
+  FOREIGN KEY (`MA`) REFERENCES `mannschaft`(`Mid`),
+  FOREIGN KEY (`MB`) REFERENCES `mannschaft`(`Mid`),
+  FOREIGN KEY (`Tunier`) REFERENCES `tunier`(`Tid`)
 );
 
 CREATE TABLE `user` (
@@ -34,89 +34,133 @@ CREATE TABLE `user` (
   `Enabled` BOOLEAN DEFAULT 0
 );
 
-Alter Table spiel Add constraint beinhaltet1 foreign key(MA) references mannschaft(Mid);
-Alter Table spiel Add constraint beinhaltet2 foreign key(MB) references mannschaft(Mid);
+CREATE TABLE `tipp` (
+  `Tippid` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `Spielid` int(11) NOT NULL,
+  `Userid` int(11) NOT NULL,
+  `ToreA` int(11) NOT NULL,
+  `ToreB` int(11) NOT NULL,
+  FOREIGN KEY (`Spielid`) REFERENCES `spiel`(`Spielid`),
+  FOREIGN KEY (`Userid`) REFERENCES `user`(`Userid`)
+);
 
-Alter Table tipp Add constraint bekommt foreign key(Spielid) references spiel(Spielid);
-Alter Table tipp Add constraint gehoert foreign key(Userid) references user(Userid);
+INSERT INTO `mannschaft` (`Name`, `Abkuerzung`, `Bild`) VALUES
+('Flames of Pils', 'FoP', 'fop.svg'),
+('WD-40', 'WD4', 'wd40.svg'),
+('Lange Garde', 'LG', 'lg.svg'),
+('Kulowminati', 'KM', 'kulowminati.svg'),
+('Kocina Kulow', 'KK', 'kk.svg'),
+('Kulow Section', 'KS', 'ks.svg'),
+('Gut Kickerz', 'GK', 'gutkickerz.svg'),
+('Feiglinge', 'FG', 'fg.svg'),
+('Dorftrottel', 'DT', 'dt.svg'),
+('Grüne Garde', 'GG', 'gruene_garde.svg'),
+('Bottles', '', 'bottles.svg'),
+('Club der Einfallslosen', 'CDE', 'club_der_einfallslosen.svg'),
+('Club ohne Namen', 'CON', 'con.svg'),
+('Company of Kulow', 'COK', 'cok.svg'),
+('Commodors', 'COM', 'commodors.svg'),
+('Crackers', 'CRK', 'crackers.svg'),
+('Die Anderen', 'AND', 'die_anderen.svg'),
+('Die immer Blauen', 'DIB', 'dib.svg'),
+('Die Kurzen', 'DK', 'dk.svg'),
+('DSF', 'DSF', 'dsf.svg'),
+('Gewerkschaft', 'GW', 'gewerkschaft.svg'),
+('KDB', 'KDB', 'kdb.svg'),
+('Kingston Club', 'KC', 'kingston_club.svg'),
+('Kombinat', 'KBN', 'kombinat.svg'),
+('Kopflos e.Vau', 'KPF', 'kopflos.svg'),
+('Kulow Angels', 'KA', 'kulow_angels.svg'),
+('Kulow Chaos', 'KCH', 'kulow_chaos.svg'),
+('RC Ungelenk', 'RC', 'rcungelenk.svg'),
+('Smarties', 'SMT', 'smarties.svg'),
+('Smofojs', 'SMF', 'smofojs.svg'),
+('UCT', 'UCT', 'uct.svg'),
+('Iwans', 'IW', 'iwans.svg'),
+('JC Dörgenhausen', 'JCD', 'jc_doergenhausen.svg'),
+('Söffner', 'SOE', 'soeffner.svg');
+
+INSERT INTO `tunier` (`Saison`, `Jahr`, `Gewinner`) VALUES
+('Sommer', 1990, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Iwans')),
+('Sommer', 1991, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Club der Einfallslosen')),
+('Sommer', 1992, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Angels')),
+('Sommer', 1993, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Angels')),
+('Sommer', 1994, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Club der Einfallslosen')),
+('Sommer', 1995, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Angels')),
+('Sommer', 1996, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Angels')),
+('Sommer', 1997, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Angels')),
+('Sommer', 1998, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kopflos e.Vau')),
+('Sommer', 1999, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Commodors')),
+('Sommer', 1999, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kingston Club')),
+('Sommer', 2000, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Smofojs')),
+('Sommer', 2001, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kopflos e.Vau')),
+('Sommer', 2002, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'RC Ungelenk')),
+('Sommer', 2003, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kopflos e.Vau')),
+('Sommer', 2004, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'RC Ungelenk')),
+('Sommer', 2005, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Smofojs')),
+('Sommer', 2006, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Chaos')),
+('Sommer', 2007, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Gewerkschaft')),
+('Sommer', 2008, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Smofojs')),
+('Sommer', 2008, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Chaos')),
+('Sommer', 2009, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow')),
+('Sommer', 2010, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2011, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Chaos')),
+('Sommer', 2012, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2013, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2014, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Gewerkschaft')),
+('Sommer', 2015, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
+('Sommer', 2016, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow')),
+('Sommer', 2017, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Söffner')),
+('Sommer', 2018, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
+('Sommer', 2019, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2020, NULL),
+('Sommer', 2021, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'JC Dörgenhausen')),
+('Sommer', 2022, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kocina Kulow')),
+('Sommer', 2023, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Grüne Garde')),
+('Sommer', 2024, NULL);
+
+INSERT INTO `spiel` ( `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Tunier`) VALUES 
+('A', 1, 2, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'KDB'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kombinat'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 3, 0, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kopflos e.Vau'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 0, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'JC Dörgenhausen'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 0, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Gewerkschaft'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kocina Kulow'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 1, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Grüne Garde'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Lange Garde'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 2, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Flames of Pils'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'WD-40'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 3, 0, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Gut Kickerz'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Dorftrottel'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 2, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Feiglinge'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Section'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 2, 2, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Club der Einfallslosen'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Commodors'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 0, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Bottles'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Die Anderen'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 3, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kingston Club'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('A', 2, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Crackers'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Die immer Blauen'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 0, 0, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Die Kurzen'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 0, 1, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Feiglinge'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'KDB'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 1, 2, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'JC Dörgenhausen'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Gewerkschaft'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('B', 1, 3, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kopflos e.Vau'), (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati'), 1, (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('VF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('VF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('VF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('VF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('HF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('HF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
+('F', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023));
+
+INSERT INTO `user` (`Username`, `Password`, `Enabled`) VALUES 
+('Max', '[hashed_password]', 1),
+('Anna', '[hashed_password]', 1),
+('Peter', '[hashed_password]', 1),
+('Julian', '[hashed_password]', 1);
 
 
-
-
- 
---
-
-INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
-(1, 'Flames of Pils', 'FoP', 'fop.png'),
-(2, 'WD-40', 'WD4', 'wd40.png'),
-(3, 'Lange Garde', 'LG', 'lg.png'),
-(4, 'Kulowminati', 'KM', 'kulowminati.png'),
-(5, 'Kocina Kulow', 'KK', 'kk.png'),
-(6, 'Kulow Section', 'KS', 'ks.png'),
-(7, 'Gut Kickerz', 'GK', 'gutkickerz.png'),
-(8, 'Feiglinge', 'FG', 'fg.png'),
-(9, 'Dorftrottel', 'DT', 'dt.png'),
-(10, 'Grüne Garde', 'GG', 'gg.png'),
-(11, 'Bottles','','bottles.svg'),
-(12, 'Club der Einfallslosen','CDE','club_der_einfallslosen.svg'),
-(13, 'Club ohne Namen','CON','con.svg'),
-(14, 'Company of Kulow','COK','cok.svg'),
-(15, 'Commodors','COM','commodors.svg'),
-(16, 'Crackers','CRK','crackers.svg'),
-(17, 'Die Anderen','AND','die_anderen.svg'),
-(18, 'Die immer Blauen','DIB','dib.svg'),
-(19, 'Die Kurzen','DK','dk.svg'),
-(20, 'DSF','DSF','dsf.svg'),
-(21, 'Gewerkschaft','GW','gewerkschaft.svg'),
-(22, 'KDB','KDB','kdb.svg'),
-(23, 'Kingston Club','KC','kingston_club.svg'),
-(24, 'Kombinat','KBN','kombinat.svg'),
-(25, 'Kopflos e.Vau','KPF','kopflos.svg'),
-(26, 'Kulow Angels','KA','kulow_angels.svg'),
-(27, 'Kulow Chaos','KCH','kulow_chaos.svg'),
-(28, 'RC Ungelenk','RC','rcungelenk.svg'),
-(29, 'Smarties','SMT','smarties.svg'),
-(30, 'Smofojs','SMF','smofojs.svg'),
-(31, 'UCT','UCT','uct.svg');
-
-
-
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '1', '2', '1', '2', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '2', '2', '1', '3', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '2', '2', '1', '4', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '3', '2', '1', '5', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '3', '2', '2', '3', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', '5', '2', '2', '4', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '2', '5', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '3', '4', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '3', '5', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'A', NULL, NULL, '4', '5', NULL);
-
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '3', '2', '6', '7', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '4', '2', '6', '8', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '3', '2', '6', '9', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '6', '2', '6', '10', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', '3', '2', '7', '8', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '7', '9', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '7', '10', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '8', '9', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '8', '10', NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'B', NULL, NULL, '9', '10', NULL);
-
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'U3', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `spiel` (`Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB` ,`Status`) VALUES (NULL, 'U1', NULL, NULL, NULL, NULL, NULL);
-
-
-
-INSERT INTO `user`(`Username`, `Password`) VALUES ('Mike','[value-3]');
-INSERT INTO `user`(`Username`, `Password`) VALUES ('Ike','[value-3]');
-INSERT INTO `user`(`Username`, `Password`) VALUES ('Ricke','[value-3]');
-
-INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','1','2','3');
-INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','2','2','1');
-INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('1','3','3','6');
-INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('2','1','2','3');
-INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('2','2','2','1');
-INSERT INTO `tipp`(`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES ('2','3','3','6');
-
-
+INSERT INTO `tipp` (`Spielid`, `Userid`, `ToreA`, `ToreB`) VALUES
+(5, 1, 1, 2), 
+(5, 2, 2, 1), 
+(5, 3, 2, 2), 
+(6, 1, 3, 0), 
+(6, 2, 2, 2), 
+(6, 3, 1, 2), 
+(7, 1, 1, 1), 
+(7, 2, 2, 1), 
+(7, 3, 1, 2), 
+(8, 1, 3, 2), 
+(8, 2, 1, 2), 
+(8, 3, 2, 2); 
