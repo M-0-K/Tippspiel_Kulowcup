@@ -10,29 +10,11 @@
         <form id="loginForm" action='?register=1' method='POST' style="text-align: center;" >
             <input type='text' class='formulare' name='uname' placeholder='Benutzername' autocomplete='off' <?= isset($usrName)?"value=\"$usrName\"" : "" ?> pattern="[a-zA-Z0-9]*" title="Der Benutzername darf nur Buchstaben und Zahlen beinhalten"> <br>
             <p><?= isset($ErrorUSR)?$ErrorUSR : "" ?></p>
-            <input type='password' class='formulare' name='pw' placeholder='Passwort' autocomplete='off'> <br>
-            <input type='password' class='formulare' name='pw2' placeholder='Passwort wiederhohlen' autocomplete='off'> <br>
+            <input type='password' class='formulare' name='pw' placeholder='Passwort' autocomplete='off' pattern=".{4,}"> <br>
+            <input type='password' class='formulare' name='pw2' placeholder='Passwort wiederhohlen' autocomplete='off' pattern=".{4,}"> <br>
             <p><?= isset($ErrorPWD)?$ErrorPWD : "" ?></p>
 
             <input class="register" type="submit" id="registerButton" name="registrieren" value="Registrieren">
         </form>
     </div>
 </main>
-<script>
-   /* $(document).ready(function() {
-        document.getElementById("registerButton").addEventListener("click", function() {
-            $('#registerButton').val("Dateien werden überprüft");
-            let pw1 = $('input[name=pw]').val();
-            let pw2 = $('input[name=pw2]').val();
-            if (pw1.length > 3 && pw1 === pw2) {
-                document.getElementById("loginForm").submit();
-                $('#registerButton').val('registrieren');
-            } else if (pw1.length <= 3 ){
-                alert('Passwort ist zu Kurz. Das Passwort muss mindestens 4 Zeichen lang sein.');
-            } else{
-                alert('Passwörter stimmen nicht überein!');
-            }
-            
-        })
-    })*/
-</script>
