@@ -190,8 +190,13 @@
             <div class="flex-item" id="HF">
             <h3>Halbfinale</h3>
             </div>
-            <div class="flex-item" id="F">
-            <h3>Finale</h3>
+            <div style="flex:1">
+                <div class="flex-item" id="TF">
+                <h3>Finale</h3>
+                </div>
+                <div class="flex-item" id="BF" style="margin-top: 1em">
+                <h3>Spiel um Platz 3</h3>
+                </div>
             </div>
     </div>
     <div class="button-container"> <button onclick="speichern();"  class="button"  > Tipp Speichern </button> </div>
