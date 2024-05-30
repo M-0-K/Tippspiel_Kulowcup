@@ -73,7 +73,7 @@
         playertop.className = 'player top non';
         playerbot.className = 'player bot non';
 
-        if(spiel.status == 1 || spiel.toreA != null || spiel.toreB != null){
+        if(spiel.status >= 1 || spiel.toreA != null || spiel.toreB != null){
           numberA.disabled = true;
           numberB.disabled = true;
           if (spiel.toreA == null && spiel.toreB == null) {

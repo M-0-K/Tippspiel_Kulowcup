@@ -78,6 +78,11 @@
   color: #fff;
 }
 
+.player.run {
+  background-color: #37a7ea;
+  color: #fff;
+}
+
 .player.non {
   background-color: #8d8d8d;
   color: #fff;

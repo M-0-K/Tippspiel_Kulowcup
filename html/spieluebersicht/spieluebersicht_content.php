@@ -50,13 +50,16 @@
         let scoreB = document.createElement("div");
         scoreB.className = 'score';
 
-        if (spiel.toreA > spiel.toreB) {
+        if (spiel.status == 1) {
+            playertop.classList.add('run');
+            playerbot.classList.add('run');
+        } else if (spiel.toreA > spiel.toreB) {
             playertop.classList.add('win');
             playerbot.classList.add('los');
         } else if (spiel.toreA < spiel.toreB) {
             playertop.classList.add('los');
             playerbot.classList.add('win');
-        } else if (spiel.toreA == spiel.toreB && spiel.status == 1 ) {
+        } else if (spiel.toreA == spiel.toreB && spiel.status == 2 ) {
             playertop.classList.add('draw');
             playerbot.classList.add('draw');
         } else {
