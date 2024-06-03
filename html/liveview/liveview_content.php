@@ -92,6 +92,10 @@
     // document.getElementById("live").innerHTML = '';
     update()
     }, 5000);
+       var intervalId = setInterval(function() {
+    document.getElementById("live").innerHTML = '';
+    init()
+    }, 60000);
 
 </script>
 

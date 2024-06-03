@@ -185,6 +185,7 @@
 }
 .teamdiv>img{
     width:100%;
+    max-width:40vh;
     margin:auto;
     display: block;
     /* Filler calc https://codepen.io/sosuke/pen/Pjoqqp*/
