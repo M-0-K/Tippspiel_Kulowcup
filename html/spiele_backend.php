@@ -249,6 +249,69 @@ if($getaction == "getSpiele"){
 
 }
 
+if($getaction == "getActiveSpiele"){
+    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status` FROM `spiel` WHERE `status` = 1");
+    $jspiele = array();
+    $i = 0;
+    $leereMannschaft = new Mannschaft();
+    $leereMannschaft-> mid = 0;
+    $leereMannschaft-> name = '-';
+    $leereMannschaft-> abkuerzung = '-';
+    $leereMannschaft-> bild = 'non.png';
+    $leereMannschaft-> status = 0;
+
+    foreach($spiele as $row){
+        $jspiele[$i] = new Spiel();
+        $jspiele[$i] ->sid = $row->Spielid;
+        $jspiele[$i] ->phase = $row->Phase;
+
+        if($row->MA == NULL){
+            $jspiele[$i] ->mA = $leereMannschaft;
+            //echo $row->Spielid;
+        } else {
+            $jspiele[$i] ->mA = getMannschaft($db, $row->MA);
+        }
+
+        if($row->ToreA === NULL){
+            $jspiele[$i] ->toreA = null;
+        } else {
+            $jspiele[$i] ->toreA = $row->ToreA;
+        }
+
+        if($row->MB == NULL){
+            $jspiele[$i] ->mB = $leereMannschaft;
+        } else {
+            $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
+        }
+
+        if($row->ToreB === NULL){
+            $jspiele[$i] ->toreB = null;
+        } else {
+            $jspiele[$i] ->toreB = $row->ToreB;
+        }
+
+        if($row->Status == NULL){
+            $jspiele[$i] ->status = 0;
+        } else {
+            $jspiele[$i]->status = $row->Status;
+        }
+
+
+       // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
+        //$jspiele[$i] ->toreB = $row->ToreB;
+        $i++;
+    }
+
+    $jsonArray = ' { "Spiele" : [';
+        foreach($jspiele as $s){
+            $jsonArray = $jsonArray.json_encode($s).",";
+        }
+        $jsonArray = substr($jsonArray, 0, -1)."]}";
+
+        echo $jsonArray;
+
+}
+
 if ($getaction == "getTipps"){
 
     $tipps = $db->query("SELECT `Tippid`, `Spielid`, `ToreA`, `ToreB` FROM `tipp` WHERE `Userid` =".$_SESSION['KC']['Userid']);
