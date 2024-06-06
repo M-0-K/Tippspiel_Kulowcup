@@ -139,8 +139,8 @@
             for(let i = 0; i < slist.Spiele.length; i++){
                 spiel(slist.Spiele[i], tipps);
             }
+        hideUnused();
       });
-
 
       function speichern(){
     // alert("Speichern");
@@ -173,6 +173,18 @@
     }
 }
 
+function hideUnused(){
+var elems = document.getElementsByTagName('*'), i;
+for (i in elems) {
+    if((' ' + elems[i].className + ' ').indexOf(' ' + 'flex-item' + ' ')
+            > -1) {
+            if(elems[i].children.length <= 1)
+            {
+            elems[i].style.display = 'none';
+            }
+        }
+    }
+}
 
 </script>
 <body>

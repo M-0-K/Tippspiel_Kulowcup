@@ -115,10 +115,22 @@
         for (let i = 0; i < slist.Spiele.length; i++) {
             spiel(slist.Spiele[i]);
         }
+        hideUnused();
 
     });
 
-
+    function hideUnused(){
+    var elems = document.getElementsByTagName('*'), i;
+    for (i in elems) {
+        if((' ' + elems[i].className + ' ').indexOf(' ' + 'flex-item' + ' ')
+                > -1) {
+                if(elems[i].children.length <= 1)
+                {
+                elems[i].style.display = 'none';
+                }
+            }
+        }
+    }
 
 </script>
 
@@ -135,7 +147,7 @@
     <div class="flex-item" id="HF">
         <h3>Halbfinale</h3>
     </div>
-    <div style="flex:1">
+    <div class="tfbfcont" style="flex:1">
         <div class="flex-item" id="TF">
             <h3>Finale</h3>
         </div>
