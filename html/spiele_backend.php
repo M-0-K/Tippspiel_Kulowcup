@@ -160,7 +160,7 @@ function getPunkte($db, $id){
     $sqltipps = $db->query(
     "   SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB' FROM tipp 
         INNER JOIN spiel ON tipp.Spielid = spiel.Spielid 
-        WHERE spiel.Status = 1 AND Userid = ".$id);
+        WHERE spiel.Status = 2 AND Userid = ".$id);
     
     foreach($sqltipps as $row){
         if ($row->tA == $row->sA && $row->tB == $row->sB) {
