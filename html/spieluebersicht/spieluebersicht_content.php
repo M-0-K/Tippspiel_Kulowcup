@@ -130,6 +130,10 @@
                 }
             }
         }
+        if(document.getElementById('TF').style.display == "none" && document.getElementById('BF').style.display == "none")
+        {
+            document.getElementById('tfbfcont').style.display = 'none'
+        }
     }
 
 </script>
@@ -147,7 +151,7 @@
     <div class="flex-item" id="HF">
         <h3>Halbfinale</h3>
     </div>
-    <div class="tfbfcont" style="flex:1">
+    <div id="tfbfcont" style="flex:1">
         <div class="flex-item" id="TF">
             <h3>Finale</h3>
         </div>

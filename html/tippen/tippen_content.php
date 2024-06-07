@@ -184,6 +184,10 @@ for (i in elems) {
             }
         }
     }
+    if(document.getElementById('TF').style.display == "none" && document.getElementById('BF').style.display == "none")
+    {
+        document.getElementById('tfbfcont').style.display = 'none'
+    }
 }
 
 </script>
@@ -202,7 +206,7 @@ for (i in elems) {
             <div class="flex-item" id="HF">
             <h3>Halbfinale</h3>
             </div>
-            <div style="flex:1">
+            <div id="tfbfcont" style="flex:1">
                 <div class="flex-item" id="TF">
                 <h3>Finale</h3>
                 </div>
