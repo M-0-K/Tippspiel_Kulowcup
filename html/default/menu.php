@@ -12,11 +12,11 @@
                 <div></div>
             </div>
             <div class="menu-items" id="menuItems">
-                <div class="col"><a target="body" href="../../html/spieluebersicht/spieluebersicht.php"><h3>Übersicht</h3></a></div>
-                <div class="col"><a target="body" href="../../html/tippen/tippen.php"><h3>Tippen</h3></a></div>
-                <div class="col"><a target="body" href="../../html/ranking/ranking.php"><h3>Ranking</h3></a></div>
-                <div class="col"><a target="body" href="../../html/history/history.php"><h3>Geschichte</h3></a></div>
-                <div class="col"><a target="body" href="../../html/logout/logout.php"><h3>
+                <div class="col"><a href="../../html/spieluebersicht/spieluebersicht.php"><h3>Übersicht</h3></a></div>
+                <div class="col"><a href="../../html/tippen/tippen.php"><h3>Tippen</h3></a></div>
+                <div class="col"><a href="../../html/ranking/ranking.php"><h3>Ranking</h3></a></div>
+                <div class="col"><a href="../../html/history/history.php"><h3>Geschichte</h3></a></div>
+                <div class="col"><a href="../../html/logout/logout.php"><h3>
                     <?php
                     error_reporting(0);
                     if (1){
