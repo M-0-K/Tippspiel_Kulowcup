@@ -55,7 +55,7 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (8, 'Feiglinge', 'FG', 'feiglinge.png'),
 (9, 'Dorftrottel', 'DT', 'dt.svg'),
 (10, 'Grüne Garde', 'GG', 'gruene_garde.svg'),
-(11, 'Bottles', '', 'bottles.svg'),
+(11, 'Bottles', 'BTS', 'bottles.svg'),
 (12, 'Club der Einfallslosen', 'CDE', 'club_der_einfallslosen.svg'),
 (13, 'Club ohne Namen', 'CON', 'con.svg'),
 (14, 'Company of Kulow', 'COK', 'cok.svg'),
@@ -106,16 +106,16 @@ INSERT INTO `tunier` (`Saison`, `Jahr`, `Gewinner`) VALUES
 ('Sommer', 2008, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Smofojs')),
 ('Sommer', 2008, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Chaos')),
 ('Sommer', 2009, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow')),
-('Sommer', 2010, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2010, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Deutsch Sorbische Fraktion')),
 ('Sommer', 2011, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulow Chaos')),
-('Sommer', 2012, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
-('Sommer', 2013, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2012, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Deutsch Sorbische Fraktion')),
+('Sommer', 2013, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Deutsch Sorbische Fraktion')),
 ('Sommer', 2014, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Gewerkschaft')),
 ('Sommer', 2015, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
 ('Sommer', 2016, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow')),
 ('Sommer', 2017, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Söffner')),
 ('Sommer', 2018, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
-('Sommer', 2019, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'DSF')),
+('Sommer', 2019, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Deutsch Sorbische Fraktion')),
 ('Sommer', 2020, NULL),
 ('Sommer', 2021, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'JC Dörgenhausen')),
 ('Sommer', 2022, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kocina Kulow')),
@@ -145,7 +145,7 @@ INSERT INTO `spiel` ( `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Tunier`)
 ('VF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
 ('HF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
 ('HF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
-('TF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023));
+('TF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023)),
 ('BF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2023));
 
 INSERT INTO `user` (`Username`, `Password`, `Enabled`) VALUES 
