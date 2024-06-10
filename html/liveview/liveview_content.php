@@ -22,6 +22,9 @@
                 console.error(error);
                 logoA.src = '../../data/none.jpg';
             });
+            if (spiel.mA.bild.match(/.svg/g) == ".svg") {
+                logoA.style.filter = "invert(100%) sepia(73%) saturate(1%) hue-rotate(97deg) brightness(105%) contrast(101%)";
+            }
 
         let logoB = document.createElement("img");
         //logoB.className = 'team-logo';
@@ -36,6 +39,9 @@
                 console.error(error);
                 logoB.src = '../../data/none.jpg';
             });
+            if (spiel.mB.bild.match(/.svg/g) == ".svg") {
+                logoB.style.filter = "invert(100%) sepia(73%) saturate(1%) hue-rotate(97deg) brightness(105%) contrast(101%)";
+            }
 
         let nameA = document.createElement("h3");
         nameA.textContent = spiel.mA.name;
