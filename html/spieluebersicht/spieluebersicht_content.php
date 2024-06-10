@@ -145,6 +145,12 @@
     <div class="flex-item" id="B">
         <h3>Gruppe B</h3>
     </div>
+    <div class="flex-item" id="C">
+        <h3>Gruppe C</h3>
+    </div>
+    <div class="flex-item" id="D">
+        <h3>Gruppe D</h3>
+    </div>
     <div class="flex-item" id="VF">
         <h3>Viertelfinale</h3>
     </div>
