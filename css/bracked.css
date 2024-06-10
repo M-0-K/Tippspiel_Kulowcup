@@ -188,7 +188,8 @@
     max-width:40vh;
     max-height: 30vh;
     height: auto;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     margin:10px auto auto auto;
     display: block;
     /* Filler calc https://codepen.io/sosuke/pen/Pjoqqp*/
