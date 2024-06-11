@@ -12,6 +12,7 @@
                 <div></div>
             </div>
             <div class="menu-items" id="menuItems">
+                <div class="col"><a href="../../html/liveview/liveview.php"><h3>Liveansicht</h3></a></div>
                 <div class="col"><a href="../../html/spieluebersicht/spieluebersicht.php"><h3>Übersicht</h3></a></div>
                 <div class="col"><a href="../../html/tippen/tippen.php"><h3>Tippen</h3></a></div>
                 <div class="col"><a href="../../html/ranking/ranking.php"><h3>Ranking</h3></a></div>
