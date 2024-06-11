@@ -38,7 +38,7 @@ if (isset($_GET['login'])) {
             header("Location: ../../html/tippen/tippen.php");
         } else {
         echo "<style> input.formulare{background-color: red;}  </style>";
-        $ErrorMSG = "Das Konto ist noch nicht aktiviert";
+        $ErrorMSG = "Das Konto ist noch nicht freigeschalten!";
         }
     } else {
         echo "<style> input.formulare{background-color: red;}  </style>";

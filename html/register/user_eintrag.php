@@ -1,7 +1,7 @@
 <?php
 
 
-
+error_reporting(0);
 date_default_timezone_set("Europe/Berlin");
 include_once("../../script/db_connection.php");
 
@@ -47,11 +47,21 @@ if (!$error) {
     $result = $statement->execute(array('Username' => $uname, 'Password' => $hashed_pw));
 
     if ($result) {
-        header("Location: ../../html/login/login.php");
+        echo "<style> input.formulare{background-color: green;}</style>";
+        $ErrorPWD = "Deine Registrierung war erfolgreich! Nun kannst du dich am Tresen mit deinem Benutzernamen anmelden.";
+        //usleep(3000000);
+        //header("Location: ../../html/login/login.php");
+        echo "<script>
+        setTimeout(function() {
+            window.location.href = '../../html/login/login.php';
+        }, 2000);
+        </script>";
         $showFormular = false;
     } else {
         echo "<p>Leider ist ein Fehler aufgetreten!<p>";
     }
+
+    
 } 
 
 

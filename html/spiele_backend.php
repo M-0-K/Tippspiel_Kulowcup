@@ -356,7 +356,7 @@ if ($getaction == "getTipps"){
 }
 
 if ($getaction == "getTuniere") {
-    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM `tunier` ORDER BY `Jahr` ASC");
+    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM `tunier` ORDER BY `Jahr` DESC");
     $jsonArray = '{ "Tuniere" : [';
 
     foreach ($tuniere as $row) {
