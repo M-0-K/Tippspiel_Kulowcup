@@ -187,7 +187,7 @@ $getaction = htmlspecialchars($_GET["action"]);
 error_reporting(1);
 
 if($getaction == "getSpiele"){
-    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status` FROM `spiel`");
+    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Feld`, date_format(`Uhrzeit`,\"%H:%i\") as time FROM `spiel`" );
     $jspiele = array();
     $i = 0;
     $leereMannschaft = new Mannschaft();
@@ -233,7 +233,19 @@ if($getaction == "getSpiele"){
             $jspiele[$i]->status = $row->Status;
         }
         
+        if($row->Feld == NULL){
+            $jspiele[$i] ->feld = 1;
+        } else {
+            $jspiele[$i]->feld = $row->Feld;
+        }
         
+        if($row->time == NULL){
+            $jspiele[$i] ->time = 1;
+        } else {
+            $jspiele[$i]->time = $row->time;
+        }
+
+
        // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
         //$jspiele[$i] ->toreB = $row->ToreB;
         $i++;

@@ -21,7 +21,7 @@
   padding: 10px;
   flex: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-width: 300px;
+  min-width: 400px;
 }
 
 .flex-item h3 {
@@ -86,6 +86,12 @@
 .player.non {
   background-color: #8d8d8d;
   color: #fff;
+}
+
+.gameinfo>p {
+white-space: nowrap;
+margin: 0px 10px;
+font-weight: bold;
 }
 
 .team-info {

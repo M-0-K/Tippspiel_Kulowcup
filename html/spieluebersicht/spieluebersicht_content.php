@@ -91,8 +91,20 @@
         playerbot.appendChild(botInfo);
         playerbot.appendChild(scoreB);
 
+        let gameinfo = document.createElement("div");
+        gameinfo.className = 'gameinfo';
+
+        let feld = document.createElement("p");
+        feld.textContent = "Feld " + spiel.feld;
+        let time = document.createElement("p");
+        time.textContent = spiel.time;
+        gameinfo.appendChild(feld);
+        gameinfo.appendChild(time);
+
+        bracket.appendChild(gameinfo);
         bracket.appendChild(playertop);
         bracket.appendChild(playerbot);
+
 
         if (document.getElementById(spiel.phase)) {
             document.getElementById(spiel.phase).appendChild(bracket);
