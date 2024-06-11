@@ -21,7 +21,7 @@
   padding: 10px;
   flex: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-width: 400px;
+  min-width: 350px;
 }
 
 .flex-item h3 {
