@@ -54,7 +54,7 @@ if (!$error) {
         echo "<script>
         setTimeout(function() {
             window.location.href = '../../html/login/login.php';
-        }, 2000);
+        }, 8000);
         </script>";
         $showFormular = false;
     } else {
