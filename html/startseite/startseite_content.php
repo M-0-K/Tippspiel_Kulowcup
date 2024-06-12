@@ -1,16 +1,3 @@
-<!-- startseite_content.php -->
-
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Startseite</title>
-    <style>
-       
-    </style>
-</head>
-<body>
 <div class="container-startseite">
     <h1 style="color: black; text-align: center;">Kulowcup Tippspiel</h1>
     <h2 style="color: black;">So funktioniert's:</h2>
@@ -42,11 +29,3 @@
             <p class="startseite">Mit etwas Glück und den richtigen Tipps hast du die Chance, ein 30l Fass Premium-Pils zu gewinnen!</p>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            // Füge hier deine zusätzlichen JavaScript-Funktionen hinzu, falls erforderlich
-        });
-    </script>
-</body>
-</html>
