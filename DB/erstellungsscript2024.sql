@@ -81,7 +81,7 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (32, 'Iwans', 'IW', 'iwans.png'),
 (33, 'JC Dörgenhausen', 'JCD', 'jcd.png'),
 (34, 'Söffner', 'SOE', 'soeffner.png'),
-(35, 'Mountains Club Bergen', 'MCB', 'lsv.png'),
+(35, 'Mountains Club Bergen', 'MCB', 'mcb.png'),
 (36, 'Rote Funken', 'RF', 'rf.svg'),
 (37, 'Oberschule Wittichenau', 'OSW', 'osw.png');
 
