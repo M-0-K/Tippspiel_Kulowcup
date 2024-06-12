@@ -83,7 +83,7 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (34, 'Söffner', 'SOE', 'soeffner.png'),
 (35, 'Mountains Club Bergen', 'MC Bergen', 'mcb.png'),
 (36, 'Rote Funken', 'RF', 'rf.svg'),
-(37, 'Oberschule Wittichenau', 'OS Witti', 'osw.png');
+(37, 'Oberschule Wittichenau', 'OS Witt.', 'osw.png');
 
 INSERT INTO `tunier` (`Saison`, `Jahr`, `Gewinner`) VALUES
 ('Sommer', 1990, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Iwans')),
