@@ -52,7 +52,7 @@ function displayTuniere(tuniereData) {
             })
             .catch(error => {
                 console.error(error);
-                logoImg.src = '../../data/none.jpg';
+                logoImg.src = '../../data/fragezeichen.png';
             });
         gewinner.appendChild(name)
         gewinner.appendChild(logoImg);

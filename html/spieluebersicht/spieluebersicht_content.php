@@ -20,7 +20,7 @@
             })
             .catch(error => {
                 console.error(error);
-                logoA.src = '../../data/none.jpg';
+                //logoA.src = '../../data/none.png';
             });
 
         let logoB = document.createElement("img");
@@ -34,7 +34,7 @@
             })
             .catch(error => {
                 console.error(error);
-                logoB.src = '../../data/none.jpg';
+                //logoB.src = '../../data/none.png';
             });
 
         let nameA = document.createElement("span");
@@ -59,7 +59,7 @@
         } else if (spiel.toreA < spiel.toreB) {
             playertop.classList.add('los');
             playerbot.classList.add('win');
-        } else if (spiel.toreA == spiel.toreB && spiel.status == 2 ) {
+        } else if (spiel.toreA == spiel.toreB && spiel.status == 2) {
             playertop.classList.add('draw');
             playerbot.classList.add('draw');
         } else {
@@ -130,19 +130,17 @@
 
     });
 
-    function hideUnused(){
-    var elems = document.getElementsByTagName('*'), i;
-    for (i in elems) {
-        if((' ' + elems[i].className + ' ').indexOf(' ' + 'flex-item' + ' ')
+    function hideUnused() {
+        var elems = document.getElementsByTagName('*'), i;
+        for (i in elems) {
+            if ((' ' + elems[i].className + ' ').indexOf(' ' + 'flex-item' + ' ')
                 > -1) {
-                if(elems[i].children.length <= 1)
-                {
-                elems[i].style.display = 'none';
+                if (elems[i].children.length <= 1) {
+                    elems[i].style.display = 'none';
                 }
             }
         }
-        if(document.getElementById('TF').style.display == "none" && document.getElementById('BF').style.display == "none")
-        {
+        if (document.getElementById('TF').style.display == "none" && document.getElementById('BF').style.display == "none") {
             document.getElementById('tfbfcont').style.display = 'none'
         }
     }
@@ -165,16 +163,26 @@
     <div class="flex-item" id="VF">
         <h3>Viertelfinale</h3>
     </div>
-    <div class="flex-item" id="HF">
-        <h3>Halbfinale</h3>
-    </div>
     <div id="tfbfcont" style="flex:1">
-        <div class="flex-item" id="TF">
-            <h3>Finale</h3>
+        <div class="flex-item" id="HF">
+            <h3>Halbfinale</h3>
         </div>
-        <div class="flex-item" id="BF" style="margin-top: 1em">
+        <div class="flex-item" id="U9" style="margin-top: 1em">
+            <h3>Spiel um Platz 9</h3>
+        </div>
+        <div class="flex-item" id="U7" style="margin-top: 1em">
+            <h3>Spiel um Platz 7</h3>
+        </div>
+        <div class="flex-item" id="U5" style="margin-top: 1em">
+            <h3>Spiel um Platz 5</h3>
+        </div>
+        <div class="flex-item" id="U3" style="margin-top: 1em">
             <h3>Spiel um Platz 3</h3>
         </div>
     </div>
+    <div id="tfbfcont" style="flex:1">
+      <div class="flex-item" id="TF" style="Background-color: gold;">
+        <h3>Finale</h3>
+      </div>
 </div>
 <div>

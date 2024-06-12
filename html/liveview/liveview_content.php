@@ -20,7 +20,7 @@
             })
             .catch(error => {
                 console.error(error);
-                logoA.src = '../../data/none.jpg';
+                logoA.src = '../../data/none.png';
             });
             if (spiel.mA.bild.match(/.svg/g) == ".svg") {
                 logoA.style.filter = "invert(100%) sepia(73%) saturate(1%) hue-rotate(97deg) brightness(105%) contrast(101%)";
@@ -37,7 +37,7 @@
             })
             .catch(error => {
                 console.error(error);
-                logoB.src = '../../data/none.jpg';
+                logoB.src = '../../data/none.png';
             });
             if (spiel.mB.bild.match(/.svg/g) == ".svg") {
                 logoB.style.filter = "invert(100%) sepia(73%) saturate(1%) hue-rotate(97deg) brightness(105%) contrast(101%)";

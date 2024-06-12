@@ -36,8 +36,8 @@
   align-items: center;
   justify-content: space-around;
   border-radius: 10px;
-  background-color: #e9ecef;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: lightgray;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   width: 100%;
   margin-top: 2%;
   

@@ -48,7 +48,7 @@ CREATE TABLE `tipp` (
 
 INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (1, 'Flames of Pils', 'FoP', 'fop.svg'),
-(2, 'WD-40', 'WD4', 'wd40.svg'),
+(2, 'WD-40', 'WD-40', 'wd40.svg'),
 (3, 'Lange Garde', 'LG', 'langegarde.png'),
 (4, 'Kulowminati', 'KM', 'kulowminati.svg'),
 (5, 'Kocina-Kulow', 'KK', 'kocinakulow.png'),
@@ -71,8 +71,8 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (22, 'KDB', 'KDB', 'kdb.svg'),
 (23, 'Kingston Club', 'KC', 'kingston_club.svg'),
 (24, 'Kombinat', 'KBN', 'kombinat.svg'),
-(25, 'Kopflos e.Vau', 'KPF', 'kopflos.svg'),
-(26, 'Kulow Angels', 'KA', 'kulow_angels.svg'),
+(25, 'Kopflos e.Vau', 'Kopflos', 'kopflos.svg'),
+(26, 'Kulow Angels', 'K. Angels', 'kulow_angels.svg'),
 (27, 'Kulow Chaos', 'KCH', 'kulow_chaos.svg'),
 (28, 'RC Ungelenk', 'RC', 'rcungelenk.svg'),
 (29, 'Smarties', 'SMT', 'smarties.svg'),
@@ -81,9 +81,9 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 (32, 'Iwans', 'IW', 'iwans.png'),
 (33, 'JC Dörgenhausen', 'JCD', 'jcd.png'),
 (34, 'Söffner', 'SOE', 'soeffner.png'),
-(35, 'Mountains Club Bergen', 'MCB', 'mcb.png'),
+(35, 'Mountains Club Bergen', 'MC Bergen', 'mcb.png'),
 (36, 'Rote Funken', 'RF', 'rf.svg'),
-(37, 'Oberschule Wittichenau', 'OSW', 'osw.png');
+(37, 'Oberschule Wittichenau', 'OS Witti', 'osw.png');
 
 INSERT INTO `tunier` (`Saison`, `Jahr`, `Gewinner`) VALUES
 ('Sommer', 1990, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Iwans')),
@@ -162,5 +162,5 @@ INSERT INTO `spiel` (`Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Tunier`, 
 ('U5', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 15:51:00'),
 ('U3', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 16:08:00'),
 ('TF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 16:25:00'),
-('BF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 16:42:00');
+
 
