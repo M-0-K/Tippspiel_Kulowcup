@@ -387,7 +387,7 @@ if ($getaction == "getTuniere") {
 
 if ($getaction == "getPunkte"){
 
-    $tipps = $db->query("SELECT `Userid`, `Username`, `Password` FROM `user`");
+    $tipps = $db->query("SELECT `Userid`, `Username`, `Password` FROM `user` WHERE enabled = 1;");
     $jtipps = array();
     $i = 0;
     foreach($tipps as $row){
