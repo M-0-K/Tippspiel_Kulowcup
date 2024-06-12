@@ -1,4 +1,10 @@
-<body>
+
+    <script>
+        function toggleMenu() {
+            const menuItems = document.getElementById('menuItems');
+            menuItems.classList.toggle('show');
+        }
+    </script><body>
     <header>
         <div class="menu">
             <div class="row" style="justify-content: flex-start; margin-left: 30px;">

@@ -13,9 +13,4 @@
         additionalHeaders();
     }?>
 </head>
-    <script>
-        function toggleMenu() {
-            const menuItems = document.getElementById('menuItems');
-            menuItems.classList.toggle('show');
-        }
-    </script>
+

@@ -213,6 +213,21 @@ h4 {
 
 
 /* Mobile */
+        @media (max-width: 960px){
+            .menu-items.show {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+            .menu-items {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+}
         @media (max-width: 660px) {
             html, body {
                 background-attachment: fixed;
@@ -221,20 +236,7 @@ h4 {
                 padding: 10px;
             }
 
-            .menu-items {
-                display: none;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-            }
 
-            .menu-items.show {
-                display: flex;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
 
             header .col h1 {
                 font-size: 1.5em;
