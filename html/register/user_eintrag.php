@@ -43,7 +43,7 @@ if (!$error) {
 
 if (!$error) {
     $hashed_pw = password_hash($passwort1, PASSWORD_DEFAULT);
-    $statement = $db->prepare("INSERT INTO `user` (`Username`, `Password`) VALUES ( :Username, :Password)");
+    $statement = $db->prepare("INSERT INTO `user` (`Username`, `Password`, `Enabled`) VALUES ( :Username, :Password, 1)");
     $result = $statement->execute(array('Username' => $uname, 'Password' => $hashed_pw));
 
     if ($result) {

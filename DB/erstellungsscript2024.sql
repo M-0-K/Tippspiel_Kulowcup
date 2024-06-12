@@ -122,6 +122,7 @@ INSERT INTO `tunier` (`Saison`, `Jahr`, `Gewinner`) VALUES
 ('Sommer', 2022, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kocina-Kulow')),
 ('Sommer', 2023, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Grüne Garde')),
 ('Sommer', 2024, NULL),
+('Winter', 2013, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Company of Kulow')),
 ('Winter', 2014, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
 ('Winter', 2015, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
 ('Winter', 2016, (SELECT `Mid` FROM `mannschaft` WHERE `Name` = 'Kulowminati')),
@@ -161,6 +162,6 @@ INSERT INTO `spiel` (`Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Tunier`, 
 ('U7', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 15:34:00'),
 ('U5', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 15:51:00'),
 ('U3', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 16:08:00'),
-('TF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 16:25:00'),
+('TF', NULL, NULL, NULL, NULL, 0 , (SELECT `Tid` FROM `tunier` WHERE `Saison` = 'Sommer' AND `Jahr` = 2024), 1, '2024-06-15 16:25:00');
 
 
