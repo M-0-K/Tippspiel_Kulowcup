@@ -173,35 +173,39 @@
 
   function speichern() {
     var inputs = document.getElementsByClassName('number-input');
-    var requests = [];
+    var tipps = new Object();
+    tipps.spiele = [];
 
     for (let i = 0; i < inputs.length; i++) {
       if (!inputs[i].disabled && inputs[i].value && inputs[i + 1] && inputs[i + 1].value) {
         if (inputs[i].id.substring(1) == inputs[i + 1].id.substring(1)) {
-          let toreA = inputs[i].value;
-          let toreB = inputs[i + 1].value;
-          let spielid = inputs[i + 1].id.substring(1);
+        if (inputs[i].value == ""){i++; continue;}
+          (function (toreA, toreB, spielid){
+            var s = new Object();
+            s.toreA = toreA;
+            s.toreB = toreB;
+            s.spielid = spielid;
+            tipps.spiele.push(s);
+          })(inputs[i].value, inputs[i + 1].value, inputs[i + 1].id.substring(1));
 
-          let request = fetch('../spiele_backend.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `action=setTipp&ToreA=${toreA}&ToreB=${toreB}&Spielid=${spielid}`
-          });
 
-          requests.push(request);
-          i++; // Skip the next input as it's paired with the current one
         }
       }
+      i++;
     }
-
-    Promise.all(requests).then(responses => {
-      window.location.replace('tippen.php');
-    }).catch(error => {
-      console.error('Fehler beim Speichern:', error);
-    });
+    console.log(JSON.stringify(tipps));
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../spiele_backend.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        window.location.replace('tippen.php');
+        //alert(xhr.responseText);
+      }
+    }
+    xhr.send("action=setTipp&tipps=" + JSON.stringify(tipps));
   }
+
   function hideUnused() {
     var elems = document.getElementsByTagName('*'), i;
     for (i in elems) {
