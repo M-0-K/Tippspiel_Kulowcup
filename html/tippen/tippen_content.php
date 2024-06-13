@@ -1,6 +1,6 @@
 <script>
   function spiel(spiel, tipps) {
-    let tipp = null;
+    /*let tipp = null;
     //console.log(tipps);
     if (tipps != null) {
       for (let i = 0; i < tipps.Tipps.length; i++) {
@@ -11,7 +11,8 @@
           break;
         }
       }
-    }
+    }*/
+    let tipp = tipps?.Tipps.find(t => t.sid.sid == spiel.sid) || null;
 
 
     let bracket = document.createElement("div");
@@ -123,56 +124,84 @@
   var xhr = new XMLHttpRequest();
   var slist;
   var tipps;
-  $.get("../spiele_backend.php", { action: "getTipps" }, function (data) {
-    //console.log(data);
-    tipps = JSON.parse(data);
-  });
-
-
-  $.get("../spiele_backend.php", { action: "getSpiele" }, function (data) {
-    // Display the returned data in browser
-    //console.log(data.canApprove);
-    //console.log(data);
-    slist = JSON.parse(data);
-    // alert(data);
-    //slist = JSON.parse('{ "Spiele" : [{"sid":1,"phase":"A","mA":{"id":null,"name":"Flames of Pils","abkuerzung":"FoP","bild":"fop.png","mid":1},"toreA":3,"mB":{"id":null,"name":"WD-40","abkuerzung":"WD4","bild":"wd.png","mid":2},"toreB":2}]}');
-    for (let i = 0; i < slist.Spiele.length; i++) {
-      spiel(slist.Spiele[i], tipps);
-    }
-    hideUnused();
-  });
-
-  function speichern() {
-    // alert("Speichern");
-
-    var inputs = document.getElementsByClassName('number-input');
-
-    for (var i = 0; i < inputs.length; i++) {
-
-      if (inputs[i].disabled != true && inputs[i].value != null && inputs[i + 1].value != null) {
-        console.log(inputs[i].id);
-        if (inputs[i].id.substring(1) == inputs[i + 1].id.substring(1)) {
-          //console.log("action=setTipp&ToreA="+ inputs[i].value +"&ToreB="+ inputs[i+1].value + "&Spielid=" +inputs[i+1].id.substring(1));
-
-          // Um die xhr-Variable in einer Schleife zu kapseln, erstellen wir eine Funktion
-          (function (toreA, toreB, spielid) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../spiele_backend.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                window.location.replace('tippen.php');
-                //alert(xhr.responseText);
-              }
-            }
-            xhr.send("action=setTipp&ToreA=" + toreA + "&ToreB=" + toreB + "&Spielid=" + spielid);
-          })(inputs[i].value, inputs[i + 1].value, inputs[i + 1].id.substring(1));
+  function fetchTipps() {
+    return new Promise((resolve, reject) => {
+      $.get("../spiele_backend.php", { action: "getTipps" }, function (data) {
+        try {
+          const tipps = JSON.parse(data);
+          resolve(tipps);
+        } catch (error) {
+          reject(error);
         }
-      }
-      i++;
+      }).fail((jqXHR, textStatus, errorThrown) => {
+        reject(new Error(`Fehler beim Abrufen der Tipps: ${textStatus}, ${errorThrown}`));
+      });
+    });
+  }
+
+  function fetchSpiele() {
+    return new Promise((resolve, reject) => {
+      $.get("../spiele_backend.php", { action: "getSpiele" }, function (data) {
+        try {
+          const slist = JSON.parse(data);
+          resolve(slist);
+        } catch (error) {
+          reject(error);
+        }
+      }).fail((jqXHR, textStatus, errorThrown) => {
+        reject(new Error(`Fehler beim Abrufen der Spiele: ${textStatus}, ${errorThrown}`));
+      });
+    });
+  }
+
+  async function loadData() {
+    try {
+      const tipps = await fetchTipps();
+      const slist = await fetchSpiele();
+
+      slist.Spiele.forEach(spielItem => {
+        spiel(spielItem, tipps);
+      });
+
+      hideUnused();
+    } catch (error) {
+      console.error('Fehler beim Laden der Daten:', error);
     }
   }
 
+  loadData();
+
+  function speichern() {
+    var inputs = document.getElementsByClassName('number-input');
+    var requests = [];
+
+    for (let i = 0; i < inputs.length; i++) {
+      if (!inputs[i].disabled && inputs[i].value && inputs[i + 1] && inputs[i + 1].value) {
+        if (inputs[i].id.substring(1) == inputs[i + 1].id.substring(1)) {
+          let toreA = inputs[i].value;
+          let toreB = inputs[i + 1].value;
+          let spielid = inputs[i + 1].id.substring(1);
+
+          let request = fetch('../spiele_backend.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `action=setTipp&ToreA=${toreA}&ToreB=${toreB}&Spielid=${spielid}`
+          });
+
+          requests.push(request);
+          i++; // Skip the next input as it's paired with the current one
+        }
+      }
+    }
+
+    Promise.all(requests).then(responses => {
+      window.location.replace('tippen.php');
+    }).catch(error => {
+      console.error('Fehler beim Speichern:', error);
+    });
+  }
   function hideUnused() {
     var elems = document.getElementsByTagName('*'), i;
     for (i in elems) {
@@ -224,8 +253,8 @@
       <div class="flex-item" id="U3" style="margin-top: 1em">
         <h3>Spiel um Platz 3</h3>
       </div>
-      </div>
-      <div id="tfbfcont" style="flex:1">
+    </div>
+    <div id="tfbfcont" style="flex:1">
       <div class="flex-item" id="TF" style="Background-color: gold;">
         <h3>Finale</h3>
       </div>
