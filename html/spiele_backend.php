@@ -324,35 +324,30 @@ if($getaction == "getActiveSpiele"){
 
 }
 
-if ($getaction == "getTipps"){
-
-    $tipps = $db->query("SELECT `Tippid`, `Spielid`, `ToreA`, `ToreB` FROM `tipp` WHERE `Userid` =".$_SESSION['KC']['Userid']);
+if ($getaction == "getTipps") {
     $jtipps = array();
-    $i = 0;
+    try {
+        $tipps = $db->query("SELECT `Tippid`, `Spielid`, `ToreA`, `ToreB` FROM `tipp` WHERE `Userid` =" . $_SESSION['KC']['Userid']);
+        $i = 0;
 
-
-    foreach($tipps as $row){
-        $jtipps[$i] = new Tipp();
-        $jtipps[$i] ->tippid = $row->Tippid;
-        $jtipps[$i] ->sid =  getSpiel($db, $row->Spielid);
-        $jtipps[$i] ->tippA =  $row->ToreA;
-        $jtipps[$i] ->tippB =  $row->ToreB;
-
-        
-       // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
-        //$jspiele[$i] ->toreB = $row->ToreB;
-        $i++;
+        foreach ($tipps as $row) {
+            $jtipps[$i] = new Tipp();
+            $jtipps[$i]->tippid = $row->Tippid;
+            $jtipps[$i]->sid = getSpiel($db, $row->Spielid);
+            $jtipps[$i]->tippA = $row->ToreA;
+            $jtipps[$i]->tippB = $row->ToreB;
+            $i++;
+        }
+    } catch (Exception $e) {
+        error_log("Fehler beim Abrufen der Tipps: " . $e->getMessage());
     }
 
-    $jsonArray = ' { "Tipps" : [';
-        foreach($jtipps as $s){
-            $jsonArray = $jsonArray.json_encode($s).",";
-        }
-        $jsonArray = substr($jsonArray, 0, -1)."]}";
+    if (empty($jtipps)) {
+        $jtipps = array(); 
+    }
 
-        echo $jsonArray;
-
-
+    $jsonArray = '{ "Tipps" : ' . json_encode($jtipps) . '}';
+    echo $jsonArray;
 }
 
 if ($getaction == "getTuniere") {
