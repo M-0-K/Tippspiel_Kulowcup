@@ -430,9 +430,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
         $statement->execute(array('Spielid' => $spielid));
         $status = $statement->fetch(PDO::FETCH_ASSOC);
 
-        error_log(json_encode($tipp));
+        // error_log(json_encode($tipp));
         // Prüfe, ob das Spiel schon läuft
-        if ($status && $status['Status'] == '1') {
+        if ($status && $status['Status'] != '0') {
             echo "Das Spiel läuft bereits. Tipps können nicht mehr abgegeben werden.";
         } else {
             // SQL-Abfrage, um zu überprüfen, ob ein Tipp bereits existiert
