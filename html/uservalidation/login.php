@@ -13,7 +13,7 @@ $errorMessage = "";
 
 
 if (isset($_POST['login'])) {
-    
+
     $username = htmlspecialchars(trim($_POST['username']));
     $password = trim($_POST['pw']);
 
@@ -23,7 +23,7 @@ if (isset($_POST['login'])) {
     if ($password === $correctPassword) {
 
         $_SESSION['KC']['login'] = "Barkeeper";
-        header("Location:userValidation.php");
+        header("Location:uservalidation.php");
         exit;
     } else {
         $errorMessage = "Benutzername oder Passwort ist falsch.";

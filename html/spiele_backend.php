@@ -181,8 +181,9 @@ function getPunkte($db, $id){
     return $punkte;
 }
 
-
-$getaction = htmlspecialchars($_GET["action"]);
+if(isset($_GET["action"])){
+    $getaction = htmlspecialchars($_GET["action"]);
+}
 //$postaction = htmlspecialchars($_POST["action"]);
 error_reporting(1);
 
@@ -413,29 +414,23 @@ if ($getaction == "getPunkte"){
 
 if ($getaction == 'getDisabledUser') {
     // SQL-Abfrage, um alle nicht aktivierten Benutzer abzurufen
-    $sql = "SELECT `Username`, `Enabled` FROM user WHERE Enabled = 0; ";
-    $result = $db->query($sql);
+    $result = $db->query("SELECT `Userid` as `userid`, `Username` as `username`, `Enabled` as `enabled` FROM user WHERE Enabled = 0;");
 
-    $users = [];
+    $rows = $result->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
-        foreach ($result as $row) {
-            $user = new User();
-            $user->username = $row['Username'];
-            $user->enabled = $row['Enabled'];
-            $users[] = $user;
-        }
-
-        $jsonArray = '{ "User" : [';
-        foreach ($users as $user) {
-            $jsonArray .= json_encode($user) . ",";
-        }
-        $jsonArray = substr($jsonArray, 0, -1) . "]}";
-
+    if ($result->rowCount() > 0) {
+        $jsonArray = json_encode($rows);
         echo $jsonArray;
     } else {
         echo json_encode(["message" => "Keine nicht aktivierten Benutzer gefunden."]);
     }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "enableUser") {
+    $userid = $_POST["id"];
+    $statement = $db->prepare("UPDATE user SET `Enabled` = 1 WHERE `Userid` = :Id");
+    $statement->execute(array('Id' => $userid));
+    echo "Enabled";
 }
 
 

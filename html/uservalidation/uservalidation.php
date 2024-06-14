@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 if($_SESSION['KC']['login'] !== 'Barkeeper'){
-  exit(header("Location:login.php"));
+  exit(header("Location:../login/login.php"));
 }
 include '../../script/db_connection.php'; // DB-Verbindung herstellen
 
@@ -15,6 +15,6 @@ function additionalHeaders(){?>
 <?php }
 include_once('../default/header.php');
 include_once('../default/menu.php');
-include_once('userValidation_content.php');
+include_once('uservalidation_content.php');
 include_once('../default/footer.php');
 ?>
