@@ -411,6 +411,34 @@ if ($getaction == "getPunkte"){
 
 }
 
+if ($getaction == 'getDisabledUser') {
+    // SQL-Abfrage, um alle nicht aktivierten Benutzer abzurufen
+    $sql = "SELECT `Username`, `Enabled` FROM user WHERE Enabled = 0; ";
+    $result = $db->query($sql);
+
+    $users = [];
+
+    if ($result->num_rows > 0) {
+        foreach ($result as $row) {
+            $user = new User();
+            $user->username = $row['Username'];
+            $user->enabled = $row['Enabled'];
+            $users[] = $user;
+        }
+
+        $jsonArray = '{ "User" : [';
+        foreach ($users as $user) {
+            $jsonArray .= json_encode($user) . ",";
+        }
+        $jsonArray = substr($jsonArray, 0, -1) . "]}";
+
+        echo $jsonArray;
+    } else {
+        echo json_encode(["message" => "Keine nicht aktivierten Benutzer gefunden."]);
+    }
+}
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "setTipp") {
     error_reporting(E_ALL);
