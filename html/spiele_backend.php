@@ -315,7 +315,7 @@ if($getaction == "getActiveSpiele"){
         $i++;
     }
 
-    $jsonArray = ' { "Spiele" : [';
+    $jsonArray = ' { "Spiele" : [ ';
         foreach($jspiele as $s){
             $jsonArray = $jsonArray.json_encode($s).",";
         }
