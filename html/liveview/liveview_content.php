@@ -86,6 +86,19 @@
         $.get("../../html/spiele_backend.php", { action: "getActiveSpiele" }, function (data) {
             slist = JSON.parse(data);
 
+
+            if (slist.Spiele.length == 0) {
+                let bracket = document.createElement("div");
+                bracket.className = 'bracket-live';
+
+                let score = document.createElement("div");
+                score.className = 'scorediv';
+                score.textContent = "Kein aktives Spiel";
+                bracket.append(score);
+                document.getElementById("live").appendChild(bracket);
+                return;
+            }
+
             for (let i = 0; i < slist.Spiele.length; i++) {
                 spiel(slist.Spiele[i]);
             }
