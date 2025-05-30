@@ -412,7 +412,7 @@ if ($getaction == "getPunkte"){
 
 }
 
-if ($getaction == 'getDisabledUser') {
+if ($getaction == 'getDisabledUser' && $_SESSION['KC']['login'] == 'Barkeeper') {
     // SQL-Abfrage, um alle nicht aktivierten Benutzer abzurufen
     $result = $db->query("SELECT `Userid` as `userid`, `Username` as `username`, `Enabled` as `enabled` FROM user WHERE Enabled = 0;");
 
