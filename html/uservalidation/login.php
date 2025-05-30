@@ -17,15 +17,22 @@ if (isset($_POST['login'])) {
     $username = htmlspecialchars(trim($_POST['username']));
     $password = trim($_POST['pw']);
 
-    $correctPassword = "Kulowcup2024";
+    $barkeeperPassword = $_ENV["BARKEEPER_PASSWORD"];
+    $adminPassword = $_ENV["ADMIN_PASSWORD"];
 
 
-    if ($password === $correctPassword) {
+    if ($username === 'Barkeeper' && $password === $barkeeperPassword) {
 
         $_SESSION['KC']['login'] = "Barkeeper";
         header("Location:uservalidation.php");
         exit;
-    } else {
+    } elseif ($username === 'Admin' && $password === $adminPassword) {
+        $_SESSION['KC']['isadmin'] = true;
+        $_SESSION['KC']['login'] = "ok";
+        header("Location:uservalidation.php");
+        exit;
+    }
+    else {
         $errorMessage = "Benutzername oder Passwort ist falsch.";
     }
 }
