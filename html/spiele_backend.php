@@ -426,7 +426,7 @@ if ($getaction == 'getDisabledUser' && $_SESSION['KC']['login'] == 'Barkeeper') 
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "enableUser") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "enableUser" && $_SESSION['KC']['login'] == 'Barkeeper') {
     $userid = $_POST["id"];
     $statement = $db->prepare("UPDATE user SET `Enabled` = 1 WHERE `Userid` = :Id");
     $statement->execute(array('Id' => $userid));
@@ -489,6 +489,26 @@ function debug_to_console($data) {
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
-
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "updateGame" && $_SESSION['KC']['isadmin'] == true) {
+    $sid = $_POST["id"];
+    $team = $_POST["team"];
+    $score = $_POST["score"];
+    switch ($_POST["status"]) {
+        case "active":
+            $statement = $db->prepare("UPDATE `spiel` SET `Tore" . $team . "` = " . $score . " WHERE `spiel`.`Spielid` = :Sid;");
+            break;
+        case "activate":
+            $statement = $db->prepare("UPDATE `spiel` SET `ToreA` = 0, `ToreB`= 0, `Status` = 1 WHERE `spiel`.`Spielid` = :Sid;");
+            break;
+        case "finished":
+            $statement = $db->prepare("UPDATE `spiel` SET `Status` = 2 WHERE `spiel`.`Spielid` = :Sid;");
+            break;
+        default:
+            echo "Failed";
+            return;
+    }
+    $statement->execute(array('Sid' => $sid));
+    echo "Erfolgreich";
+}
 
 

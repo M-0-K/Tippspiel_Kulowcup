@@ -29,7 +29,7 @@ if (isset($_POST['login'])) {
     } elseif ($username === 'Admin' && $password === $adminPassword) {
         $_SESSION['KC']['isadmin'] = true;
         $_SESSION['KC']['login'] = "ok";
-        header("Location:uservalidation.php");
+        header("Location:../adminuebersicht/adminuebersicht.php");
         exit;
     }
     else {

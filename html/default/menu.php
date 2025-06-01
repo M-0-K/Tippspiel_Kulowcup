@@ -40,7 +40,7 @@
                 error_reporting(0);
                 if (1){
                     if ($_SESSION['KC']['isadmin'] == true) {
-                        echo '<div class="col"><a href="../../html/logout/logout.php"><h3>Administration</h3></a></div>';
+                        echo '<div class="col"><a href="../../html/adminuebersicht/adminuebersicht.php"><h3>Administration</h3></a></div>';
                     }
                 }
                     
