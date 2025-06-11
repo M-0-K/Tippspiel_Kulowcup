@@ -64,8 +64,8 @@
             case 1:
                 statusToggle.onclick = function() { endGame(spiel.sid);}
             case 0:
-                scoreA.onclick = function () { setScore(spiel.sid, "A", this); };
-                scoreB.onclick = function () { setScore(spiel.sid, "B", this); };
+                attachScoreHandlers(scoreA, "A", spiel.sid);
+                attachScoreHandlers(scoreB, "B", spiel.sid);
                 break;
         
             default:
@@ -138,6 +138,16 @@
         }
     }
 
+    function attachScoreHandlers(button, team, spielId) {
+        button.addEventListener('click', (e) => {
+            setScore(spielId, team, button);
+        });
+
+        button.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            setScore(spielId, team, button, true);
+        });
+    }
 
 
     var xhr = new XMLHttpRequest();
@@ -172,7 +182,7 @@
         }
     }
 
-    function setScore(gameid, team, button) {
+    function setScore(gameid, team, button, decrease = false) {
 
         startGame = "active"
         scoreText = button.textContent;
@@ -181,11 +191,14 @@
             score = -1;
         }
 
+        newScore = (decrease) ? (parseInt(scoreText) - 1) : (parseInt(scoreText) + 1);
+        newScore = Math.max(newScore, 0);
+
         let params = new URLSearchParams({
             action: 'updateGame',
             id: gameid,
             team: team,
-            score: parseInt(scoreText) + 1,
+            score: newScore,
             status: startGame
         }).toString();
 
