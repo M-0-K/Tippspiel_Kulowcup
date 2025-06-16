@@ -1,5 +1,5 @@
 <script>
-    function spiel(spiel) {
+function spiel(spiel) {
         let bracket = document.createElement("div");
         bracket.className = 'bracket-game';
 
@@ -11,44 +11,30 @@
 
         let logoA = document.createElement("img");
         logoA.className = 'team-logo';
-        if (spiel.mA.bild != "non.png") {
-            fetch("../../data/logo/" + spiel.mA.bild)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Die Datei existiert nicht.');
-                    }
-                    logoA.src = "../../data/logo/" + spiel.mA.bild;
-                })
-                .catch(error => {
-                    console.error(error);
-                    //logoA.src = '../../data/none.png';
-                });
-        }
+        setLogo(logoA,spiel.mA.bild);
+
         let logoB = document.createElement("img");
         logoB.className = 'team-logo';
-        if (spiel.mB.bild != "non.png") {
-            fetch("../../data/logo/" + spiel.mB.bild)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Die Datei existiert nicht.');
-                    }
-                    logoB.src = "../../data/logo/" + spiel.mB.bild;
-                })
-                .catch(error => {
-                    console.error(error);
-                    //logoB.src = '../../data/none.png';
-                });
+        setLogo(logoB,spiel.mB.bild);
+
+        let nameA = document.createElement("select");
+        let nameB = document.createElement("select");
+        nameA.className = 'team-name';
+        nameB.className = 'team-name';
+        for ( var i = 0; i < teamList.length ; i++){
+            let currTeam = teamList[i].Name;
+            let optionA = new Option(currTeam,i);
+            let optionB = new Option(currTeam,i);
+            nameA.add(optionA,undefined);
+            nameB.add(optionB,undefined);
+
+            if(spiel.mA.name == currTeam) nameA.value = i;
+            if(spiel.mB.name == currTeam) nameB.value = i;
+
+            nameA.onchange = function(){addAttributes(nameA,logoA)};
+            nameB.onchange = function(){addAttributes(nameB,logoB)};
 
         }
-
-        let nameA = document.createElement("span");
-        nameA.className = 'team-name';
-        nameA.textContent = spiel.mA.name.length > 12 ? spiel.mA.abkuerzung : spiel.mA.name;
-
-        let nameB = document.createElement("span");
-        nameB.className = 'team-name';
-        nameB.textContent = spiel.mB.name.length > 12 ? spiel.mB.abkuerzung : spiel.mB.name;
-
 
         let scoreA = document.createElement("button");
         scoreA.className = 'score';
@@ -61,7 +47,12 @@
         statusToggle.textContent = "Beenden";
         
         switch (spiel.status) {
+            case 2:
+                scoreA.disabled = true;
+                scoreB.disabled = true;
             case 1:
+                nameA.disabled = true;
+                nameB.disabled = true;
                 statusToggle.onclick = function() { endGame(spiel.sid);}
             case 0:
                 attachScoreHandlers(scoreA, "A", spiel.sid);
@@ -149,6 +140,34 @@
         });
     }
 
+    function setLogo(imgFrame, logopath) {
+        if (logopath != "non.png") {
+                fetch("../../data/logo/" + logopath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Die Datei existiert nicht.');
+                        }
+                        imgFrame.src = "../../data/logo/" + logopath;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        //logoB.src = '../../data/none.png';
+                    });
+    
+        }
+    }
+
+    function addAttributes(selectObject, associatedLogo){
+        setLogo(associatedLogo,teamList[selectObject.value].Bild);
+        
+    }
+
+
+    var xhr = new XMLHttpRequest();
+    var teamList;
+    $.get("../../html/spiele_backend.php", { action: "getTeams" }, function (data) {
+        teamList = JSON.parse(data);
+    });
 
     var xhr = new XMLHttpRequest();
     var slist;

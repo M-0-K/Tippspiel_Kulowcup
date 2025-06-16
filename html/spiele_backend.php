@@ -511,4 +511,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
     echo "Erfolgreich";
 }
 
-
+if ($getaction == "getTeams" && $_SESSION['KC']['isadmin'] == true) {
+    $statement = $db->prepare(query:"SELECT `mannschaft`.`Name`,`mannschaft`.`Bild` FROM `mannschaft` ORDER BY `mannschaft`.`Name`; ");
+    $statement->execute();
+    $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+    
+    if ($statement->rowCount() > 0) {
+        $jsonArray = json_encode($rows);
+        echo $jsonArray;
+    } else {
+        echo "No Teams registered";
+    }
+}
