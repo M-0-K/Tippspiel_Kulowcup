@@ -21,6 +21,11 @@ function spiel(spiel) {
         let nameB = document.createElement("select");
         nameA.className = 'team-name';
         nameB.className = 'team-name';
+        nameA.gameid = spiel.sid;
+        nameB.gameid = spiel.sid;
+        nameA.side = "A";
+        nameB.side = "B";
+
         for ( var i = 0; i < teamList.length ; i++){
             let currTeam = teamList[i].Name;
             let optionA = new Option(currTeam,i);
@@ -158,7 +163,18 @@ function spiel(spiel) {
     }
 
     function addAttributes(selectObject, associatedLogo){
+        let teamID = teamList[selectObject.value].Mid;
+        console.log(teamID);
         setLogo(associatedLogo,teamList[selectObject.value].Bild);
+
+        let params = new URLSearchParams({
+            action: 'setTeam',
+            id: selectObject.gameid,
+            side: selectObject.side,
+            teamid: teamID
+        }).toString();
+
+        return fetchStatement(params);
         
     }
 

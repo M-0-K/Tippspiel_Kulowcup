@@ -512,7 +512,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
 }
 
 if ($getaction == "getTeams" && $_SESSION['KC']['isadmin'] == true) {
-    $statement = $db->prepare(query:"SELECT `mannschaft`.`Name`,`mannschaft`.`Bild` FROM `mannschaft` ORDER BY `mannschaft`.`Name`; ");
+    $statement = $db->prepare(query:"SELECT `mannschaft`.`Mid`,`mannschaft`.`Name`,`mannschaft`.`Bild` FROM `mannschaft` ORDER BY `mannschaft`.`Name`; ");
     $statement->execute();
     $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
     
@@ -522,4 +522,24 @@ if ($getaction == "getTeams" && $_SESSION['KC']['isadmin'] == true) {
     } else {
         echo "No Teams registered";
     }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "setTeam" && $_SESSION['KC']['isadmin'] == true) {
+    if (!isset($_POST["id"], $_POST["side"], $_POST["teamid"])){
+        echo "Parameter missing";
+        return;
+    }
+    
+    $sid = $_POST["id"];
+    $teamSide = $_POST["side"];
+    $teamID = $_POST["teamid"];
+
+    $statement = $db->prepare(query:"UPDATE `spiel` SET `M" . $teamSide . "` = :TeamID WHERE `spiel`.`Spielid` = :Sid;");
+    if ($statement->execute(array('Sid' => $sid, 'TeamID' => $teamID))) {
+        echo "Success";
+        return;
+    }
+    echo "Error";
+    
+
 }
