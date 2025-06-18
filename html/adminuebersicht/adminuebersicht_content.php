@@ -19,8 +19,8 @@ function spiel(spiel) {
 
         let nameA = document.createElement("select");
         let nameB = document.createElement("select");
-        nameA.className = 'team-name';
-        nameB.className = 'team-name';
+        nameA.className = 'team-name team-select';
+        nameB.className = 'team-name team-select';
         nameA.gameid = spiel.sid;
         nameB.gameid = spiel.sid;
         nameA.side = "A";
