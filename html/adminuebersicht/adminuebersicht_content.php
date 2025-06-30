@@ -1,5 +1,3 @@
-<script type="text/javascript" src="./adminuebersicht.js"></script>
-
 <div class="flex-container" style="justify-content: center; justify-content: space-between;">
     <div class="flex-item" id="A">
         <h3>Gruppe A</h3>

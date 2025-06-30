@@ -13,6 +13,7 @@ $PageTitle="Tunierbaum";
 function additionalHeaders(){?>
 <!-- define additional headers here -->
 <script src="../../script/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="./tippen.js"></script>
 <?php }
 include_once('../default/header.php');
 include_once('../default/menu.php');
