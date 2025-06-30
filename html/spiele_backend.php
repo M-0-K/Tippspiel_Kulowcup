@@ -412,7 +412,7 @@ if ($getaction == "getPunkte"){
 
 }
 
-if ($getaction == 'getDisabledUser') {
+if ($getaction == 'getDisabledUser' && $_SESSION['KC']['login'] == 'Barkeeper') {
     // SQL-Abfrage, um alle nicht aktivierten Benutzer abzurufen
     $result = $db->query("SELECT `Userid` as `userid`, `Username` as `username`, `Enabled` as `enabled` FROM user WHERE Enabled = 0;");
 
@@ -426,7 +426,7 @@ if ($getaction == 'getDisabledUser') {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "enableUser") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "enableUser" && $_SESSION['KC']['login'] == 'Barkeeper') {
     $userid = $_POST["id"];
     $statement = $db->prepare("UPDATE user SET `Enabled` = 1 WHERE `Userid` = :Id");
     $statement->execute(array('Id' => $userid));
@@ -489,6 +489,57 @@ function debug_to_console($data) {
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "updateGame" && $_SESSION['KC']['isadmin'] == true) {
+    $sid = $_POST["id"];
+    $team = $_POST["team"];
+    $score = $_POST["score"];
+    switch ($_POST["status"]) {
+        case "active":
+            $statement = $db->prepare("UPDATE `spiel` SET `Tore" . $team . "` = " . $score . " WHERE `spiel`.`Spielid` = :Sid;");
+            break;
+        case "activate":
+            $statement = $db->prepare("UPDATE `spiel` SET `ToreA` = 0, `ToreB`= 0, `Status` = 1 WHERE `spiel`.`Spielid` = :Sid;");
+            break;
+        case "finished":
+            $statement = $db->prepare("UPDATE `spiel` SET `Status` = 2 WHERE `spiel`.`Spielid` = :Sid;");
+            break;
+        default:
+            echo "Failed";
+            return;
+    }
+    $statement->execute(array('Sid' => $sid));
+    echo "Erfolgreich";
+}
 
+if ($getaction == "getTeams" && $_SESSION['KC']['isadmin'] == true) {
+    $statement = $db->prepare(query:"SELECT `mannschaft`.`Mid`,`mannschaft`.`Name`,`mannschaft`.`Bild` FROM `mannschaft` ORDER BY `mannschaft`.`Name`; ");
+    $statement->execute();
+    $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+    
+    if ($statement->rowCount() > 0) {
+        $jsonArray = json_encode($rows);
+        echo $jsonArray;
+    } else {
+        echo "No Teams registered";
+    }
+}
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "setTeam" && $_SESSION['KC']['isadmin'] == true) {
+    if (!isset($_POST["id"], $_POST["side"], $_POST["teamid"])){
+        echo "Parameter missing";
+        return;
+    }
+    
+    $sid = $_POST["id"];
+    $teamSide = $_POST["side"];
+    $teamID = $_POST["teamid"];
 
+    $statement = $db->prepare(query:"UPDATE `spiel` SET `M" . $teamSide . "` = :TeamID WHERE `spiel`.`Spielid` = :Sid;");
+    if ($statement->execute(array('Sid' => $sid, 'TeamID' => $teamID))) {
+        echo "Success";
+        return;
+    }
+    echo "Error";
+    
+
+}

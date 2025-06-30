@@ -114,6 +114,10 @@ font-weight: bold;
   white-space: nowrap;
 }
 
+.team-select {
+  width: 70%;
+}
+
 .score {
   font-size: 24px;
   font-weight: bold;
