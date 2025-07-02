@@ -61,6 +61,7 @@ class Tunier{
     public $jahr;
     public $saison;
     public $gewinner;
+    public $used;
 }
 
 function getTunier($db, $id){
@@ -188,7 +189,11 @@ if(isset($_GET["action"])){
 error_reporting(1);
 
 if($getaction == "getSpiele"){
-    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Feld`, date_format(`Uhrzeit`,\"%H:%i\") as time FROM `spiel`" );
+    $TunierID = 38;
+    if (isset($_GET["tunierid"])) {
+        $TunierID = $_GET["tunierid"];
+    }
+    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Feld`, date_format(`Uhrzeit`,\"%H:%i\") as time FROM `spiel` WHERE `Tunier` = " . $TunierID );
     $jspiele = array();
     $i = 0;
     $leereMannschaft = new Mannschaft();
@@ -352,7 +357,16 @@ if ($getaction == "getTipps") {
 }
 
 if ($getaction == "getTuniere") {
-    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier ORDER BY `Jahr` DESC, `Saison`");
+    $tuniere = $db->query("SELECT t.Tid, t.Jahr, t.Saison, t.Gewinner,
+    CASE 
+        WHEN s.Tunier IS NOT NULL THEN 1 
+        ELSE 0 
+    END AS IsUsed
+FROM tunier t
+LEFT JOIN (
+    SELECT DISTINCT Tunier FROM spiel
+) s ON t.Tid = s.Tunier
+ORDER BY t.Jahr DESC, t.Saison;");
     $jsonArray = '{ "Tuniere" : [';
 
     foreach ($tuniere as $row) {
@@ -360,6 +374,7 @@ if ($getaction == "getTuniere") {
         $tunier->tunierid = $row->Tid;
         $tunier->jahr = $row->Jahr;
         $tunier->saison = $row->Saison;
+        $tunier->used = $row->IsUsed;
         
         if ($row->Gewinner == NULL) {
             $tunier->gewinner = '-';
