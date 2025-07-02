@@ -159,13 +159,13 @@ function spiel(spiel) {
                             throw new Error('Die Datei existiert nicht.');
                         }
                         imgFrame.src = "../../data/logo/" + logopath;
+                        return;
                     })
                     .catch(error => {
                         console.error(error);
-                        //logoB.src = '../../data/none.png';
                     });
-    
         }
+        imgFrame.src = '../../data/fragezeichen.png';
     }
 
     function addAttributes(selectObject, associatedLogo){

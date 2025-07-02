@@ -78,8 +78,8 @@ function getTunier($db, $id){
 function getTuniere($db){
     $tuniere = array();
 
-    $sqltuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier");
-    
+    $sqltuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier ORDER BY `Jahr` DESC, `Saison`");
+
     foreach($sqltuniere as $row){
         $tunier = new Tunier();
         $tunier->tunierid =  $row->Tid;
@@ -352,7 +352,7 @@ if ($getaction == "getTipps") {
 }
 
 if ($getaction == "getTuniere") {
-    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM `tunier` ORDER BY `Jahr` DESC");
+    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier ORDER BY `Jahr` DESC, `Saison`");
     $jsonArray = '{ "Tuniere" : [';
 
     foreach ($tuniere as $row) {
