@@ -20,12 +20,31 @@ if (isset($_GET['login'])) {
 
     function logschreiben($inhalt) {
         $logpath = '../../log';
-        if (!is_dir($logpath)) {
-            mkdir($logpath, 0777);
-        }
-        $logdatei = fopen("$logpath/logfile.txt", "a");
-        fwrite($logdatei, $inhalt);
-        fclose($logdatei);
+        //if (!is_dir($logpath)) {
+        //    mkdir($logpath, 0777);
+        //}
+        //$logdatei = fopen("$logpath/logfile.txt", "a");
+        //fwrite($logdatei, $inhalt);
+        //fclose($logdatei);
+    }
+
+    $username = htmlspecialchars(trim($_POST['username']));
+    $password = trim($_POST['pw']);
+
+    $barkeeperPassword = $_ENV["BARKEEPER_PASSWORD"];
+    $adminPassword = $_ENV["ADMIN_PASSWORD"];
+
+
+    if ($username === 'Barkeeper' && $password === $barkeeperPassword) {
+
+        $_SESSION['KC']['login'] = "Barkeeper";
+        header("Location:../uservalidation/uservalidation.php");
+        exit;
+    } elseif ($username === 'Admin' && $password === $adminPassword) {
+        $_SESSION['KC']['isadmin'] = true;
+        $_SESSION['KC']['login'] = "ok";
+        header("Location:../adminuebersicht/adminuebersicht.php");
+        exit;
     }
 
     if ($user !== false && password_verify($pw, $user->Password)) {

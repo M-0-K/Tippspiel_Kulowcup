@@ -13,6 +13,9 @@
         $.get("../spiele_backend.php", { action: "getDisabledUser" }, function(data) {
             // console.log(data);
             let user = JSON.parse(data);
+            if (user.hasOwnProperty("message")) {
+                document.getElementById("table").append(document.createTextNode(user.message));
+            }
             for (var i = 0; i < user.length; i++){
                 ausgabe(user[i]);
             }
