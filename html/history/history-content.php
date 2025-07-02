@@ -61,6 +61,7 @@ function displayTuniere(tuniereData) {
         document.getElementById("table").appendChild(row);
 
         if (tunier.used == 1) {
+            row.classList.add("clickablerow");
             row.addEventListener("click", function() {
                 window.location.href = "../spieluebersicht/spieluebersicht.php?tunierid=" + tunier.tunierid;
             });
