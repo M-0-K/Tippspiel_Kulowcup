@@ -161,17 +161,17 @@ function getPunkte($db, $id){
     $sqltipps = $db->query(
     "   SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB' FROM tipp 
         INNER JOIN spiel ON tipp.Spielid = spiel.Spielid 
-        WHERE spiel.Status = 2 AND Userid = ".$id);
+        WHERE spiel.Tunier = ".(int) $_ENV["CURRENT_TURNIER"]." AND spiel.Status = 2 AND Userid = ".$id);
     
     foreach($sqltipps as $row){
         if ($row->tA == $row->sA && $row->tB == $row->sB) {
-            // Spieler hat das Spielergebnis richtig vorhergesagt
+            // Spieler hat das Spielergebnis richtig vorhergesagt + 4 Punkte
             $punkte = $punkte + 4;
         } elseif (($row->tA - $row->tB) == ($row->sA - $row->sB)) {
-            // Spieler hat die Tordifferenz richtig vorhergesagt
+            // Spieler hat die Tordifferenz richtig vorhergesagt + 3 Punkte
             $punkte = $punkte + 3;
         } elseif (($row->tA > $row->tB && $row->sA > $row->sB) || ($row->tA < $row->tB && $row->sA < $row->sB)) {
-            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt
+            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt + 2
             $punkte = $punkte + 2;
         } else {
             // Spieler hat falsch getippt
@@ -362,11 +362,11 @@ if ($getaction == "getTuniere") {
         WHEN s.Tunier IS NOT NULL THEN 1 
         ELSE 0 
     END AS IsUsed
-FROM tunier t
-LEFT JOIN (
-    SELECT DISTINCT Tunier FROM spiel
-) s ON t.Tid = s.Tunier
-ORDER BY t.Jahr DESC, t.Saison;");
+    FROM tunier t
+    LEFT JOIN (
+        SELECT DISTINCT Tunier FROM spiel
+    ) s ON t.Tid = s.Tunier
+    ORDER BY t.Jahr DESC, t.Saison;");
     $jsonArray = '{ "Tuniere" : [';
 
     foreach ($tuniere as $row) {
