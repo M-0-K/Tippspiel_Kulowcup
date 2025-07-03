@@ -5,8 +5,9 @@
     <div class="container-startseite">
         <div class="step-content">
             <h4 style="color: black;">1. Name & Passwort vergeben</h4>
-            <p class="startseite">Registriere dich auf unserer Website, indem du einen Benutzernamen und ein Passwort 
-            <a href="../register/register.php">registrierst</a>.
+            <p class="startseite"> 
+            <a href="../register/register.php">Registriere</a>
+            dich auf unserer Website, mit einem Benutzernamen und einem Passwort.
             </p>
             
         </div>

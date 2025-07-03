@@ -7,8 +7,8 @@ date_default_timezone_set("Europe/Berlin");
 include_once("../../script/db_connection.php");
 
 if (isset($_GET['login'])) {
-    $username = $_POST['username'];
-    $pw = $_POST['pw'];
+    $username = htmlspecialchars(trim($_POST['username']));
+    $password = trim($_POST['pw']);
 
     $statement = $db->prepare("SELECT * FROM user WHERE username = :username");
     $result = $statement->execute(array('username' => $username));
@@ -28,9 +28,6 @@ if (isset($_GET['login'])) {
         //fclose($logdatei);
     }
 
-    $username = htmlspecialchars(trim($_POST['username']));
-    $password = trim($_POST['pw']);
-
     $barkeeperPassword = $_ENV["BARKEEPER_PASSWORD"];
     $adminPassword = $_ENV["ADMIN_PASSWORD"];
 
@@ -47,7 +44,7 @@ if (isset($_GET['login'])) {
         exit;
     }
 
-    if ($user !== false && password_verify($pw, $user->Password)) {
+    if ($user !== false && password_verify($password, $user->Password)) {
         if ($user->Enabled == 1){
             $_SESSION['KC']['login'] = 'ok';
             $_SESSION['KC']['Userid'] = $user->Userid;
