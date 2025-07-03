@@ -189,7 +189,7 @@ if(isset($_GET["action"])){
 error_reporting(1);
 
 if($getaction == "getSpiele"){
-    $TunierID = 38;
+    $TunierID = (int) $_ENV["CURRENT_TURNIER"];
     if (isset($_GET["tunierid"])) {
         $TunierID = $_GET["tunierid"];
     }

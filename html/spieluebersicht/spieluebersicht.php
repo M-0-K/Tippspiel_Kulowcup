@@ -11,7 +11,7 @@ error_reporting(0);
 $PageTitle="Spielübersicht";
 function additionalHeaders(){?>
 <script> var tunierid = <?php 
-    $TunierID=38;
+    $TunierID = $_ENV["CURRENT_TURNIER"];
     if (isset($_GET["tunierid"])) {
         $TunierID = $_GET["tunierid"];
     }
