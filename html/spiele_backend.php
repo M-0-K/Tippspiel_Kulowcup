@@ -162,17 +162,18 @@ function getPunkte($db, $id){
     "   SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB' FROM tipp 
         INNER JOIN spiel ON tipp.Spielid = spiel.Spielid 
         WHERE spiel.Tunier = ".(int) $_ENV["CURRENT_TURNIER"]." AND spiel.Status = 2 AND Userid = ".$id);
-    
+
+        // Ref: https://www.kicktip.de/spielregeln.43.0.html
     foreach($sqltipps as $row){
         if ($row->tA == $row->sA && $row->tB == $row->sB) {
-            // Spieler hat das Spielergebnis richtig vorhergesagt + 4 Punkte
-            $punkte = $punkte + 4;
-        } elseif (($row->tA - $row->tB) == ($row->sA - $row->sB)) {
-            // Spieler hat die Tordifferenz richtig vorhergesagt + 3 Punkte
+            // Spieler hat das Spielergebnis richtig vorhergesagt + 3 Punkte
             $punkte = $punkte + 3;
-        } elseif (($row->tA > $row->tB && $row->sA > $row->sB) || ($row->tA < $row->tB && $row->sA < $row->sB)) {
-            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt + 2
+        } elseif (($row->tA - $row->tB) == ($row->sA - $row->sB)) {
+            // Spieler hat die Tordifferenz richtig vorhergesagt + 2 Punkte
             $punkte = $punkte + 2;
+        } elseif (($row->tA > $row->tB && $row->sA > $row->sB) || ($row->tA < $row->tB && $row->sA < $row->sB)) {
+            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt + 1
+            $punkte = $punkte + 1;
         } else {
             // Spieler hat falsch getippt
             $punkte = $punkte + 0;
