@@ -6,6 +6,7 @@
                 <div class="cell">Score</div>
             </div>
         </div>
+        <p>Die Punktevergabe erfolgt nach dem System von <a href="https://www.kicktip.de/spielregeln.43.0.html">kicktip.de</a>.</p>
     </div>
 </main>
 

@@ -1,4 +1,7 @@
 <body>
+  <div id="tframe">
+    <b><p>Vergiss nicht deine Tipps zu speichern.</p></b>
+  </div>
   <div class="flex-container" style="justify-content: center; justify-content: space-between;">
     <div class="flex-item" id="A">
       <h3>Gruppe A</h3>
@@ -38,6 +41,6 @@
       </div>
     </div>
   </div>
-  <div class="button-container"> <button onclick="speichern();" class="button"> Tipp Speichern </button> </div>
+  <div class="button-container"> <button onclick="speichern();" class="button" id="savebutton"> Tipp Speichern </button> </div>
   </div>
   <div>

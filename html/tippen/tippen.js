@@ -197,7 +197,9 @@
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
-        window.location.replace('tippen.php');
+        let savebutton = document.getElementById('savebutton');
+        savebutton.classList.add("success");
+        setTimeout(window.location.replace('tippen.php'), 5000);
         //alert(xhr.responseText);
       }
     }

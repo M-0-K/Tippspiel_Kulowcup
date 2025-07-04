@@ -92,7 +92,7 @@
                 bracket.className = 'bracket-live';
 
                 let score = document.createElement("div");
-                score.className = 'scorediv';
+                score.className = 'scorediv infotext';
                 score.textContent = "Kein aktives Spiel";
                 bracket.append(score);
                 document.getElementById("live").appendChild(bracket);
