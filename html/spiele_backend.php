@@ -61,6 +61,7 @@ class Tunier{
     public $jahr;
     public $saison;
     public $gewinner;
+    public $used;
 }
 
 function getTunier($db, $id){
@@ -160,17 +161,17 @@ function getPunkte($db, $id){
     $sqltipps = $db->query(
     "   SELECT `Tippid`, tipp.Spielid, tipp.ToreA AS 'tA' , tipp.ToreB AS 'tB' , spiel.ToreA AS 'sA',  spiel.ToreB AS 'sB' FROM tipp 
         INNER JOIN spiel ON tipp.Spielid = spiel.Spielid 
-        WHERE spiel.Status = 2 AND Userid = ".$id);
+        WHERE spiel.Tunier = ".(int) $_ENV["CURRENT_TURNIER"]." AND spiel.Status = 2 AND Userid = ".$id);
     
     foreach($sqltipps as $row){
         if ($row->tA == $row->sA && $row->tB == $row->sB) {
-            // Spieler hat das Spielergebnis richtig vorhergesagt
+            // Spieler hat das Spielergebnis richtig vorhergesagt + 4 Punkte
             $punkte = $punkte + 4;
         } elseif (($row->tA - $row->tB) == ($row->sA - $row->sB)) {
-            // Spieler hat die Tordifferenz richtig vorhergesagt
+            // Spieler hat die Tordifferenz richtig vorhergesagt + 3 Punkte
             $punkte = $punkte + 3;
         } elseif (($row->tA > $row->tB && $row->sA > $row->sB) || ($row->tA < $row->tB && $row->sA < $row->sB)) {
-            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt
+            // Spieler hat die Spieltendenz (Sieg, Niederlage oder Unentschieden) richtig vorhergesagt + 2
             $punkte = $punkte + 2;
         } else {
             // Spieler hat falsch getippt
@@ -188,7 +189,11 @@ if(isset($_GET["action"])){
 error_reporting(1);
 
 if($getaction == "getSpiele"){
-    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Feld`, date_format(`Uhrzeit`,\"%H:%i\") as time FROM `spiel`" );
+    $TunierID = (int) $_ENV["CURRENT_TURNIER"];
+    if (isset($_GET["tunierid"])) {
+        $TunierID = $_GET["tunierid"];
+    }
+    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Feld`, date_format(`Uhrzeit`,\"%H:%i\") as time FROM `spiel` WHERE `Tunier` = " . $TunierID );
     $jspiele = array();
     $i = 0;
     $leereMannschaft = new Mannschaft();
@@ -352,7 +357,16 @@ if ($getaction == "getTipps") {
 }
 
 if ($getaction == "getTuniere") {
-    $tuniere = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier ORDER BY `Jahr` DESC, `Saison`");
+    $tuniere = $db->query("SELECT t.Tid, t.Jahr, t.Saison, t.Gewinner,
+    CASE 
+        WHEN s.Tunier IS NOT NULL THEN 1 
+        ELSE 0 
+    END AS IsUsed
+    FROM tunier t
+    LEFT JOIN (
+        SELECT DISTINCT Tunier FROM spiel
+    ) s ON t.Tid = s.Tunier
+    ORDER BY t.Jahr DESC, t.Saison;");
     $jsonArray = '{ "Tuniere" : [';
 
     foreach ($tuniere as $row) {
@@ -360,6 +374,7 @@ if ($getaction == "getTuniere") {
         $tunier->tunierid = $row->Tid;
         $tunier->jahr = $row->Jahr;
         $tunier->saison = $row->Saison;
+        $tunier->used = $row->IsUsed;
         
         if ($row->Gewinner == NULL) {
             $tunier->gewinner = '-';

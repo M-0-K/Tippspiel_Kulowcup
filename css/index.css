@@ -150,6 +150,14 @@ h4 {
             text-align: center;
         }
 
+        .clickablerow {
+            cursor: pointer;
+        }
+
+        .clickablerow:hover {
+            background-color: #f0f0f0;
+        }
+
 /* Formulare */
         .container {
             max-width: 400px;

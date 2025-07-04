@@ -10,6 +10,13 @@ error_reporting(0);
 
 $PageTitle="Spielübersicht";
 function additionalHeaders(){?>
+<script> var tunierid = <?php 
+    $TunierID = $_ENV["CURRENT_TURNIER"];
+    if (isset($_GET["tunierid"])) {
+        $TunierID = $_GET["tunierid"];
+    }
+    echo $TunierID 
+?>; console.log(tunierid);</script>
 <!-- define additional headers here -->
 <script src="../../script/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="./spieluebersicht.js" type="text/javascript"></script>
