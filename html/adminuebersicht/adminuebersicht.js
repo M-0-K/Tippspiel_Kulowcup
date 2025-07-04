@@ -189,24 +189,23 @@ function spiel(spiel) {
     var teamList;
     $.get("../../html/spiele_backend.php", { action: "getTeams" }, function (data) {
         teamList = JSON.parse(data);
+        var slist;
+        $.get("../../html/spiele_backend.php", { action: "getSpiele" }, function (data) {
+            // Display the returned data in browser
+            //  console.log(data.canApprove);
+            // console.log(data);
+            slist = JSON.parse(data);
+            //console.log(data);
+            //alert(data);
+    
+            for (let i = 0; i < slist.Spiele.length; i++) {
+                spiel(slist.Spiele[i]);
+            }
+            hideUnused();
+    
+        });
     });
 
-    var xhr = new XMLHttpRequest();
-    var slist;
-    $.get("../../html/spiele_backend.php", { action: "getSpiele" }, function (data) {
-        // Display the returned data in browser
-        //  console.log(data.canApprove);
-        // console.log(data);
-        slist = JSON.parse(data);
-        //console.log(data);
-        //alert(data);
-
-        for (let i = 0; i < slist.Spiele.length; i++) {
-            spiel(slist.Spiele[i]);
-        }
-        hideUnused();
-
-    });
 
     // hide unused groups if no C-Group or D-Group exists
     function hideUnused() {
