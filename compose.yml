@@ -1,0 +1,88 @@
+version: "3.8"
+services:
+
+  # PHP Service
+  tippspiel_php:
+    image: tippspiel_php:latest
+    container_name: tippspiel_php
+    environment:
+      BARKEEPER_PASSWORD: changeme
+      ADMIN_PASSWORD: changeme
+      CURRENT_TURNIER: 50
+    volumes:
+      - ./www/:/var/www/html/
+    restart: always
+
+  # Apache Service
+  tippspiel_apache:
+    image: tippspiel_apache:latest
+    container_name: tippspiel_apache
+    depends_on:
+      - tippspiel_php
+    networks:
+      - reverse-proxy
+      - default
+    #ports:
+    #  - "5015:80"
+    volumes:
+      - ./www/:/var/www/html/
+    restart: always
+
+  # MariaDB Service
+  tippspiel_mariadb:
+    image: mariadb:10.11
+    container_name: tippspiel_mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: mqslpasswd
+      MYSQL_DATABASE: tippspiel
+      MYSQL_USER: webserver
+      MYSQL_PASSWORD: changeme
+    volumes:
+      - mysqldata:/var/lib/mysql
+    restart: always
+
+  # phpMyAdmin Service
+  tippspiel_phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: tippspiel_phpmyadmin
+    #ports:
+    #  - 5014:80
+    networks:
+      - reverse-proxy
+      - default
+    environment:
+      PMA_HOST: tippspiel_mariadb
+      MYSQL_ROOT_PASSWORD: mqslpasswd
+      PMA_ABSOLUTE_URI: "https://kulowcup.win/pma/"
+    depends_on:
+      - tippspiel_mariadb
+    restart: always
+
+  #Code-server
+  tippspiel_code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: tippspiel_code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SUDO_PASSWORD=password #optional
+      - DEFAULT_WORKSPACE=/var/www/html/ #optional
+    volumes:
+      - ./csconfig:/config
+      - ./www/:/var/www/html/
+    networks:
+      - reverse-proxy
+    #ports:
+    #  - 5013:8443
+    restart: unless-stopped
+
+# Volumes
+volumes:
+  mysqldata:
+
+networks:
+  default:
+    name: tippspiel_default
+  reverse-proxy:
+    external: true
