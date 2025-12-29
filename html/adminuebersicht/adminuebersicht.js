@@ -61,10 +61,14 @@ function spiel(spiel) {
             case 1:
                 nameA.disabled = true;
                 nameB.disabled = true;
+                attachScoreHandlers(scoreA, "A", spiel.sid);
+                attachScoreHandlers(scoreB, "B", spiel.sid);
                 statusToggle.onclick = function() { endGame(spiel.sid);}
+                break;
             case 0:
                 attachScoreHandlers(scoreA, "A", spiel.sid);
                 attachScoreHandlers(scoreB, "B", spiel.sid);
+                statusToggle.onclick = function() { startGame(spiel.sid);}
                 break;
         
             default:
@@ -124,8 +128,14 @@ function spiel(spiel) {
         gameinfo.appendChild(feld);
         gameinfo.appendChild(time);
         // only show close button if game is running
-        if (spiel.status == 1) {
+        if (spiel.status == 1 || spiel.status == 0) {
             gameinfo.appendChild(statusToggle);
+            if (spiel.status == 0){
+                statusToggle.textContent = "Starten";
+            }   
+            if (spiel.status == 1){
+                statusToggle.textContent = "Beenden";
+            }
         }
 
         bracket.appendChild(gameinfo);
@@ -190,7 +200,7 @@ function spiel(spiel) {
     $.get("../../html/spiele_backend.php", { action: "getTeams" }, function (data) {
         teamList = JSON.parse(data);
         var slist;
-        $.get("../../html/spiele_backend.php", { action: "getSpiele" }, function (data) {
+        $.get("../../html/spiele_backend.php", { action: "getSpiele",tunierid: turnierid }, function (data) {
             // Display the returned data in browser
             //  console.log(data.canApprove);
             // console.log(data);
@@ -253,6 +263,16 @@ function spiel(spiel) {
             action: 'updateGame',
             id: gameid,
             status: "finished"
+        }).toString();
+        return fetchStatement(params);
+    }
+
+    // start the game
+    function startGame(gameid) {
+        let params = new URLSearchParams({
+            action: 'updateGame',
+            id: gameid,
+            status: "activate"
         }).toString();
         return fetchStatement(params);
     }
