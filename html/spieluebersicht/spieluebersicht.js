@@ -112,9 +112,9 @@
 
     var xhr = new XMLHttpRequest();
     var slist;
-    $.get("../../html/spiele_backend.php", { action: "getSpiele", tunierid: tunierid }, function (data) {
+    $.get("../../html/spiele_backend.php", { action: "getSpiele", tunierid: turnierid }, function (data) {
         // Display the returned data in browser
-        //  console.log(data.canApprove);
+        // console.log(data.canApprove);
         // console.log(data);
         slist = JSON.parse(data);
         //console.log(data);

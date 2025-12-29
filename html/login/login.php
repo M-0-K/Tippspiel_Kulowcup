@@ -28,9 +28,20 @@ if (isset($_GET['login'])) {
         //fclose($logdatei);
     }
 
-    $barkeeperPassword = $_ENV["BARKEEPER_PASSWORD"];
-    $adminPassword = $_ENV["ADMIN_PASSWORD"];
+    $barkeeperPassword = $_SERVER['BARKEEPER_PASSWORD']
+    ?? $_ENV['BARKEEPER_PASSWORD']
+    ?? getenv('BARKEEPER_PASSWORD')
+    ?? '';
+    $adminPassword = $_SERVER['ADMIN_PASSWORD']
+    ?? $_ENV['ADMIN_PASSWORD']
+    ?? getenv('ADMIN_PASSWORD')
+    ?? '';
 
+    if ($barkeeperPassword === '' || $adminPassword === '') {
+        error_log("Missing environment configuration for login");
+        http_response_code(500);
+        exit("Server configuration error"); 
+    }
 
     if ($username === 'Barkeeper' && $password === $barkeeperPassword) {
 
