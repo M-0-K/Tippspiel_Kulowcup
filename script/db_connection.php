@@ -7,6 +7,11 @@ $DSN = 'mysql:host=localhost;dbname=tippspiel';
 $DB_USER = 'webserver';
 $DB_PW = '47114711';
 
+// Umgebungsvariablen aus Apache verfügbar machen
+if (!isset($_ENV['CURRENT_TURNIER'])) {
+    $_ENV['CURRENT_TURNIER'] = getenv('CURRENT_TURNIER') ?: 51;
+}
+
 /*
 $DSN = 'mysql:host=wdb2.hs-mittweida.de;dbname=mkockert';
 $DB_USER = 'mkockert';

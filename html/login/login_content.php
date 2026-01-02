@@ -12,7 +12,7 @@
         <p>Noch nicht angemeldet? <a href="../register/register.php">Registrierung</a>
         <br>
         <br>
-        Bitte beachte, dass du deinen Account erst am Tresen freischalten lassen musst, bevor du dich hier anmelden kannst!
+        Bitte beachte, dass du deinen Account erst am Ausschank freischalten lassen musst, bevor du dich hier anmelden kannst!
         </p>
         <?php
         error_reporting(0);

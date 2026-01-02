@@ -14,8 +14,8 @@
     </div>
     <div class="container-startseite">
         <div class="step-content">
-            <h4 style="color: black;">2. Am Tresen freischalten lassen</h4>
-            <p class="startseite">Besuche unseren Tresen und lass deinen Account durch unser Personal freischalten.</p>
+            <h4 style="color: black;">2. Am Ausschank freischalten lassen</h4>
+            <p class="startseite">Besuche unseren Ausschank und lass deinen Account durch unser Personal freischalten.</p>
         </div>
     </div>
     <div class="container-startseite">
@@ -26,7 +26,7 @@
     </div>
     <div class="container-startseite">
         <div class="step-content">
-            <h4 style="color: black;">4. 30l Premium-Pils gewinnen</h4>
-            <p class="startseite">Mit etwas Glück und den richtigen Tipps hast du die Chance, ein 30l Fass Premium-Pils zu gewinnen!</p>
+            <h4 style="color: black;">4. Einen Preis gewinnen</h4>
+            <p class="startseite">Mit etwas Glück und den richtigen Tipps hast du die Chance, einen Preis zu gewinnen!</p>
         </div>
     </div>

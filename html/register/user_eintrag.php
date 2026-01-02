@@ -48,7 +48,7 @@ if (!$error) {
 
     if ($result) {
         echo "<style> input.formulare{background-color: green;}</style>";
-        $ErrorPWD = "Deine Registrierung war erfolgreich! Nun kannst du dich am Tresen mit deinem Benutzernamen anmelden.";
+        $ErrorPWD = "Deine Registrierung war erfolgreich! Nun kannst du dich am Ausschank mit deinem Benutzernamen anmelden.";
         //usleep(3000000);
         //header("Location: ../../html/login/login.php");
         echo "<script>
