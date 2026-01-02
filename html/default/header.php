@@ -12,5 +12,14 @@
     <?php if (function_exists('additionalHeaders')){
         additionalHeaders();
     }?>
+    <script>
+        // Präsentationsmodus: Strg+Shift+P zum Umschalten des Headers
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+                e.preventDefault();
+                document.body.classList.toggle('presentation-mode');
+            }
+        });
+    </script>
 </head>
 

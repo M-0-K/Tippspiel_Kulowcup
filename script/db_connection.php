@@ -1,5 +1,5 @@
 <?php
-
+// XAMPP Local Database Connection Script
 error_reporting(0);
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
@@ -9,7 +9,7 @@ $DB_PW = '47114711';
 
 // Umgebungsvariablen aus Apache verfügbar machen
 if (!isset($_ENV['CURRENT_TURNIER'])) {
-    $_ENV['CURRENT_TURNIER'] = getenv('CURRENT_TURNIER') ?: 51;
+    $_ENV['CURRENT_TURNIER'] = getenv('CURRENT_TURNIER') ?: 50;
 }
 
 /*
@@ -34,3 +34,28 @@ if ($db) {
     //echo "Verbindung hergestellt. <br>";
 }
 
+// Docker XAMPP Local Database Connection Script
+/*
+
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$DSN = 'mysql:host=db;port=3306;dbname=tippspiel;charset=utf8mb4';
+$DB_USER = 'webserver';
+$DB_PW   = '47114711';
+
+$options = [
+  PDO::ATTR_PERSISTENT => false,
+  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+];
+
+try {
+  $db = new PDO($DSN, $DB_USER, $DB_PW, $options);
+
+} catch (PDOException $e) {
+  echo "DB ERROR: " . $e->getMessage() . "\n";
+}
+
+*/

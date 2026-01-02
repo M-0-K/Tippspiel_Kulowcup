@@ -40,7 +40,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   width: 100%;
   margin-top: 2%;
-  
+}
+
+/* Liveansicht: Wintermodus mit blauen Boxen */
+html.winter .bracket-live {
+  background-color: rgba(30, 58, 95, 0.78); /* dunkles Blau, leicht transparent */
 }
 
 
