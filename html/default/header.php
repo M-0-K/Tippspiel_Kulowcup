@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" <?php include '../../script/config-season.php'; echo (KULOWCUP_SEASON === 'winter' ? 'class="winter"' : ''); ?>>
 
 <head>
     <meta charset="UTF-8">
