@@ -99,6 +99,46 @@ body.presentation-mode #presentation-clock {
     z-index: 9999;
 }
 
+/* Footer im Präsentationsmodus an den unteren Rand setzen */
+body.presentation-mode #site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    text-align: center;
+    pointer-events: none;
+}
+
+body.presentation-mode #site-footer #presentation-footer-hint {
+    pointer-events: auto;
+}
+
+/* Präsentationsmodus-Footer-Hinweis */
+#presentation-footer-hint {
+    display: none;
+}
+
+body.presentation-mode #presentation-footer-hint {
+    display: inline-block;
+    text-align: center;
+    padding: 12px 20px 22px 20px;
+    font-size: 1.1rem;
+    color: #f9fafb;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.9);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.55));
+    border-radius: 999px;
+}
+
+body.presentation-mode #presentation-footer-hint a {
+    color: #ffd54f;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body.presentation-mode #presentation-footer-hint a:hover {
+    text-decoration: underline;
+}
+
 
 hr {
     border: 0;
