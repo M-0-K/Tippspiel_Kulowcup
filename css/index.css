@@ -77,6 +77,28 @@ body.presentation-mode #tframe {
     margin-bottom: auto;
 }
 
+/* Präsentationsmodus-Uhr */
+#presentation-clock {
+    display: none;
+}
+
+body.presentation-mode #presentation-clock {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    z-index: 9999;
+}
+
 
 hr {
     border: 0;
@@ -220,6 +242,29 @@ html.winter .menu-items a::after {
     transition: all 0.3s ease;
     overflow: hidden;
     position: relative;
+}
+
+.zeitplan-filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.zeitplan-filter label {
+    color: #555;
+    font-weight: 500;
+}
+
+.zeitplan-filter select {
+    min-width: 180px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid #d0d7de;
+    background-color: #ffffff;
+    font-size: 0.9rem;
 }
 
 #tframe::before {
@@ -452,6 +497,89 @@ p.startseite {
 
     .score {
         text-align: left;
+    }
+    
+    /* Zeitplan speziell auf Handy lesbar machen */
+    .zeitplan-page #tframe {
+        width: 95%;
+        padding: 18px 10px;
+        margin: 10px auto;
+    }
+
+    .zeitplan-page .zeitplan-filter {
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+        font-size: 0.85rem;
+    }
+
+    .zeitplan-page .zeitplan-filter select {
+        width: 100%;
+        max-width: 260px;
+    }
+
+    /* Überschriftenzeile im Zeitplan auf Handy ausblenden, die Karten sind selbsterklärend */
+    .zeitplan-page .row.header {
+        display: none;
+    }
+
+    /* Jede Spiel-Zeile als kompakte Karte im Grid-Layout */
+    .zeitplan-page .table.row {
+        display: grid;
+        grid-template-columns: 1.3fr 0.7fr;
+        grid-template-areas:
+            "zeit feld"
+            "phase phase"
+            "teamA ergebnis"
+            "teamB ergebnis";
+        column-gap: 8px;
+        row-gap: 4px;
+        padding: 12px 12px;
+        margin-bottom: 10px;
+        background-color: rgba(255, 255, 255, 0.98);
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .zeitplan-page .table.row .cell {
+        text-align: left;
+        padding: 2px 0;
+        font-size: 0.9rem;
+    }
+
+    .zeitplan-page .table.row .cell:nth-child(1) { /* Zeit */
+        grid-area: zeit;
+        font-weight: 600;
+    }
+
+    .zeitplan-page .table.row .cell:nth-child(2) { /* Feld */
+        grid-area: feld;
+        text-align: right;
+        font-weight: 500;
+        color: #666;
+    }
+
+    .zeitplan-page .table.row .cell:nth-child(3) { /* Phase */
+        grid-area: phase;
+        font-weight: 500;
+        color: #555;
+        font-size: 0.8rem;
+    }
+
+    .zeitplan-page .table.row .cell:nth-child(4) { /* Team A */
+        grid-area: teamA;
+        font-weight: 600;
+    }
+
+    .zeitplan-page .table.row .cell:nth-child(5) { /* Ergebnis */
+        grid-area: ergebnis;
+        text-align: right;
+        font-weight: 700;
+    }
+
+    .zeitplan-page .table.row .cell:nth-child(6) { /* Team B */
+        grid-area: teamB;
+        font-weight: 600;
     }
     
     /* Formulare */

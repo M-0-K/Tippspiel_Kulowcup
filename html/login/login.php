@@ -64,11 +64,11 @@ if (isset($_GET['login'])) {
             logschreiben($logmessage);
             header("Location: ../../html/tippen/tippen.php");
         } else {
-        echo "<style> input.formulare{background-color: red;}  </style>";
+        echo "<style> input.formulare{background-color: #ff8282 !important;}  </style>";
         $ErrorMSG = "Das Konto ist noch nicht freigeschalten!";
         }
     } else {
-        echo "<style> input.formulare{background-color: red;}  </style>";
+        echo "<style> input.formulare{background-color: #ff8282 !important;}  </style>";
         $ErrorMSG = "Benutzername oder Kennwort ist falsch.";
         $logmessage = "fehlerhafter Loginversuch von $username auf $ip am $jetzt.\n";
         logschreiben($logmessage);

@@ -13,12 +13,36 @@
         additionalHeaders();
     }?>
     <script>
-        // Präsentationsmodus: Strg+Shift+P zum Umschalten des Headers
+        // Präsentationsmodus: Strg+Shift+P zum Umschalten
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.shiftKey && e.key === 'P') {
                 e.preventDefault();
                 document.body.classList.toggle('presentation-mode');
             }
+        });
+
+        // Präsentationsmodus-Uhr einblenden
+        function updatePresentationClock() {
+            var clock = document.getElementById('presentation-clock');
+            if (!clock) return;
+
+            var now = new Date();
+            var hh = String(now.getHours()).padStart(2, '0');
+            var mm = String(now.getMinutes()).padStart(2, '0');
+            var ss = String(now.getSeconds()).padStart(2, '0');
+            clock.textContent = hh + ':' + mm + ':' + ss;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Uhr-Element einmalig anlegen
+            if (!document.getElementById('presentation-clock')) {
+                var clock = document.createElement('div');
+                clock.id = 'presentation-clock';
+                document.body.appendChild(clock);
+            }
+
+            updatePresentationClock();
+            setInterval(updatePresentationClock, 1000);
         });
     </script>
 </head>
