@@ -23,6 +23,7 @@
                 <div class="col"><a href="../../html/zeitplan/zeitplan.php"><h3>Zeitplan</h3></a></div>
                 <div class="col"><a href="../../html/tippen/tippen.php"><h3>Tippen</h3></a></div>
                 <div class="col"><a href="../../html/ranking/ranking.php"><h3>Ranking</h3></a></div>
+                <div class="col"><a href="../../html/punktestand/punktestand.php"><h3>Punktestand</h3></a></div>
                 <div class="col"><a href="../../html/history/history.php"><h3>Geschichte</h3></a></div>
                 <div class="col"><a href="../../html/logout/logout.php"><h3>
                     <?php

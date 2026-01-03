@@ -428,6 +428,125 @@ if ($getaction == "getPunkte"){
 
 }
 
+if ($getaction == "getGroupTable") {
+    $TunierID = (int) $_ENV["CURRENT_TURNIER"];
+    if (isset($_GET["tunierid"])) {
+        $TunierID = (int) $_GET["tunierid"];
+    }
+
+    $stmt = $db->prepare(
+        "SELECT s.Phase, s.ToreA, s.ToreB,
+                mA.Mid  AS MAid, mA.Name AS MAname, mA.Abkuerzung AS MAabk, mA.Bild AS MAbild,
+                mB.Mid  AS MBid, mB.Name AS MBname, mB.Abkuerzung AS MBabk, mB.Bild AS MBbild
+         FROM spiel s
+         JOIN mannschaft mA ON s.MA = mA.Mid
+         JOIN mannschaft mB ON s.MB = mB.Mid
+         WHERE s.Tunier = :tid
+           AND s.Status = 2
+           AND s.Phase IN ('A','B')"
+    );
+    $stmt->execute(array('tid' => $TunierID));
+
+    $tables = array();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $phase = $row['Phase'];
+        if (!isset($tables[$phase])) {
+            $tables[$phase] = array();
+        }
+
+        $toreA = (int) $row['ToreA'];
+        $toreB = (int) $row['ToreB'];
+
+        if (!isset($tables[$phase][$row['MAid']])) {
+            $tables[$phase][$row['MAid']] = array(
+                'teamId' => (int) $row['MAid'],
+                'name' => $row['MAname'],
+                'abkuerzung' => $row['MAabk'],
+                'bild' => $row['MAbild'],
+                'spiele' => 0,
+                'siege' => 0,
+                'unentschieden' => 0,
+                'niederlagen' => 0,
+                'tore' => 0,
+                'gegentore' => 0,
+                'differenz' => 0,
+                'punkte' => 0
+            );
+        }
+
+        if (!isset($tables[$phase][$row['MBid']])) {
+            $tables[$phase][$row['MBid']] = array(
+                'teamId' => (int) $row['MBid'],
+                'name' => $row['MBname'],
+                'abkuerzung' => $row['MBabk'],
+                'bild' => $row['MBbild'],
+                'spiele' => 0,
+                'siege' => 0,
+                'unentschieden' => 0,
+                'niederlagen' => 0,
+                'tore' => 0,
+                'gegentore' => 0,
+                'differenz' => 0,
+                'punkte' => 0
+            );
+        }
+
+        $tables[$phase][$row['MAid']]['spiele']++;
+        $tables[$phase][$row['MBid']]['spiele']++;
+
+        $tables[$phase][$row['MAid']]['tore'] += $toreA;
+        $tables[$phase][$row['MAid']]['gegentore'] += $toreB;
+        $tables[$phase][$row['MBid']]['tore'] += $toreB;
+        $tables[$phase][$row['MBid']]['gegentore'] += $toreA;
+
+        if ($toreA > $toreB) {
+            $tables[$phase][$row['MAid']]['siege']++;
+            $tables[$phase][$row['MBid']]['niederlagen']++;
+            $tables[$phase][$row['MAid']]['punkte'] += 3;
+        } elseif ($toreA < $toreB) {
+            $tables[$phase][$row['MBid']]['siege']++;
+            $tables[$phase][$row['MAid']]['niederlagen']++;
+            $tables[$phase][$row['MBid']]['punkte'] += 3;
+        } else {
+            $tables[$phase][$row['MAid']]['unentschieden']++;
+            $tables[$phase][$row['MBid']]['unentschieden']++;
+            $tables[$phase][$row['MAid']]['punkte'] += 1;
+            $tables[$phase][$row['MBid']]['punkte'] += 1;
+        }
+    }
+
+    $result = array('groups' => array());
+
+    foreach ($tables as $phase => $teams) {
+        foreach ($teams as &$team) {
+            $team['differenz'] = $team['tore'] - $team['gegentore'];
+        }
+        unset($team);
+
+        usort($teams, function ($a, $b) {
+            if ($a['punkte'] !== $b['punkte']) {
+                return $b['punkte'] - $a['punkte'];
+            }
+            if ($a['differenz'] !== $b['differenz']) {
+                return $b['differenz'] - $a['differenz'];
+            }
+            if ($a['tore'] !== $b['tore']) {
+                return $b['tore'] - $a['tore'];
+            }
+            return strcasecmp($a['name'], $b['name']);
+        });
+
+        $result['groups'][] = array(
+            'phase' => $phase,
+            'teams' => array_values($teams)
+        );
+    }
+
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($result);
+}
+
 if ($getaction == 'getDisabledUser' && $_SESSION['KC']['login'] == 'Barkeeper') {
     // SQL-Abfrage, um alle nicht aktivierten Benutzer abzurufen
     $result = $db->query("SELECT `Userid` as `userid`, `Username` as `username`, `Enabled` as `enabled` FROM user WHERE Enabled = 0;");

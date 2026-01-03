@@ -284,6 +284,63 @@ html.winter .menu-items a::after {
     position: relative;
 }
 
+/* Punktestand – Gruppentabellen */
+.punktestand-title {
+    color: #111827;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.punktestand-hint {
+    margin-top: 18px;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.group-table-wrapper {
+    margin-top: 28px;
+}
+
+.group-table-wrapper h2 {
+    margin-bottom: 10px;
+}
+
+.group-table {
+    margin-top: 8px;
+}
+
+.group-table .row.header {
+    margin-bottom: 6px;
+}
+
+.group-table .row {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.punktestand-page .team-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    text-align: left;
+}
+
+.punktestand-page .team-name {
+    white-space: nowrap;
+}
+
+.punktestand-page .punktestand-logo,
+.punktestand-page .team-logo {
+    width: 1.8em;
+    height: 1.8em;
+    border-radius: 50%;
+}
+
+.punktestand-page .group-table .row .cell:nth-child(2) {
+    /* Team-Spalte breiter machen, damit mehr Zeichen sichtbar sind */
+    flex: 2;
+}
+
 .zeitplan-filter {
     display: flex;
     align-items: center;
@@ -630,6 +687,54 @@ p.startseite {
 
     input.formulare, input.register {
         width: calc(100% - 10px);
+    }
+
+    /* Punktestand mobil optimieren */
+    .punktestand-page #tframe {
+        width: 95%;
+        padding: 18px 12px;
+        margin: 10px auto;
+    }
+
+    .punktestand-page .group-table {
+        margin-top: 4px;
+    }
+
+    .punktestand-page .group-table .row.header {
+        display: none;
+    }
+
+    .punktestand-page .group-table .row {
+        display: block;
+        margin: 8px 0;
+        padding: 8px 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .punktestand-page .group-table .row .cell {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+        font-size: 0.9rem;
+        text-align: right;
+    }
+
+    .punktestand-page .group-table .row .cell::before {
+        content: attr(data-label);
+        font-weight: 500;
+        color: #4b5563;
+        text-align: left;
+        margin-right: 12px;
+    }
+
+    .punktestand-page .group-table .row .team-cell {
+        justify-content: flex-start;
+    }
+
+    .punktestand-page .group-table .row .team-cell .team-name {
+        white-space: normal;
     }
 }
 
