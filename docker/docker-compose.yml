@@ -1,0 +1,68 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    image: tippspiel_web:local
+    container_name: tippspiel_web
+    environment:
+      BARKEEPER_PASSWORD: "changeme"
+      ADMIN_PASSWORD: "changeme"
+      CURRENT_TURNIER: 51
+    ports:
+      - "50080:80"
+    volumes:
+      - ./Tippspiel_Kulowcup:/var/www/html
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mariadb:10.11
+    container_name: tippspiel_mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: "changeme"
+      MYSQL_DATABASE: tippspiel
+      MYSQL_USER: webserver
+      MYSQL_PASSWORD: "changeme"
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - ./DB:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: tippspiel_phpmyadmin
+    ports:
+      - "50081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: "changeme"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: tippspiel_code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DEFAULT_WORKSPACE=/var/www/html/
+    volumes:
+      - ./csconfig:/config
+      - ./:/var/www/html
+    ports:
+      - "50082:8443"
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: tippspiel_cloudflared
+    command: tunnel --no-autoupdate run --token eyJhIjoiOWVmMmY3OTgxMTU0ZDcxNDY5ZDY5Y2MxMzYyMDA4ODkiLCJ0IjoiZmQ3OTE1M2EtZmFhMy00NmZlLThhZjQtZWU1ZmY4ZjBlMzA0IiwicyI6IllUVTBZVEEwWWpBdFlUazNNaTAwTmpKaExXRXdZV1F0WVdZNU1qVmtNekV3TmpaaSJ9
+    depends_on:
+      - web
+    restart: unless-stopped
+
+volumes:
+  mysqldata:
