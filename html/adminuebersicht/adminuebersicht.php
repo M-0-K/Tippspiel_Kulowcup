@@ -8,7 +8,7 @@ if($_SESSION['KC']['isadmin'] !== true){
 }
 error_reporting(0);
 
-$PageTitle="Spieladministration";
+$PageTitle="Admin";
 function additionalHeaders(){?>
     <script>
         <?php

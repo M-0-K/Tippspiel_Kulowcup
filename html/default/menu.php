@@ -23,7 +23,7 @@
                 <div class="col"><a href="../../html/zeitplan/zeitplan.php"><h3>Zeitplan</h3></a></div>
                 <div class="col"><a href="../../html/tippen/tippen.php"><h3>Tippen</h3></a></div>
                 <div class="col"><a href="../../html/ranking/ranking.php"><h3>Ranking</h3></a></div>
-                <div class="col"><a href="../../html/punktestand/punktestand.php"><h3>Punktestand</h3></a></div>
+                <div class="col"><a href="../../html/punktestand/punktestand.php"><h3>Punkte</h3></a></div>
                 <div class="col"><a href="../../html/history/history.php"><h3>Geschichte</h3></a></div>
                 <div class="col"><a href="../../html/logout/logout.php"><h3>
                     <?php
@@ -42,7 +42,7 @@
                 error_reporting(0);
                 if (1){
                     if ($_SESSION['KC']['isadmin'] == true) {
-                        echo '<div class="col"><a href="../../html/adminuebersicht/adminuebersicht.php"><h3>Administration</h3></a></div>';
+                        echo '<div class="col"><a href="../../html/adminuebersicht/adminuebersicht.php"><h3>Admin</h3></a></div>';
                     }
                 }
                     

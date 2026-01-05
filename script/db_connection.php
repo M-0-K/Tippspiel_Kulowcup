@@ -1,4 +1,5 @@
 <?php
+/*
 // XAMPP Local Database Connection Script
 error_reporting(0);
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
@@ -16,7 +17,7 @@ if (!isset($_ENV['CURRENT_TURNIER'])) {
 $DSN = 'mysql:host=wdb2.hs-mittweida.de;dbname=mkockert';
 $DB_USER = 'mkockert';
 $DB_PW = 'mei!cav3Aich';
-*/
+
 $DB_options = array(
     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
     PDO::ATTR_PERSISTENT => true
@@ -33,17 +34,14 @@ try {
 if ($db) {
     //echo "Verbindung hergestellt. <br>";
 }
-
+*/
 // Docker XAMPP Local Database Connection Script
-/*
-
-<?php
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0); // im Web lieber aus, sonst zerschießt es Redirects
 
 $DSN = 'mysql:host=db;port=3306;dbname=tippspiel;charset=utf8mb4';
 $DB_USER = 'webserver';
-$DB_PW   = '47114711';
+$DB_PW   = '';
 
 $options = [
   PDO::ATTR_PERSISTENT => false,
@@ -53,9 +51,8 @@ $options = [
 
 try {
   $db = new PDO($DSN, $DB_USER, $DB_PW, $options);
-
 } catch (PDOException $e) {
-  echo "DB ERROR: " . $e->getMessage() . "\n";
+  error_log("DB ERROR: " . $e->getMessage());
+  http_response_code(500);
+  exit("Server error"); // oder: throw $e;
 }
-
-*/
