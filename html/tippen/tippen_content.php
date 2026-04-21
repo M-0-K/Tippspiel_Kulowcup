@@ -2,9 +2,6 @@
   <div id="tframe">
     <b><p>Vergiss nicht deine Tipps zu speichern.</p></b>
   </div>
-  <div id="gruppen-tabellen-container" class="punktestand-page" style="margin: 20px auto; width: 90%; max-width: 800px;">
-    </div>
-<hr>
   <div class="flex-container" style="justify-content: center; justify-content: space-between;">
     <div class="flex-item" id="A">
       <h3>Gruppe A</h3>
