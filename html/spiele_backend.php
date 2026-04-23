@@ -64,6 +64,25 @@ class Tunier{
     public $used;
 }
 
+class TeamStatistik 
+{
+    public $Mid;
+    public $Name;
+    public $Bild;
+    public $Spiele;
+    public $Siege;
+    public $Unentschieden;
+    public $Niederlagen;
+    public $Tore;
+    public $Gegentore;
+    public $Differenz;
+    public $Punkte;
+    public $WeisseWesten;
+    public $Teilnahmen;
+    public $Gesamttitel;
+    public $Finalteilnahmen;
+}
+
 function getTunier($db, $id){
     $sqltunier = $db->query("SELECT `Tid`, `Jahr`, `Saison`, `Gewinner` FROM tunier WHERE Tid=".$id);
     $tunier = new Tunier();
@@ -181,6 +200,55 @@ function getPunkte($db, $id){
 
     }
     return $punkte;
+}
+
+function getStatistiken($db) {
+    $sql = "SELECT 
+                m.Mid, m.Name, m.Bild,
+                COUNT(s.Spielid) AS Spiele,
+                SUM(CASE WHEN s.Tore > s.Gegentore THEN 1 ELSE 0 END) AS Siege,
+                SUM(CASE WHEN s.Tore = s.Gegentore THEN 1 ELSE 0 END) AS Unentschieden,
+                SUM(CASE WHEN s.Tore < s.Gegentore THEN 1 ELSE 0 END) AS Niederlagen,
+                SUM(s.Tore) AS Tore, SUM(s.Gegentore) AS Gegentore,
+                (SUM(s.Tore) - SUM(s.Gegentore)) AS Differenz,
+                SUM(CASE WHEN s.Tore > s.Gegentore THEN 3 WHEN s.Tore = s.Gegentore THEN 1 ELSE 0 END) AS Punkte,
+                SUM(CASE WHEN s.Gegentore = 0 THEN 1 ELSE 0 END) AS WeisseWesten,
+                COUNT(DISTINCT s.Tunier) AS Teilnahmen,
+                (SELECT COUNT(*) FROM tunier WHERE Gewinner = m.Mid) AS Gesamttitel,
+                SUM(CASE WHEN s.Phase = 'TF' THEN 1 ELSE 0 END) AS Finalteilnahmen
+            FROM (
+                SELECT mA AS TeamId, ToreA AS Tore, ToreB AS Gegentore, Spielid, Tunier, Phase FROM spiel WHERE Status = 2
+                UNION ALL
+                SELECT mB AS TeamId, ToreB AS Tore, ToreA AS Gegentore, Spielid, Tunier, Phase FROM spiel WHERE Status = 2
+            ) AS s
+            JOIN mannschaft m ON s.TeamId = m.Mid
+            GROUP BY m.Mid, m.Name, m.Bild
+            ORDER BY Punkte DESC, Differenz DESC, Tore DESC";
+
+    $statement = $db->prepare($sql);
+    $statement->execute();
+    
+    $statistiken = array();
+    while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        $stat = new TeamStatistik();
+        $stat->Mid = $row['Mid'];
+        $stat->Name = $row['Name'];
+        $stat->Bild = $row['Bild'];
+        $stat->Spiele = $row['Spiele'];
+        $stat->Siege = $row['Siege'];
+        $stat->Unentschieden = $row['Unentschieden'];
+        $stat->Niederlagen = $row['Niederlagen'];
+        $stat->Tore = $row['Tore'];
+        $stat->Gegentore = $row['Gegentore'];
+        $stat->Differenz = $row['Differenz'];
+        $stat->Punkte = $row['Punkte'];
+        $stat->WeisseWesten = $row['WeisseWesten'];
+        $stat->Teilnahmen = $row['Teilnahmen'];
+        $stat->Gesamttitel = $row['Gesamttitel'];
+        $stat->Finalteilnahmen = $row['Finalteilnahmen'];
+        $statistiken[] = $stat;
+    }
+    return $statistiken;
 }
 
 if(isset($_GET["action"])){
@@ -677,4 +745,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
     echo "Error";
     
 
+}
+
+if (isset($_GET["action"]) && $_GET["action"] == "getStatistik") {
+    $stats = getStatistiken($db);
+    echo json_encode(["Statistik" => $stats]);
+    exit;
 }
