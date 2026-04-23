@@ -39,9 +39,13 @@ if ($db) {
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // im Web lieber aus, sonst zerschießt es Redirects
 
-$DSN = 'mysql:host=db;port=3306;dbname=tippspiel;charset=utf8mb4';
-$DB_USER = 'webserver';
-$DB_PW   = '';
+$dbHost = getenv('DB_HOST') ?: 'localhost';
+$dbPort = getenv('DB_PORT') ?: '3306';
+$dbName = getenv('DB_NAME') ?: 'tippspiel';
+$DB_USER = getenv('DB_USER') ?: 'webserver';
+$DB_PW = getenv('DB_PASSWORD') ?: 'changeme';
+
+$DSN = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $dbHost, $dbPort, $dbName);
 
 $options = [
   PDO::ATTR_PERSISTENT => false,

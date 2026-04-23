@@ -32,9 +32,11 @@ Dieses Projekt ermöglicht es Benutzern, an einem Fußball-Tippspiel teilzunehme
 * `data/`: Enthält Bilder und Grafiken für die Website.
 * `.vscode/`: Konfigurationsdateien für Visual Studio Code.
 
-## 🚀 Installation (für Einsteiger mit XAMPP unter Windows)
+## 🚀 Installation 
 
-### 1. XAMPP herunterladen und installieren
+### Windows mit XAMPP (für Einsteiger) 
+
+#### 1. XAMPP herunterladen und installieren
 
 * Lade XAMPP für Windows von [SourceForge](https://sourceforge.net/projects/xampp/files/) herunter.
   **Tipp:** Die portable Version ist besonders einsteigerfreundlich.
@@ -42,12 +44,12 @@ Dieses Projekt ermöglicht es Benutzern, an einem Fußball-Tippspiel teilzunehme
 * Führe im entpackten Ordner die Datei `setup_xampp.bat` aus.
 * Warte, bis die Einrichtung abgeschlossen ist.
 
-### 2. XAMPP starten
+#### 2. XAMPP starten
 
 * Öffne `xampp-control.exe`.
 * Starte **Apache** und **MySQL** durch Klick auf „Start“.
 
-### 3. Datenbank und Benutzer einrichten
+#### 3. Datenbank und Benutzer einrichten
 
 1. **phpMyAdmin öffnen:**
    Rufe im Browser [http://localhost/phpmyadmin](http://localhost/phpmyadmin) auf.
@@ -75,7 +77,7 @@ Dieses Projekt ermöglicht es Benutzern, an einem Fußball-Tippspiel teilzunehme
    * Wähle die SQL-Datei aus dem Ordner `DB/` deines Projekts.
    * Klicke auf **„OK“**, um die Tabellen zu importieren.
 
-### 4. Projektdateien einfügen
+#### 4. Projektdateien einfügen
 
 * Klone dieses Repository in den `htdocs`-Ordner von XAMPP (z. B. `C:\xampp\htdocs`):
 
@@ -85,7 +87,7 @@ git clone https://github.com/M-0-K/Tippspiel_Kulowcup.git
 
 * Alternativ kannst du das Projekt auch als ZIP-Datei herunterladen und manuell entpacken.
 
-### 5. Weiterleitung anpassen (optional, aber empfohlen)
+#### 5. Weiterleitung anpassen (optional, aber empfohlen)
 
 Wenn du möchtest, dass beim Aufruf von `http://localhost` direkt dein Tippspiel geöffnet wird, kannst du die `index.php` im `htdocs`-Verzeichnis wie folgt anpassen:
 
@@ -102,7 +104,7 @@ Wenn du möchtest, dass beim Aufruf von `http://localhost` direkt dein Tippspiel
 ?>
 ```
 
-### 6. Anwendung im Browser öffnen
+#### 6. Anwendung im Browser öffnen
 
 * Starte deinen Browser und öffne die Adresse:
 
@@ -111,6 +113,21 @@ http://localhost/
 ```
 
 Die Anwendung sollte nun geladen werden. Falls Fehler auftreten, überprüfe die Zugangsdaten in deiner PHP-Datei (DSN, Benutzername und Passwort) sowie die MySQL-Einstellungen.
+
+### Mit Docker
+Das Projekt lässt sich auch direkt mit Docker Compose starten: Im Wurzelverzeichnis einfach `docker compose up -d` ausführen, dann werden Webserver, Datenbank und phpMyAdmin gestartet. 
+Die Webseite ist dann unter http://localhost:50080 und phpMyAdmin unter http://localhost:50081 erreichbar.
+Vergiss nicht in der compose die Passworter anzupassen, wenn du die Entwiklungsumgebung verlässt.
+
+Die optionalen Zusatzdienste wie der code-server laufen nicht automatisch mit, sondern können bei Bedarf separat aktiviert werden.
+
+Den code-server startest du mit dem Development-Profil:
+
+```bash
+docker compose --profile development up -d
+```
+
+Danach ist die Web-IDE unter `http://localhost:50082` erreichbar.
 
 ---
 
