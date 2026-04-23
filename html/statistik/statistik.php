@@ -13,7 +13,7 @@ $PageTitle = "Statistiken";
 
 function additionalHeaders(){ ?>
     <script src="../../script/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="../../script/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./statistik.js?v=<?php echo time(); ?>" type="text/javascript"></script>
 <?php }
 
