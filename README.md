@@ -22,9 +22,6 @@ Ein webbasiertes Fußball-Tippspiel für den Kulowcup, entwickelt mit PHP, HTML,
 Dieses Projekt ermöglicht es Benutzern, an einem Fußball-Tippspiel teilzunehmen, Spielergebnisse vorherzusagen und Punkte basierend auf der Genauigkeit ihrer Tipps zu sammeln. Es bietet eine benutzerfreundliche Oberfläche und eine einfache Möglichkeit, den Wettbewerb zu verfolgen.
 
 ## 📁 Projektstruktur & Architektur
-
-Das Projekt folgt einer klaren, modularen Struktur. Um die Wartbarkeit zu garantieren, sind Frontend (Design/HTML), Backend-Logik (PHP) und externe Skripte strikt getrennt.
-
 ### 📂 Die Ordner- und Dateistruktur
 
 * **`index.php`**: Der zentrale Einstiegspunkt (Router/Weiterleitung) zur Startseite.
