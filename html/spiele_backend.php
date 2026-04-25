@@ -276,7 +276,7 @@ if($getaction == "getSpiele"){
     if (!empty($_GET["tunierid"])) {
         $TunierID = (int) $_GET["tunierid"];
     }
-.
+
     $spiele = $db->query("SELECT s.Spielid, s.Phase, s.ToreA, s.ToreB, s.MA, s.MB, s.Status, s.Feld, date_format(s.Uhrzeit,\"%H:%i\") as time, sr.Name AS SchiriName FROM `spiel` s LEFT JOIN schiedsrichter sr ON s.Schiri_ID = sr.Sid WHERE s.Tunier = " . $TunierID );
     $jspiele = array();
     $i = 0;
