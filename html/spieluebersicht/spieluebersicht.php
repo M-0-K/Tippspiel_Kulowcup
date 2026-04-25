@@ -13,18 +13,18 @@ function additionalHeaders()
 { ?>
     <script>
         <?php
-        $turnierId =
-            $_SERVER['CURRENT_TURNIER']
-            ?? $_ENV['CURRENT_TURNIER']
-            ?? getenv('CURRENT_TURNIER')
-            ?? 0;
+        $turnierId = $_SERVER['CURRENT_TURNIER'] ?? $_ENV['CURRENT_TURNIER'] ?? getenv('CURRENT_TURNIER');
+        
+        if (empty($turnierId)) {
+            $turnierId = 50;
+        }
 
         if (isset($_GET['tunierid']) && ctype_digit($_GET['tunierid'])) {
             $turnierId = (int) $_GET['tunierid'];
         }
         ?>
         var turnierid = <?= (int) $turnierId ?>;
-        console.log(turnierid);
+        console.log("Geladene Turnier-ID:", turnierid);
     </script>
 
     <!-- define additional headers here -->

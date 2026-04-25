@@ -1,4 +1,4 @@
-    function spiel(spiel) {
+function spiel(spiel) {
         let bracket = document.createElement("div");
         bracket.className = 'bracket-game';
 
@@ -10,11 +10,11 @@
 
         let logoA = document.createElement("img");
         logoA.className = 'team-logo';
-        setLogo(logoA,spiel.mA.bild);
+        setLogo(logoA, spiel.mA.bild);
 
         let logoB = document.createElement("img");
         logoB.className = 'team-logo';
-        setLogo(logoB,spiel.mB.bild);
+        setLogo(logoB, spiel.mB.bild);
 
         let nameA = document.createElement("span");
         nameA.className = 'team-name';
@@ -80,35 +80,38 @@
         gameinfo.appendChild(feld);
         gameinfo.appendChild(time);
 
+        let schiri = document.createElement("div");
+        schiri.style.fontSize = "0.75em";
+        schiri.style.textAlign = "center"; 
+        schiri.style.padding = "2px 1mm 8px 1mm"; // 1mm Abstand links und rechts
+        schiri.style.color = "#000000"; 
+        
+        if (spiel.schiriName) {
+            schiri.innerHTML = "<b>Schiedsrichter:</b> " + spiel.schiriName;
+        } else {
+            schiri.innerHTML = "Kein Schiedsrichter eingetragen";
+        }
+
         bracket.appendChild(gameinfo);
         bracket.appendChild(playertop);
         bracket.appendChild(playerbot);
-
+        bracket.appendChild(schiri);
 
         if (document.getElementById(spiel.phase)) {
             document.getElementById(spiel.phase).appendChild(bracket);
         }
     }
 
-    // try to set the logo image for the team
     function setLogo(imgFrame, logopath) {
-        if (logopath != "non.png") {
-                fetch("../../data/logo/" + logopath)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Die Datei existiert nicht.');
-                        }
-                        imgFrame.src = "../../data/logo/" + logopath;
-                        return
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+        if (logopath && logopath !== "non.png") {
+            imgFrame.src = "../../data/logo/" + logopath;
+            imgFrame.onerror = function() {
+                this.src = '../../data/fragezeichen.png';
+            };
+        } else {
+            imgFrame.src = '../../data/fragezeichen.png';
         }
-        imgFrame.src = '../../data/fragezeichen.png';
     }
-
-
 
     var xhr = new XMLHttpRequest();
     var slist;
@@ -124,20 +127,27 @@
             spiel(slist.Spiele[i]);
         }
         hideUnused();
-
+        
     });
 
     function hideUnused() {
         var elems = document.getElementsByTagName('*'), i;
         for (i in elems) {
-            if ((' ' + elems[i].className + ' ').indexOf(' ' + 'flex-item' + ' ')
-                > -1) {
+            if ((' ' + elems[i].className + ' ').indexOf(' ' + 'flex-item' + ' ') > -1) {
                 if (elems[i].children.length <= 1) {
                     elems[i].style.display = 'none';
                 }
             }
         }
-        if (document.getElementById('TF').style.display == "none" && document.getElementById('BF').style.display == "none") {
-            document.getElementById('tfbfcont').style.display = 'none'
+        
+        let tf = document.getElementById('TF');
+        let bf = document.getElementById('BF');
+        let tfbfcont = document.getElementById('tfbfcont');
+
+        let tfHidden = !tf || tf.style.display === "none";
+        let bfHidden = !bf || bf.style.display === "none";
+
+        if (tfHidden && bfHidden && tfbfcont) {
+            tfbfcont.style.display = 'none';
         }
     }

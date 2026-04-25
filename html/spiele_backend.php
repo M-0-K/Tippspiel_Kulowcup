@@ -30,6 +30,7 @@ class Spiel
     public $mB;
     public $toreB;
     public $status;
+    public $schiriName;
 
 }
 
@@ -133,12 +134,19 @@ function getSpiel($db, $id){
     $leereMannschaft-> bild = 'non.png';
     $leereMannschaft-> status = 0;
 
-    $sqlspiel = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status` FROM `spiel` WHERE Spielid=".$id);
-    $jspiel = new Spiel();
-    foreach($sqlspiel as $row){
-        $jspiel ->sid = $row->Spielid;
-        $jspiel->phase = $row->Phase;
+    
+    $sql = "SELECT s.Spielid, s.Phase, s.ToreA, s.ToreB, s.MA, s.MB, s.Status, sr.Name AS SchiriName 
+        FROM spiel s 
+        LEFT JOIN schiedsrichter sr ON s.Schiri_ID = sr.Sid 
+        WHERE s.Spielid = " . $id;
 
+    $sqlspiel = $db->query($sql);
+    $jspiel = new Spiel();
+
+    foreach($sqlspiel as $row){
+    $jspiel->sid = $row->Spielid;
+    $jspiel->phase = $row->Phase;
+    $jspiel->schiriName = $row->SchiriName; 
         if($row->MA == NULL){
             $jspiel->mA = $leereMannschaft;
             //echo $row->Spielid;
@@ -258,11 +266,18 @@ if(isset($_GET["action"])){
 error_reporting(1);
 
 if($getaction == "getSpiele"){
-    $TunierID = (int) $_ENV["CURRENT_TURNIER"];
-    if (isset($_GET["tunierid"])) {
-        $TunierID = $_GET["tunierid"];
+    
+    $TunierID = $_ENV["CURRENT_TURNIER"] ?? null; 
+    
+    if (empty($TunierID)) {
+        $TunierID = 50;
     }
-    $spiele = $db->query("SELECT `Spielid`, `Phase`, `ToreA`, `ToreB`, `MA`, `MB`, `Status`, `Feld`, date_format(`Uhrzeit`,\"%H:%i\") as time FROM `spiel` WHERE `Tunier` = " . $TunierID );
+
+    if (!empty($_GET["tunierid"])) {
+        $TunierID = (int) $_GET["tunierid"];
+    }
+
+    $spiele = $db->query("SELECT s.Spielid, s.Phase, s.ToreA, s.ToreB, s.MA, s.MB, s.Status, s.Feld, date_format(s.Uhrzeit,\"%H:%i\") as time, sr.Name AS SchiriName FROM `spiel` s LEFT JOIN schiedsrichter sr ON s.Schiri_ID = sr.Sid WHERE s.Tunier = " . $TunierID );
     $jspiele = array();
     $i = 0;
     $leereMannschaft = new Mannschaft();
@@ -276,10 +291,10 @@ if($getaction == "getSpiele"){
         $jspiele[$i] = new Spiel();
         $jspiele[$i] ->sid = $row->Spielid;
         $jspiele[$i] ->phase = $row->Phase;
+        $jspiele[$i] ->schiriName = $row->SchiriName;
 
         if($row->MA == NULL){
             $jspiele[$i] ->mA = $leereMannschaft;
-            //echo $row->Spielid;
         } else {
             $jspiele[$i] ->mA = getMannschaft($db, $row->MA);
         }
@@ -326,14 +341,7 @@ if($getaction == "getSpiele"){
         $i++;
     }
 
-    $jsonArray = ' { "Spiele" : [';
-        foreach($jspiele as $s){
-            $jsonArray = $jsonArray.json_encode($s).",";
-        }
-        $jsonArray = substr($jsonArray, 0, -1)."]}";
-
-        echo $jsonArray;
-
+    echo json_encode(["Spiele" => $jspiele]);
 }
 
 if($getaction == "getActiveSpiele"){
