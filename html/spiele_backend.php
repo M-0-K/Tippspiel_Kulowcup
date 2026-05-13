@@ -274,6 +274,7 @@ if(isset($_GET["action"])){
 //$postaction = htmlspecialchars($_POST["action"]);
 error_reporting(1);
 
+if ($getaction == "getSpiele") { // Hier ist das fehlende IF!
     $TunierID = (int) ($_ENV["CURRENT_TURNIER"] ?? 50); 
 
     if (!empty($_GET["tunierid"])) {
@@ -290,61 +291,37 @@ error_reporting(1);
     $leereMannschaft-> bild = 'non.png';
     $leereMannschaft-> status = 0;
 
-    fforeach($spiele as $row){
+    foreach($spiele as $row){
         $jspiele[$i] = new Spiel();
-        $jspiele[$i] ->sid = $row->Spielid;
-        $jspiele[$i] ->phase = $row->Phase;
-        $jspiele[$i] ->schiriName = getSchiedsrichter($db, $row->Schiri_ID);
+        $jspiele[$i]->sid = $row->Spielid;
+        $jspiele[$i]->phase = $row->Phase;
+        $jspiele[$i]->schiriName = getSchiedsrichter($db, $row->Schiri_ID);
 
         if($row->MA == NULL){
-            $jspiele[$i] ->mA = $leereMannschaft;
+            $jspiele[$i]->mA = $leereMannschaft;
         } else {
-            $jspiele[$i] ->mA = getMannschaft($db, $row->MA);
+            $jspiele[$i]->mA = getMannschaft($db, $row->MA);
         }
 
-        if($row->ToreA === NULL){
-            $jspiele[$i] ->toreA = null;
-        } else {
-            $jspiele[$i] ->toreA = $row->ToreA;
-        }
+        $jspiele[$i]->toreA = ($row->ToreA === NULL) ? null : $row->ToreA;
 
         if($row->MB == NULL){
-            $jspiele[$i] ->mB = $leereMannschaft;
+            $jspiele[$i]->mB = $leereMannschaft;
         } else {
-            $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
+            $jspiele[$i]->mB = getMannschaft($db, $row->MB);
         }
 
-        if($row->ToreB === NULL){
-            $jspiele[$i] ->toreB = null;
-        } else {
-            $jspiele[$i] ->toreB = $row->ToreB;
-        }
+        $jspiele[$i]->toreB = ($row->ToreB === NULL) ? null : $row->ToreB;
 
-        if($row->Status == NULL){
-            $jspiele[$i] ->status = 0;
-        } else {
-            $jspiele[$i]->status = $row->Status;
-        }
-        
-        if($row->Feld == NULL){
-            $jspiele[$i] ->feld = 1;
-        } else {
-            $jspiele[$i]->feld = $row->Feld;
-        }
-        
-        if($row->time == NULL){
-            $jspiele[$i] ->time = 1;
-        } else {
-            $jspiele[$i]->time = $row->time;
-        }
+        $jspiele[$i]->status = ($row->Status == NULL) ? 0 : $row->Status;
+        $jspiele[$i]->feld = ($row->Feld == NULL) ? 1 : $row->Feld;
+        $jspiele[$i]->time = ($row->time == NULL) ? "00:00" : $row->time;
 
-
-       // $jspiele[$i] ->mB = getMannschaft($db, $row->MB);
-        //$jspiele[$i] ->toreB = $row->ToreB;
         $i++;
     }
 
     echo json_encode(["Spiele" => $jspiele]);
+    exit; // Wichtig: Damit danach nichts mehr gesendet wird
 }
 
 if($getaction == "getActiveSpiele"){
