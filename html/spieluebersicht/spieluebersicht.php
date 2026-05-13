@@ -8,15 +8,14 @@ if ($_SESSION['KC']['login'] !== 'ok') {
 }
 error_reporting(0);
 
-$PageTitle = "Spielübersicht";
-function additionalHeaders()
-{ ?>
-    <script>
-        <?php
-        $turnierId = $_SERVER['CURRENT_TURNIER'] ?? $_ENV['CURRENT_TURNIER'] ?? getenv('CURRENT_TURNIER');
-        
+$turnierId = $_SERVER['CURRENT_TURNIER'] ?? $_ENV['CURRENT_TURNIER'] ?? getenv('CURRENT_TURNIER');
+
+        if (isset($_GET['tunierid']) && ctype_digit($_GET['tunierid'])) {
+            $turnierId = (int) $_GET['tunierid'];
+        }
+
         if (empty($turnierId)) {
-            $turnierId = 50;
+            die("Kritischer Fehler: Es wurde keine gültige Turnier-ID übergeben. Bitte die Seite über das Menü aufrufen.");
         }
 
         if (isset($_GET['tunierid']) && ctype_digit($_GET['tunierid'])) {

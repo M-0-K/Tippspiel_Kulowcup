@@ -126,6 +126,17 @@ function getMannschaft($db, $id){
     return $mannschaft;
 }
 
+function getSchiedsrichter($db, $id){
+    if (empty($id)) {
+        return null;
+    }
+    $sqlschiri = $db->query("SELECT `Name` FROM schiedsrichter WHERE Sid=" . (int)$id);
+    foreach($sqlschiri as $row){
+        return $row->Name;
+    }
+    return null;
+}
+
 function getSpiel($db, $id){
     $leereMannschaft = new Mannschaft();
     $leereMannschaft-> mid = 0;
@@ -135,10 +146,7 @@ function getSpiel($db, $id){
     $leereMannschaft-> status = 0;
 
     
-    $sql = "SELECT s.Spielid, s.Phase, s.ToreA, s.ToreB, s.MA, s.MB, s.Status, sr.Name AS SchiriName 
-        FROM spiel s 
-        LEFT JOIN schiedsrichter sr ON s.Schiri_ID = sr.Sid 
-        WHERE s.Spielid = " . $id;
+    $sql = "SELECT Spielid, Phase, ToreA, ToreB, MA, MB, Status, Schiri_ID FROM spiel WHERE Spielid = " . (int)$id;
 
     $sqlspiel = $db->query($sql);
     $jspiel = new Spiel();
@@ -146,7 +154,8 @@ function getSpiel($db, $id){
     foreach($sqlspiel as $row){
     $jspiel->sid = $row->Spielid;
     $jspiel->phase = $row->Phase;
-    $jspiel->schiriName = $row->SchiriName; 
+    // Wir rufen den Namen jetzt einheitlich über unsere neue Funktion ab
+    $jspiel->schiriName = getSchiedsrichter($db, $row->Schiri_ID);
         if($row->MA == NULL){
             $jspiel->mA = $leereMannschaft;
             //echo $row->Spielid;
@@ -265,19 +274,13 @@ if(isset($_GET["action"])){
 //$postaction = htmlspecialchars($_POST["action"]);
 error_reporting(1);
 
-if($getaction == "getSpiele"){
-    
-    $TunierID = $_ENV["CURRENT_TURNIER"] ?? null; 
-    
-    if (empty($TunierID)) {
-        $TunierID = 50;
-    }
+    $TunierID = (int) ($_ENV["CURRENT_TURNIER"] ?? 50); 
 
     if (!empty($_GET["tunierid"])) {
         $TunierID = (int) $_GET["tunierid"];
     }
 
-    $spiele = $db->query("SELECT s.Spielid, s.Phase, s.ToreA, s.ToreB, s.MA, s.MB, s.Status, s.Feld, date_format(s.Uhrzeit,\"%H:%i\") as time, sr.Name AS SchiriName FROM `spiel` s LEFT JOIN schiedsrichter sr ON s.Schiri_ID = sr.Sid WHERE s.Tunier = " . $TunierID );
+    $spiele = $db->query("SELECT Spielid, Phase, ToreA, ToreB, MA, MB, Status, Feld, date_format(Uhrzeit,\"%H:%i\") as time, Schiri_ID FROM `spiel` WHERE Tunier = " . $TunierID );
     $jspiele = array();
     $i = 0;
     $leereMannschaft = new Mannschaft();
@@ -287,11 +290,11 @@ if($getaction == "getSpiele"){
     $leereMannschaft-> bild = 'non.png';
     $leereMannschaft-> status = 0;
 
-    foreach($spiele as $row){
+    fforeach($spiele as $row){
         $jspiele[$i] = new Spiel();
         $jspiele[$i] ->sid = $row->Spielid;
         $jspiele[$i] ->phase = $row->Phase;
-        $jspiele[$i] ->schiriName = $row->SchiriName;
+        $jspiele[$i] ->schiriName = getSchiedsrichter($db, $row->Schiri_ID);
 
         if($row->MA == NULL){
             $jspiele[$i] ->mA = $leereMannschaft;

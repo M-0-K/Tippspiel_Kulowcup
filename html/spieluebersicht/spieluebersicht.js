@@ -80,16 +80,19 @@ function spiel(spiel) {
         gameinfo.appendChild(feld);
         gameinfo.appendChild(time);
 
-        let schiri = document.createElement("div");
-        schiri.style.fontSize = "0.75em";
-        schiri.style.textAlign = "center"; 
-        schiri.style.padding = "2px 1mm 8px 1mm"; // 1mm Abstand links und rechts
-        schiri.style.color = "#000000"; 
-        
+        bracket.appendChild(gameinfo);
+        bracket.appendChild(playertop);
+        bracket.appendChild(playerbot);
+
         if (spiel.schiriName) {
+            let schiri = document.createElement("div");
+            schiri.className = "schiri-info"; // Nutzung der neuen CSS-Klasse
             schiri.innerHTML = "<b>Schiedsrichter:</b> " + spiel.schiriName;
-        } else {
-            schiri.innerHTML = "Kein Schiedsrichter eingetragen";
+            bracket.appendChild(schiri);
+        }
+
+        if (document.getElementById(spiel.phase)) {
+            document.getElementById(spiel.phase).appendChild(bracket);
         }
 
         bracket.appendChild(gameinfo);
@@ -138,16 +141,5 @@ function spiel(spiel) {
                     elems[i].style.display = 'none';
                 }
             }
-        }
-        
-        let tf = document.getElementById('TF');
-        let bf = document.getElementById('BF');
-        let tfbfcont = document.getElementById('tfbfcont');
-
-        let tfHidden = !tf || tf.style.display === "none";
-        let bfHidden = !bf || bf.style.display === "none";
-
-        if (tfHidden && bfHidden && tfbfcont) {
-            tfbfcont.style.display = 'none';
         }
     }

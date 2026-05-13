@@ -239,3 +239,10 @@ font-weight: bold;
     background-color: #344d2fc7;
 
 }
+
+.schiri-info {
+    font-size: 0.75em;
+    text-align: center;
+    padding: 2px 1mm 8px 1mm;
+    color: #000000;
+}
