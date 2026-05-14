@@ -1,37 +1,39 @@
-<?php
-error_reporting(0);
-if (!isset($_SESSION)) {
-    session_start();
-}
-if ($_SESSION['KC']['login'] !== 'ok') {
-    $_SESSION['KC']['login'] = 'no';
-}
-error_reporting(0);
-
-$turnierId = $_SERVER['CURRENT_TURNIER'] ?? $_ENV['CURRENT_TURNIER'] ?? getenv('CURRENT_TURNIER');
-
-        if (isset($_GET['tunierid']) && ctype_digit($_GET['tunierid'])) {
-            $turnierId = (int) $_GET['tunierid'];
-        }
-
-        if (empty($turnierId)) {
-            die("Kritischer Fehler: Es wurde keine gültige Turnier-ID übergeben. Bitte die Seite über das Menü aufrufen.");
-        }
-
-        if (isset($_GET['tunierid']) && ctype_digit($_GET['tunierid'])) {
-            $turnierId = (int) $_GET['tunierid'];
-        }
-        ?>
-        var turnierid = <?= (int) $turnierId ?>;
-        console.log("Geladene Turnier-ID:", turnierid);
-    </script>
-
-    <!-- define additional headers here -->
-    <script src="../../script/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="./spieluebersicht.js" type="text/javascript"></script>
-<?php }
-include_once('../default/header.php');
-include_once('../default/menu.php');
-include_once('spieluebersicht_content.php');
-include_once('../default/footer.php');
-?>
+<div class="flex-container" style="justify-content: center; justify-content: space-between;">
+    <div class="flex-item" id="A">
+        <h3>Gruppe A</h3>
+    </div>
+    <div class="flex-item" id="B">
+        <h3>Gruppe B</h3>
+    </div>
+    <div class="flex-item" id="C">
+        <h3>Gruppe C</h3>
+    </div>
+    <div class="flex-item" id="D">
+        <h3>Gruppe D</h3>
+    </div>
+    <div class="flex-item" id="VF">
+        <h3>Viertelfinale</h3>
+    </div>
+    <div id="tfbfcont" style="flex:1">
+        <div class="flex-item" id="HF">
+            <h3>Halbfinale</h3>
+        </div>
+        <div class="flex-item" id="U9" style="margin-top: 1em">
+            <h3>Spiel um Platz 9</h3>
+        </div>
+        <div class="flex-item" id="U7" style="margin-top: 1em">
+            <h3>Spiel um Platz 7</h3>
+        </div>
+        <div class="flex-item" id="U5" style="margin-top: 1em">
+            <h3>Spiel um Platz 5</h3>
+        </div>
+        <div class="flex-item" id="U3" style="margin-top: 1em">
+            <h3>Spiel um Platz 3</h3>
+        </div>
+    </div>
+    <div id="tfbfcont" style="flex:1">
+      <div class="flex-item" id="TF" style="Background-color: gold;">
+        <h3>Finale</h3>
+      </div>
+</div>
+<div>
