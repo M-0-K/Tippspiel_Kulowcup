@@ -7,6 +7,8 @@ if ($_SESSION['KC']['login'] !== 'ok') {
     $_SESSION['KC']['login'] = 'no';
 }
 
+$PageTitle="Spielübersicht";
+
 $turnierId = $_SERVER['CURRENT_TURNIER'] ?? $_ENV['CURRENT_TURNIER'] ?? getenv('CURRENT_TURNIER');
 
 if (isset($_GET['tunierid']) && ctype_digit($_GET['tunierid'])) {

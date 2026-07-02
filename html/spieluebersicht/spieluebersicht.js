@@ -74,9 +74,9 @@ function spiel(spiel) {
     gameinfo.className = 'gameinfo';
 
     let feld = document.createElement("p");
-    feld.textContent = "Feld " + (spiel.feld || 1);
+    feld.textContent = "Feld " + spiel.feld;
     let time = document.createElement("p");
-    time.textContent = spiel.time || "00:00";
+    time.textContent = spiel.time;
     gameinfo.appendChild(feld);
     gameinfo.appendChild(time);
 
