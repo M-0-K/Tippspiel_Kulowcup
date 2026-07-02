@@ -246,3 +246,17 @@ font-weight: bold;
     padding: 2px 1mm 8px 1mm;
     color: #000000;
 }
+
+.pointcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    padding: 0px;
+}
+
+.schiriclamp {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

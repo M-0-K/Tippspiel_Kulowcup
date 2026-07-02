@@ -80,15 +80,23 @@ function spiel(spiel) {
     gameinfo.appendChild(feld);
     gameinfo.appendChild(time);
 
+
+    let pointcontainer = document.createElement("div");
+    pointcontainer.className = 'pointcontainer';
+    let schiriclamp = document.createElement("div");
+    schiriclamp.className = 'schiriclamp';
+
     bracket.appendChild(gameinfo);
-    bracket.appendChild(playertop);
-    bracket.appendChild(playerbot);
+    pointcontainer.appendChild(playertop);
+    pointcontainer.appendChild(playerbot);
+    schiriclamp.appendChild(pointcontainer);
+    bracket.appendChild(schiriclamp);
 
     if (spiel.schiriName) {
         let schiri = document.createElement("div");
         schiri.className = "schiri-info"; 
         schiri.innerHTML = "<b>Schiedsrichter:</b> " + spiel.schiriName;
-        bracket.appendChild(schiri);
+        schiriclamp.appendChild(schiri);
     }
 
     if (document.getElementById(spiel.phase)) {
