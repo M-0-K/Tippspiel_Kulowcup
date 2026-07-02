@@ -104,6 +104,28 @@ INSERT INTO `mannschaft` (`Mid`, `Name`, `Abkuerzung`, `Bild`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `schiedsrichter`
+--
+
+CREATE TABLE `schiedsrichter` (
+  `Sid` int(11) NOT NULL,
+  `Name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `schiedsrichter`
+--
+
+INSERT INTO `schiedsrichter` (`Sid`, `Name`) VALUES
+(1, 'Fixi Hartman'),
+(2, 'Lexi Hartman'),
+(3, 'Max Mustermann'),
+(4, 'Paul Lehman'),
+(5, 'Donald Trump');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `spiel`
 --
 
@@ -117,7 +139,8 @@ CREATE TABLE `spiel` (
   `Feld` int(4) DEFAULT NULL,
   `Tunier` int(11) DEFAULT NULL,
   `Status` tinyint(1) DEFAULT 0,
-  `Uhrzeit` datetime DEFAULT NULL
+  `Uhrzeit` datetime DEFAULT NULL,
+  `Schiri_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -559,6 +582,12 @@ ALTER TABLE `mannschaft`
   ADD PRIMARY KEY (`Mid`);
 
 --
+-- Indizes für die Tabelle `schiedsrichter`
+--
+ALTER TABLE `schiedsrichter`
+  ADD PRIMARY KEY (`Sid`);
+
+--
 -- Indizes für die Tabelle `spiel`
 --
 ALTER TABLE `spiel`
@@ -597,6 +626,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `mannschaft`
   MODIFY `Mid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2000;
+
+--
+-- AUTO_INCREMENT für Tabelle `schiedsrichter`
+--
+ALTER TABLE `schiedsrichter`
+  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `spiel`
