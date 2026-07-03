@@ -41,17 +41,19 @@ html.winter body {
 }
 
 header {
-    background: rgba(0, 0, 0, 0.7);
+    background: linear-gradient(135deg, rgba(20, 12, 2, 0.74) 0%, rgba(63, 37, 6, 0.6) 100%);
     color: #fff;
     padding: 25px 20px 0px 20px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
     backdrop-filter: blur(10px);
+    border-bottom: 3px solid #f59e0b;
 }
 
 html.winter header {
     background: linear-gradient(135deg, #0f1b2e 0%, #1a2849 100%);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border-bottom-color: #64b5f6;
 }
 
 /* Präsentationsmodus - Header verstecken und Inhalt zentrieren */
@@ -273,12 +275,12 @@ html.winter .menu-items a::after {
 #tframe {
     width: 90%;
     max-width: 800px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
     padding: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     border-radius: 16px;
     margin: 1% auto;
-    border-top: 5px solid #d97706;
+    border-top: 5px solid #f59e0b;
     transition: all 0.3s ease;
     overflow: hidden;
     position: relative;
@@ -371,8 +373,12 @@ html.winter .menu-items a::after {
     right: 0;
     width: 100px;
     height: 100px;
-    background: radial-gradient(circle, rgba(66, 165, 245, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, transparent 70%);
     border-radius: 50%;
+}
+
+html.winter #tframe::before {
+    background: radial-gradient(circle, rgba(66, 165, 245, 0.12) 0%, transparent 70%);
 }
 
 #tframe:hover {
