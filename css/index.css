@@ -275,7 +275,6 @@ html.winter .menu-items a::after {
     line-height: 1;
     transition: transform 0.25s ease;
 }
-.dropdown:hover .caret,
 .dropdown.open .caret {
     transform: rotate(180deg);
 }
@@ -298,11 +297,22 @@ html.winter .menu-items a::after {
     transition: opacity 0.2s ease, transform 0.2s ease;
     z-index: 1000;
 }
-.dropdown:hover .dropdown-menu,
 .dropdown.open .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(6px);
+}
+/* Hover-Öffnen nur auf Geräten mit echtem Zeiger – auf Touch bleibt :hover
+   sonst "kleben" und das Dropdown ließe sich nicht mehr einklappen. */
+@media (hover: hover) and (pointer: fine) {
+    .dropdown:hover .caret {
+        transform: rotate(180deg);
+    }
+    .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(6px);
+    }
 }
 /* Unsichtbare Bruecke ueber die Luecke, damit der Hover nicht abreisst */
 .dropdown .dropdown-menu::before {
