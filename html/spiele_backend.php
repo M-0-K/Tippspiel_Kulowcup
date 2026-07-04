@@ -219,32 +219,78 @@ function getPunkte($db, $id){
     return $punkte;
 }
 
-function getStatistiken($db) {
-    $sql = "SELECT 
+/**
+ * Liefert die "Ewige Tabelle" in zwei Modi:
+ *  - 'gesamt'  : komplette Titelhistorie (auch Teams ohne erfasste Spieldaten
+ *                tauchen auf). Bilanz-Werte stammen nur aus den erfassten
+ *                Turnieren und sind daher bewusst unvollständig.
+ *  - 'erfasst' : nur Teams und Titel aus den digital erfassten Turnieren –
+ *                alle Werte sind zueinander konsistent.
+ *
+ * In beiden Modi gilt: Finalteilnahmen >= Titel (ein Titel setzt ein Finale
+ * voraus), damit es keine unmöglichen Kombinationen wie "13 Titel / 3 Finals"
+ * gibt.
+ */
+function getStatistiken($db, $mode = 'gesamt') {
+    $mode = ($mode === 'erfasst') ? 'erfasst' : 'gesamt';
+
+    // Titel: im Modus 'erfasst' nur aus Turnieren zählen, für die es Spieldaten gibt.
+    $titelFilter = ($mode === 'erfasst')
+        ? "AND t.Tid IN (SELECT DISTINCT Tunier FROM spiel WHERE Status = 2)"
+        : "";
+
+    // Zeilenfilter: 'erfasst' nur Teams mit Spielen; 'gesamt' zusätzlich alle Titelträger.
+    $rowFilter = ($mode === 'erfasst')
+        ? "g.TeamId IS NOT NULL"
+        : "g.TeamId IS NOT NULL OR EXISTS (SELECT 1 FROM tunier t WHERE t.Gewinner = m.Mid)";
+
+    // Sortierung: Historie stellt die Rekordmeister nach oben, sonst reine Punktetabelle.
+    $orderBy = ($mode === 'erfasst')
+        ? "Punkte DESC, Differenz DESC, Tore DESC"
+        : "Gesamttitel DESC, Punkte DESC, Differenz DESC, Tore DESC";
+
+    $sql = "SELECT
                 m.Mid, m.Name, m.Bild,
-                COUNT(s.Spielid) AS Spiele,
-                SUM(CASE WHEN s.Tore > s.Gegentore THEN 1 ELSE 0 END) AS Siege,
-                SUM(CASE WHEN s.Tore = s.Gegentore THEN 1 ELSE 0 END) AS Unentschieden,
-                SUM(CASE WHEN s.Tore < s.Gegentore THEN 1 ELSE 0 END) AS Niederlagen,
-                SUM(s.Tore) AS Tore, SUM(s.Gegentore) AS Gegentore,
-                (SUM(s.Tore) - SUM(s.Gegentore)) AS Differenz,
-                SUM(CASE WHEN s.Tore > s.Gegentore THEN 3 WHEN s.Tore = s.Gegentore THEN 1 ELSE 0 END) AS Punkte,
-                SUM(CASE WHEN s.Gegentore = 0 THEN 1 ELSE 0 END) AS WeisseWesten,
-                COUNT(DISTINCT s.Tunier) AS Teilnahmen,
-                (SELECT COUNT(*) FROM tunier WHERE Gewinner = m.Mid) AS Gesamttitel,
-                SUM(CASE WHEN s.Phase = 'TF' THEN 1 ELSE 0 END) AS Finalteilnahmen
-            FROM (
-                SELECT mA AS TeamId, ToreA AS Tore, ToreB AS Gegentore, Spielid, Tunier, Phase FROM spiel WHERE Status = 2
-                UNION ALL
-                SELECT mB AS TeamId, ToreB AS Tore, ToreA AS Gegentore, Spielid, Tunier, Phase FROM spiel WHERE Status = 2
-            ) AS s
-            JOIN mannschaft m ON s.TeamId = m.Mid
-            GROUP BY m.Mid, m.Name, m.Bild
-            ORDER BY Punkte DESC, Differenz DESC, Tore DESC";
+                COALESCE(g.Spiele, 0)        AS Spiele,
+                COALESCE(g.Siege, 0)         AS Siege,
+                COALESCE(g.Unentschieden, 0) AS Unentschieden,
+                COALESCE(g.Niederlagen, 0)   AS Niederlagen,
+                COALESCE(g.Tore, 0)          AS Tore,
+                COALESCE(g.Gegentore, 0)     AS Gegentore,
+                (COALESCE(g.Tore, 0) - COALESCE(g.Gegentore, 0)) AS Differenz,
+                COALESCE(g.Punkte, 0)        AS Punkte,
+                COALESCE(g.WeisseWesten, 0)  AS WeisseWesten,
+                COALESCE(g.Teilnahmen, 0)    AS Teilnahmen,
+                (SELECT COUNT(*) FROM tunier t WHERE t.Gewinner = m.Mid {$titelFilter}) AS Gesamttitel,
+                GREATEST(
+                    COALESCE(g.Finalteilnahmen, 0),
+                    (SELECT COUNT(*) FROM tunier t WHERE t.Gewinner = m.Mid {$titelFilter})
+                ) AS Finalteilnahmen
+            FROM mannschaft m
+            LEFT JOIN (
+                SELECT s.TeamId,
+                    COUNT(s.Spielid) AS Spiele,
+                    SUM(CASE WHEN s.Tore > s.Gegentore THEN 1 ELSE 0 END) AS Siege,
+                    SUM(CASE WHEN s.Tore = s.Gegentore THEN 1 ELSE 0 END) AS Unentschieden,
+                    SUM(CASE WHEN s.Tore < s.Gegentore THEN 1 ELSE 0 END) AS Niederlagen,
+                    SUM(s.Tore) AS Tore, SUM(s.Gegentore) AS Gegentore,
+                    SUM(CASE WHEN s.Tore > s.Gegentore THEN 3 WHEN s.Tore = s.Gegentore THEN 1 ELSE 0 END) AS Punkte,
+                    SUM(CASE WHEN s.Gegentore = 0 THEN 1 ELSE 0 END) AS WeisseWesten,
+                    COUNT(DISTINCT s.Tunier) AS Teilnahmen,
+                    SUM(CASE WHEN s.Phase = 'TF' THEN 1 ELSE 0 END) AS Finalteilnahmen
+                FROM (
+                    SELECT mA AS TeamId, ToreA AS Tore, ToreB AS Gegentore, Spielid, Tunier, Phase FROM spiel WHERE Status = 2
+                    UNION ALL
+                    SELECT mB AS TeamId, ToreB AS Tore, ToreA AS Gegentore, Spielid, Tunier, Phase FROM spiel WHERE Status = 2
+                ) AS s
+                GROUP BY s.TeamId
+            ) AS g ON g.TeamId = m.Mid
+            WHERE {$rowFilter}
+            ORDER BY {$orderBy}";
 
     $statement = $db->prepare($sql);
     $statement->execute();
-    
+
     $statistiken = array();
     while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
         $stat = new TeamStatistik();
@@ -736,7 +782,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
 }
 
 if (isset($_GET["action"]) && $_GET["action"] == "getStatistik") {
-    $stats = getStatistiken($db);
-    echo json_encode(["Statistik" => $stats]);
+    $mode = (isset($_GET["mode"]) && $_GET["mode"] === 'erfasst') ? 'erfasst' : 'gesamt';
+    $stats = getStatistiken($db, $mode);
+    echo json_encode(["Modus" => $mode, "Statistik" => $stats]);
     exit;
 }

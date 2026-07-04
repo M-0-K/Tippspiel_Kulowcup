@@ -41,17 +41,21 @@ html.winter body {
 }
 
 header {
-    background: rgba(0, 0, 0, 0.7);
+    background: linear-gradient(135deg, rgba(20, 12, 2, 0.74) 0%, rgba(63, 37, 6, 0.6) 100%);
     color: #fff;
     padding: 25px 20px 0px 20px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
     backdrop-filter: blur(10px);
+    border-bottom: 3px solid #f59e0b;
+    position: relative;
+    z-index: 1000;
 }
 
 html.winter header {
     background: linear-gradient(135deg, #0f1b2e 0%, #1a2849 100%);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border-bottom-color: #64b5f6;
 }
 
 /* Präsentationsmodus - Header verstecken und Inhalt zentrieren */
@@ -252,6 +256,99 @@ html.winter .menu-items a::after {
     width: 100%;
 }
 
+/* Dropdown-Menü (gruppierte Navigation) */
+.dropdown {
+    position: relative;
+}
+.dropdown .dropdown-toggle {
+    cursor: pointer;
+}
+/* Titel + Pfeil immer auf einer Zeile (verhindert hoeheren Header) */
+.dropdown .dropdown-toggle h3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.dropdown .caret {
+    font-size: 0.7em;
+    line-height: 1;
+    transition: transform 0.25s ease;
+}
+.dropdown.open .caret {
+    transform: rotate(180deg);
+}
+.dropdown .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    min-width: 190px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: linear-gradient(135deg, rgba(20, 12, 2, 0.97) 0%, rgba(48, 28, 6, 0.97) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+.dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(6px);
+}
+/* Hover-Öffnen nur auf Geräten mit echtem Zeiger – auf Touch bleibt :hover
+   sonst "kleben" und das Dropdown ließe sich nicht mehr einklappen. */
+@media (hover: hover) and (pointer: fine) {
+    .dropdown:hover .caret {
+        transform: rotate(180deg);
+    }
+    .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(6px);
+    }
+}
+/* Unsichtbare Bruecke ueber die Luecke, damit der Hover nicht abreisst */
+.dropdown .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -14px;
+    height: 14px;
+}
+.dropdown .dropdown-menu a {
+    display: block;
+    padding: 9px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+}
+.dropdown .dropdown-menu a:hover {
+    background: rgba(245, 158, 11, 0.18);
+}
+.dropdown .dropdown-menu a::after {
+    display: none;
+}
+.dropdown .dropdown-menu h3 {
+    margin: 0;
+    font-weight: 500;
+}
+
+html.winter .dropdown .dropdown-menu {
+    background: linear-gradient(135deg, rgba(15, 27, 46, 0.97) 0%, rgba(26, 40, 73, 0.97) 100%);
+    border-color: rgba(100, 181, 246, 0.4);
+}
+html.winter .dropdown .dropdown-menu a:hover {
+    background: rgba(100, 181, 246, 0.18);
+}
+
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -273,12 +370,12 @@ html.winter .menu-items a::after {
 #tframe {
     width: 90%;
     max-width: 800px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
     padding: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     border-radius: 16px;
     margin: 1% auto;
-    border-top: 5px solid #d97706;
+    border-top: 5px solid #f59e0b;
     transition: all 0.3s ease;
     overflow: hidden;
     position: relative;
@@ -371,8 +468,12 @@ html.winter .menu-items a::after {
     right: 0;
     width: 100px;
     height: 100px;
-    background: radial-gradient(circle, rgba(66, 165, 245, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, transparent 70%);
     border-radius: 50%;
+}
+
+html.winter #tframe::before {
+    background: radial-gradient(circle, rgba(66, 165, 245, 0.12) 0%, transparent 70%);
 }
 
 #tframe:hover {
@@ -557,6 +658,46 @@ p.startseite {
         flex-direction: column;
         align-items: center;
         width: 100%;
+    }
+
+    /* Dropdown im Hamburger: inline aufklappen statt Overlay */
+    .dropdown {
+        width: 100%;
+        text-align: center;
+    }
+    .dropdown .dropdown-menu {
+        position: static;
+        transform: none !important;
+        opacity: 1;
+        visibility: visible;
+        display: none;
+        width: 100%;
+        min-width: 0;
+        margin-top: 8px;
+        background: rgba(0, 0, 0, 0.22);
+        border: none;
+        box-shadow: none;
+        gap: 4px;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: none;
+    }
+    .dropdown.open .dropdown-menu {
+        display: flex;
+    }
+    .dropdown .dropdown-menu::before {
+        display: none;
+    }
+    .dropdown .dropdown-menu a {
+        text-align: center;
+    }
+    /* Ist ein Dropdown offen, treten die uebrigen Eintraege in den Hintergrund */
+    .menu-items.dropdown-open > .col:not(.dropdown) {
+        display: none;
+    }
+    .menu-items.dropdown-open .dropdown .dropdown-menu a {
+        padding: 12px 14px;
+        font-size: 1.05rem;
     }
 }
 
